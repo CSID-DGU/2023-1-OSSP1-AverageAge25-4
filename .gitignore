@@ -1,0 +1,35 @@
+#Backend
+# Django
+*.pyc
+*.pyo
+*.pyd
+*.pyw
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+*.egg
+*.egg-info/
+*.pyc
+*.pyo
+*.pyd
+*.pyw
+*.egg-info/
+*.egg
+.env
+
+#Frontend
+# React
+node_modules/
+build/
+dist/
+.cache/
+*.log
+*.swp
+*.swo
+*.tmp
+*.bak
+*.backup
+*.DS_Store
