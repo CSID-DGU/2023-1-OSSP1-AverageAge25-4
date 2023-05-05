@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class NoticeappConfig(AppConfig):
+class DgunoticeConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'noticeApp'
+    name = 'dgunotice'
