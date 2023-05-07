@@ -20,4 +20,5 @@ from dgunotice import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('makeDB/', views.DBInitial, name="DBInitial"),
+    path('firstCrawl/', views.crawlInitial, name="crawlInitial"),
 ]

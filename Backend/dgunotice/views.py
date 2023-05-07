@@ -1,22 +1,23 @@
 from django.shortcuts import render
+from .models import Pagetype, Category, User, Keyword, Notice
 
 # Create your views here.
 # 크롤링 관련
-import threading
 import urllib
 from bs4 import BeautifulSoup
 from selenium.webdriver.chrome.options import Options
 import time
+import random
 import datetime
 import re
-from .models import Pagetype, Category, User
-
 
 def DBInitial(request):
     #먼저 테이블 데이터 전체 제거후 진행
     Pagetype.objects.all().delete()
     Category.objects.all().delete()
     User.objects.all().delete()
+    Keyword.objects.all().delete()
+    Notice.objects.all().delete()
 
     #페이지타입(pid), 공지리스트(Nlist), 공지이름(Nname), 공지링크(Nlink), 공지시간(Ntime)
     pageType_list = [
@@ -139,8 +140,7 @@ def DBInitial(request):
     )
     u.save()
 
-    return render(request, 'test.html')
-
+    return render(request, 'DBtest.html')
 
 def crawlInitial(request):
     print('======================================')
@@ -148,130 +148,147 @@ def crawlInitial(request):
     print('======================================')
     #threading.Timer(3600, crawl).start()  # 1시간 마다 주시적으로 실행
 
-    for list in url_list:
+    category_list = Category.objects.select_related('Pid').all()
 
-        url = list[1]  # url_list가 2차원 배열이므로, 공지사항 링크를 변수 url에 저장
-        now_site_type = list[0]  # 현재 사이트 type 저장
+    for category in category_list:
+        url = category.Clink  # url_list가 2차원 배열이므로, 공지사항 링크를 변수 url에 저장
+        page_type = category.Pid.Pid
+
         curPage = 1  # url_list의 loop를 돌면서 url이 변경될 때 마다 현재 페이지를 1로 설정
         site_per = 0  # url_list의 loop를 돌면서 url이 변경될 때 마다 크롤링 한 게시글의 개수 파악
 
-        while curPage <= totalPage:
-
-            # 페이지 번호 출력
+        # 페이지 번호 출력
+        while curPage < 2:
             print('\n----- Current Page : {}'.format(curPage), '------\noriginal url : ' + url)
-
             # 변경된 url에 페이지 번호를 붙임
-            if now_site_type == 0 or now_site_type == 1:
-                url_change = url + page_list[now_site_type] + f'{curPage}'
-            else:
-                pass
+            url_change = url + f'{curPage}'
             print('changed url : ' + url_change + '\n-------------------------------------------------')
 
             # 페이지가 변경됨에 따라 delay 발생 시킴
-            time.sleep(3)
+            time.sleep(random.uniform(4, 6))
 
             # 변경된 url로 이동하여 크롤링하기 위해 html 페이지를 파싱
             html = urllib.request.urlopen(url_change).read()
             soup = BeautifulSoup(html, 'html.parser')
 
             # 게시글 리스트 선택
-            if now_site_type == 0 or now_site_type == 1:
-                board_list = soup.select(crawl_var_list[now_site_type][0])
-            else:
-                pass
+            notice_list = soup.select(category.Pid.Nlist)
 
-            # 카테고리 정보는 크롤링하지 않고 2차원 배열에 저장한 값을 읽음.
-            category = list[2]
+            for notice in notice_list:
+                #고정 공지는 건너뛰기
+                isFixed = notice.select_one(category.Pid.Nfixed)
 
-            for board in board_list:
-                # 고정된 공지는 td > img 형태인데, 이를 text로 변환하면 공백이 됨
-                # type3는 None 값이 발생하여 예외처리
-                if now_site_type == 0 or now_site_type == 1:
-                    notice = board.select_one(crawl_var_list[now_site_type][1])
-                else:
-                    pass
+                if page_type == 0:
+                    if isFixed.get("class") == ["fix"]:
+                        continue
+                elif page_type == 1 or page_type == 2:
+                    if isFixed.get("class") == ["mark"]:
+                        continue
+                elif page_type == 3:
+                    if notice.get("class") == ["cell_notice"]:
+                        continue
+                elif page_type == 4:
+                    if isFixed.find("img") is not None:
+                        continue
+                elif page_type == 5:
+                    if isFixed.get("class") == ["bo_notice"]:
+                        continue
+                elif page_type == 6:
+                    if notice.get("class") == ["always"]:
+                        continue
 
-                # 고정 공지인 경우 패스
-                if notice['class'][0] == "fix" or notice['class'][0] == "mark":
-                    continue
 
-                else:  # 값이 있는 경우 일반공지로, 크롤링 진행
-                    # 게시글 제목
-                    if now_site_type == 0:
-                        name = board.select_one(crawl_var_list[now_site_type][3]).text.strip()
-                    elif now_site_type == 1:
-                        name = board.select_one(crawl_var_list[now_site_type][2]).text.strip()
+                #게시글 제목
+                nameTag = notice.select_one(category.Pid.Nname)
 
-                    # 게시글 링크는 경우에 따라 편집 필요
-                    # 1) 공백이면 편집
-                    if now_site_type == 0:
-                        link = url + 'detail/' + re.sub(r'[^0-9]', '',
-                                                        board.select_one(crawl_var_list[now_site_type][2])['onclick'])
-                    # 4) 특정 url 사용
-                    else:
-                        link = re.sub(r'\/article\/(notice\d*|news\d*|info\d*|board\d*)\/', '', url) + \
-                               board.select_one(crawl_var_list[now_site_type][2])['href']
+                if page_type == 2:
+                    nameTag = nameTag.select_one("span").extract()
 
-                    now_time = str(datetime.datetime.now())
-                    print("카테고리 : ", category)
-                    print("공지이름 : ", name.replace("\xa0", " "))
-                    print("링크 : ", link)
-                    print("시간 : ", now_time)
+                name = nameTag.text.strip()
 
-                    '''
-                    # DB에 저장
-                    results = session.query(Crawl.link).filter_by(category=category, link=link).all()
-                    if not results:
-                        now_time = str(datetime.datetime.now())
-                        session.add(Crawl(category=category, title=name, link=link, crawl_time=now_time))
-                        session.commit()
-                        print('성공 : [' + category + ']' + name + ' >> ' + link)
+                #게시글 링크
+                linkTag = notice.select_one(category.Pid.Nlink)
+                link = ""
+                if page_type == 0:
+                    link = re.sub(r'list?pageIndex=', 'detail/', url) + re.sub(r'[^0-9]', '', linkTag.get('onclick'))
+                elif page_type == 1 or page_type == 2:
+                    link = re.sub(r'\/article\/(notice\d*|news\d*|info\d*|board\d*)\/list?pageIndex=', '', url) + linkTag.get('href')
+                elif page_type == 3:
+                    link = linkTag.get('href') #추가 조치 필요
+                elif page_type == 4:
+                    link = re.sub(r'/k3/sub5/sub1.php?page=', '', url) + linkTag.get('href')
+                elif page_type == 5:
+                    link = linkTag.get('href')
+                elif page_type == 6:
+                    link = re.sub(r'/bbs/list/1?pn=', '', url) + linkTag.get('href')
+                elif page_type == 7:
+                    link = linkTag.get('onclick') #추가 조치 필요
+                    
+                #게시글 날짜
+                Ntime = notice.select_one(category.Pid.Ntime).text.strip()
 
-                        # new_crawl_list를 2차원 형태로 만들어서 신규 크롤링 데이터 추가
-                        new_crawl_list.append([])
-                        new_crawl_list[new_crawl_count].append(category)
-                        new_crawl_list[new_crawl_count].append(name.replace("\xa0", " "))
-                        new_crawl_list[new_crawl_count].append(link)
-                        new_crawl_list[new_crawl_count].append(now_time)
+                print("카테고리 : ", category)
+                print("공지이름 : ", name.replace("\xa0", " "))
+                print("링크 : ", link)
+                print("시간 : ", Ntime)
+                curPage += 1
 
-                        # 유사 단어 찾아서 알림 발송하기
-                        #findSimilar(new_crawl_list)
-                        #send_kakao(new_crawl_list[new_crawl_count])
-
-                        new_crawl_count += 1
-                    else:
-                        print('     실패 : [' + category + ']' + name + ' >> ' + link)
-
-                    '''
-                    # 크롤링 한 게시글 개수 증가
-                    site_per += 1
-
-            # 현재 페이지의 게시글을 크롤링하는 for loop 종료
-
-            # 페이지 수 증가
-            curPage += 1
-
-            if now_site_type == 9999:
-                pass
-            else:
-                if site_per < 10:
-                    print('------------------ 게시글 개수가 적어서 현재 페이지에서 크롤링 종료 (15) ------------------')
-                    break
-
-            if curPage > totalPage:
-                print('------------------ ' + category + ' 크롤링 종료 ------------------')
-                break
-
-            # 3초간 대기
-            time.sleep(3)
-
-        # 미래융합대학 학과별 사이트 상세링크 관련
-        if now_site_type == 6:
-            loop_index += 1
-
-    print("~~~ 크롤링 끄읕 !!!")
-
-    del soup  # BeautifulSoup 인스턴스 삭제
+    return render(request, 'DBtest.html')
+    #
+    #             '''
+    #             # DB에 저장
+    #             results = session.query(Crawl.link).filter_by(category=category, link=link).all()
+    #             if not results:
+    #                 now_time = str(datetime.datetime.now())
+    #                 session.add(Crawl(category=category, title=name, link=link, crawl_time=now_time))
+    #                 session.commit()
+    #                 print('성공 : [' + category + ']' + name + ' >> ' + link)
+    #
+    #                 # new_crawl_list를 2차원 형태로 만들어서 신규 크롤링 데이터 추가
+    #                 new_crawl_list.append([])
+    #                 new_crawl_list[new_crawl_count].append(category)
+    #                 new_crawl_list[new_crawl_count].append(name.replace("\xa0", " "))
+    #                 new_crawl_list[new_crawl_count].append(link)
+    #                 new_crawl_list[new_crawl_count].append(now_time)
+    #
+    #                 # 유사 단어 찾아서 알림 발송하기
+    #                 #findSimilar(new_crawl_list)
+    #                 #send_kakao(new_crawl_list[new_crawl_count])
+    #
+    #                 new_crawl_count += 1
+    #             else:
+    #                 print('     실패 : [' + category + ']' + name + ' >> ' + link)
+    #
+    #             '''
+    #             # 크롤링 한 게시글 개수 증가
+    #             site_per += 1
+    #
+    #         # 현재 페이지의 게시글을 크롤링하는 for loop 종료
+    #
+    #         # 페이지 수 증가
+    #         curPage += 1
+    #
+    #         if category.Pid == 9999:
+    #             pass
+    #         else:
+    #             if site_per < 10:
+    #                 print('------------------ 게시글 개수가 적어서 현재 페이지에서 크롤링 종료 (15) ------------------')
+    #                 break
+    #
+    #         if curPage > totalPage:
+    #             print('------------------ ' + category + ' 크롤링 종료 ------------------')
+    #             break
+    #
+    #         # 3초간 대기
+    #         time.sleep(3)
+    #
+    #     # 미래융합대학 학과별 사이트 상세링크 관련
+    #     if category.Pid == 6:
+    #         loop_index += 1
+    #
+    # print("~~~ 크롤링 끄읕 !!!")
+    #
+    # del soup  # BeautifulSoup 인스턴스 삭제
 
 #    session.close()  # DB 세션 종료
-#    return "크롤링 페이지"
+
