@@ -9,275 +9,144 @@ from selenium.webdriver.chrome.options import Options
 import time
 import datetime
 import re
-
-def DBInitial():
-    category_list = [
-        # 동국대메인사이트
-        [0, 'http://www.dongguk.edu/article/GENERALNOTICES/', '일반공지'],
-        [0, 'http://www.dongguk.edu/article/HAKSANOTICE/', '학사공지'],
-        [0, 'http://www.dongguk.edu/article/JANGHAKNOTICE/', '장학공지'],
-        [0, 'http://www.dongguk.edu/article/IPSINOTICE/', '입시공지'],
-        [0, 'http://www.dongguk.edu/article/GLOBALNOLTICE/', '국제공지'],
-        [0, 'http://www.dongguk.edu/article/HAKSULNOTICE/', '학술/행사공지'],
-        [0, 'http://www.dongguk.edu/article/BUDDHISTEVENT/', '행사공지'],
-        [0, 'http://www.dongguk.edu/article/ALLIM/', '알림사항'],
-
-        # 불교대학
-        [1, 'https://bs.dongguk.edu/article/notice/', '불교학부'],
-        [1, 'https://ch.dongguk.edu/article/notice/', '문화재학과'],
-
-        # 문과대학
-        [1, 'https://liberal.dongguk.edu/article/notice/', '문과대학'],
-        [1, 'https://kor-cre.dongguk.edu/article/notice2/', '국어국문문예창작학부'],
-        [1, 'https://english.dongguk.edu/article/notice1/', '영어영문학부'],
-        [1, 'https://dj.dongguk.edu/article/notice/', '일본학과'],
-        [1, 'https://china.dongguk.edu/article/notice/', '중어중문학과'],
-        [1, 'https://sophia.dongguk.edu/article/notice/', '철학과'],
-        [1, 'https://history.dongguk.edu/article/notice/', '사학과'],
-
-        # 이과대학
-        [1, 'https://science.dongguk.edu/article/notice/', '이과대학'],
-        [1, 'https://math.dongguk.edu/article/notice/', '수학과'],
-        [1, 'https://chem.dongguk.edu/article/notice/', '화학과'],
-        [1, 'https://stat.dongguk.edu/article/board1/', '통계학과'],
-        [1, 'https://physics.dongguk.edu/article/notice1/', '물리반도체과학부'],
-
-        # 법과대학
-        [2, 'https://law.dongguk.edu/article/notice1/', '법학과'],
-
-        # 사회과학대학
-        [1, 'https://social.dongguk.edu/article/notice/', '사회과학대학'],
-        [1, 'https://politics.dongguk.edu/article/notice2/', '정치외교학전공'],
-        [1, 'https://pa.dongguk.edu/article/notice/', '행정학전공'],
-        [1, 'https://nk.dongguk.edu/article/notice/', '북한학전공'],
-        [1, 'https://econ.dongguk.edu/article/notice/', '경제학과'],
-        [2, 'https://itrade.dongguk.edu/article/notice/', '국제통상학전공'],
-        [1, 'https://comm.dongguk.edu/article/notice1/', '미디어커뮤니케이션학과'],
-        [1, 'https://foodindus.dongguk.edu/article/notice1/', '식품산업관리학과'],
-        [1, 'https://sociology.dongguk.edu/article/notice/', '사회학전공'],
-        [1, 'https://welfare.dongguk.edu/article/notice/', '사회복지학과'],
-        [5, 'http://dguadpr.kr/bbs/board.php?bo_table=table31&page=2', '광고홍보학과'],
-
-        # 경찰사법대학
-        [1, 'https://justice.dongguk.edu/article/notice/', '경찰사법대학'],
-        [1, 'https://police.dongguk.edu/article/notice1/', '경찰행정학부'],
-
-        # 경영대학
-        [1, 'https://sba.dongguk.edu/article/notice/', '경영대학'],
-        [2, 'https://mgt.dongguk.edu/article/notice/', '경영학과'],
-        [1, 'https://acc.dongguk.edu/article/notice1/', '회계학과'],
-        [1, 'https://mis.dongguk.edu/article/news/', '경영정보학과'],
-
-        # 바이오시스템대학
-        [1, 'https://life.dongguk.edu/article/notice/', '바이오시스템대학'],
-
-        # 공과대학
-        [1, 'https://engineer.dongguk.edu/article/notice1/', '공과대학'],
-        [2, 'https://dee.dongguk.edu/article/notice1/', '전자전기공학부'],
-        [1, 'https://ice.dongguk.edu/article/notice/', '정보통신공학과'],
-        [1, 'https://civil.dongguk.edu/article/notice/', '건설환경공학과'],
-        [1, 'https://chembioeng.dongguk.edu/article/notice1/', '화공생물공학과'],
-        [1, 'https://mecha.dongguk.edu/article/notice/', '기계로봇에너지공학과'],
-        [1, 'https://archi.dongguk.edu/article/info1/', '건축공학과,건축학과'],
-        [1, 'https://ise.dongguk.edu/article/notice1/', '산업시스템공학과'],
-        [1, 'https://me.dongguk.edu/article/notice/', '융합에너지신소재공학과'],
-
-        # AI융합대학
-        [1, 'https://ai.dongguk.edu/article/notice/', 'AI융합대학'],
-        [1, 'https://cse.dongguk.edu/article/notice1/', '컴퓨터공학과'],
-        [4, 'http://mme.dongguk.edu/k3/sub5/sub1.php?tsort=51&msort=62', '멀티미디어공학과'],
-
-        # 사범대학
-        [2, 'https://edu.dongguk.edu/article/notice/', '사범대학'],
-        [1, 'https://education.dongguk.edu/article/news2/', '교육학과'],
-        [1, 'https://duce.dongguk.edu/article/notice/', '국어교육과'],
-        [1, 'https://historyedu.dongguk.edu/article/notice1/', '역사교육과'],
-        [1, 'https://geoedu.dongguk.edu/article/notice/', '지리교육과'],
-        [1, 'https://dume.dongguk.edu/article/notice/', '수학교육과'],
-        [1, 'https://homeedu.dongguk.edu/article/notice/', '가정교육과'],
-        [1, 'https://pe.dongguk.edu/article/notice/', '체육교육과'],
-
-        # 예술대학
-        [1, 'https://art.dongguk.edu/article/notice/', '예술대학'],
-        [1, 'https://aart.dongguk.edu/article/notice/', '미술학부'], #공지사항 없음
-        [1, 'https://theatre.dongguk.edu/article/notice/', '연극학부'],
-        [1, 'https://kmart.dongguk.edu/article/notice/', '한국음악과'],
-        [5, 'https://movie.dongguk.edu/bbs/board.php?bo_table=movie1_3_1', '영화영상학과'],
-
-        # 약학대학
-        [1, 'https://pharm.dongguk.edu/article/notice/', '약학과'],
-
-        # 다르마칼리지
-        [1, 'https://dharma.dongguk.edu/article/notice/', '다르마칼리지'],
-
-        #미래융합대학
-        [3, 'https://security.dongguk.edu/bbs/data/list.do?menu_idx=30', '융합보안학과'],
-        [3, 'https://swc.dongguk.edu/bbs/data/list.do?menu_idx=46', '사회복지상담학과'],
-        [3, 'https://gt.dongguk.edu/bbs/data/list.do?menu_idx=58', ' 글로벌무역학과'],
-
-        #시설공지
-        [6,'https://lib.dongguk.edu/bbs/list/1','중앙도서관'],
-        [1,'https://dorm.dongguk.edu/article/notice/list', '기숙사'],
-        [7,'https://dgucoop.dongguk.edu/board/board.php?w=1', '생협'],
-
-        #기타공지
+from .models import Pagetype, Category, User
 
 
+def DBInitial(request):
+    #먼저 테이블 데이터 전체 제거후 진행
+    Pagetype.objects.all().delete()
+    Category.objects.all().delete()
+    User.objects.all().delete()
 
+    #페이지타입(pid), 공지리스트(Nlist), 공지이름(Nname), 공지링크(Nlink), 공지시간(Ntime)
+    pageType_list = [
+        [0, 'div.board_list > ul > li', 'a > div.mark > span', 'a > div.top > p.tit', 'a', 'a > div.top > div.info > span:nth-child(1)'],
+        [1, 'table.board > tbody > tr', 'td.td_num > span', 'td.td_tit > a', 'td.td_tit > a', 'td:nth-child(4)'],
+        [2, 'table.board > tbody > tr', 'td.td_num > span', 'td.td_tit > a', 'td.td_tit > a', 'td:nth-child(4)'],
+        [3, 'table > tbody > tr', '', 'td.cell_type > a', 'td.cell_type > a', 'td:nth-child(5)'],
+        [4, 'table> tbody > tr', ' td:nth-child(1)', ' td.subject > a', ' td.subject > a', 'td.w_date'],
+        [5, 'table > tbody >  tr', '', 'td.td_subject > a:nth-child(2)', 'td.td_subject > a:nth-child(2)', 'd.td_date'],
+        [6, 'table > tbody > tr ', '', 'td.title.expand > a', 'td.title.expand > a', 'td.reportDate'],
+        [7, 'table > tbody > tr', '', 'td:nth-child(2)', '', ' td:nth-child(5)']
     ]
-    for i,category in enumerate(category_list):
-        pass
+
+    for page in pageType_list:
+        p = Pagetype(
+            Pid=page[0],
+            Nlist=page[1],
+            Nfixed=page[2],
+            Nname=page[3],
+            Nlink=page[4],
+            Ntime=page[5]
+        )
+        p.save()
+
+    category_list = [
+        ['일반공지', 'http://www.dongguk.edu/article/GENERALNOTICES/list?pageIndex=', 0],
+        ['학사공지', 'http://www.dongguk.edu/article/HAKSANOTICE/list?pageIndex=', 0],
+        ['장학공지', 'http://www.dongguk.edu/article/JANGHAKNOTICE/list?pageIndex=', 0],
+        ['입시공지', 'http://www.dongguk.edu/article/IPSINOTICE/list?pageIndex=', 0],
+        ['국제공지', 'http://www.dongguk.edu/article/GLOBALNOLTICE/list?pageIndex=', 0],
+        ['학술/행사공지', 'http://www.dongguk.edu/article/HAKSULNOTICE/list?pageIndex=', 0],
+        ['행사공지', 'http://www.dongguk.edu/article/BUDDHISTEVENT/list?pageIndex=', 0],
+        ['알림사항', 'http://www.dongguk.edu/article/ALLIM/list?pageIndex=', 0],
+        ['불교학부', 'https://bs.dongguk.edu/article/notice/list?pageIndex=', 1],
+        ['문화재학과', 'https://ch.dongguk.edu/article/notice/list?pageIndex=', 1],
+        ['문과대학', 'https://liberal.dongguk.edu/article/notice/list?pageIndex=', 1],
+        ['국어국문문예창작학부', 'https://kor-cre.dongguk.edu/article/notice2/list?pageIndex=', 1],
+        ['영어영문학부', 'https://english.dongguk.edu/article/notice1/list?pageIndex=', 1],
+        ['일본학과', 'https://dj.dongguk.edu/article/notice/list?pageIndex=', 1],
+        ['중어중문학과', 'https://china.dongguk.edu/article/notice/list?pageIndex=', 1],
+        ['철학과', 'https://sophia.dongguk.edu/article/notice/list?pageIndex=', 1],
+        ['사학과', 'https://history.dongguk.edu/article/notice/list?pageIndex=', 1],
+        ['이과대학', 'https://science.dongguk.edu/article/notice/list?pageIndex=', 1],
+        ['수학과', 'https://math.dongguk.edu/article/notice/list?pageIndex=', 1],
+        ['화학과', 'https://chem.dongguk.edu/article/notice/list?pageIndex=', 1],
+        ['통계학과', 'https://stat.dongguk.edu/article/board1/list?pageIndex=', 1],
+        ['물리반도체과학부', 'https://physics.dongguk.edu/article/notice1/list?pageIndex=', 1],
+        ['법학과', 'https://law.dongguk.edu/article/notice1/list?pageIndex=', 2],
+        ['사회과학대학', 'https://social.dongguk.edu/article/notice/list?pageIndex=', 1],
+        ['정치외교학전공', 'https://politics.dongguk.edu/article/notice2/list?pageIndex=', 1],
+        ['행정학전공', 'https://pa.dongguk.edu/article/notice/list?pageIndex=', 1],
+        ['북한학전공', 'https://nk.dongguk.edu/article/notice/list?pageIndex=', 1],
+        ['경제학과', 'https://econ.dongguk.edu/article/notice/list?pageIndex=', 1],
+        ['국제통상학전공', 'https://itrade.dongguk.edu/article/notice/list?pageIndex=', 2],
+        ['미디어커뮤니케이션학과', 'https://comm.dongguk.edu/article/notice1/list?pageIndex=', 1],
+        ['식품산업관리학과', 'https://foodindus.dongguk.edu/article/notice1/list?pageIndex=', 1],
+        ['사회학전공', 'https://sociology.dongguk.edu/article/notice/list?pageIndex=', 1],
+        ['사회복지학과', 'https://welfare.dongguk.edu/article/notice/list?pageIndex=', 1],
+        ['광고홍보학과', 'http://dguadpr.kr/bbs/board.php?bo_table=table31&page=', 5],
+        ['경찰사법대학', 'https://justice.dongguk.edu/article/notice/list?pageIndex=', 1],
+        ['경찰행정학부', 'https://police.dongguk.edu/article/notice1/list?pageIndex=', 1],
+        ['경영대학', 'https://sba.dongguk.edu/article/notice/list?pageIndex=', 1],
+        ['경영학과', 'https://mgt.dongguk.edu/article/notice/list?pageIndex=', 2],
+        ['회계학과', 'https://acc.dongguk.edu/article/notice1/list?pageIndex=', 1],
+        ['경영정보학과', 'https://mis.dongguk.edu/article/news/list?pageIndex=', 1],
+        ['바이오시스템대학', 'https://life.dongguk.edu/article/notice/list?pageIndex=', 1],
+        ['공과대학', 'https://engineer.dongguk.edu/article/notice1/list?pageIndex=', 1],
+        ['전자전기공학부', 'https://dee.dongguk.edu/article/notice1/list?pageIndex=', 2],
+        ['정보통신공학과', 'https://ice.dongguk.edu/article/notice/list?pageIndex=', 1],
+        ['건설환경공학과', 'https://civil.dongguk.edu/article/notice/list?pageIndex=', 1],
+        ['화공생물공학과', 'https://chembioeng.dongguk.edu/article/notice1/list?pageIndex=', 1],
+        ['기계로봇에너지공학과', 'https://mecha.dongguk.edu/article/notice/list?pageIndex=', 1],
+        ['건축공학과,건축학과', 'https://archi.dongguk.edu/article/info1/list?pageIndex=', 1],
+        ['산업시스템공학과', 'https://ise.dongguk.edu/article/notice1/list?pageIndex=', 1],
+        ['융합에너지신소재공학과', 'https://me.dongguk.edu/article/notice/list?pageIndex=', 1],
+        ['AI융합대학', 'https://ai.dongguk.edu/article/notice/list?pageIndex=', 1],
+        ['컴퓨터공학과', 'https://cse.dongguk.edu/article/notice1/list?pageIndex=', 1],
+        ['멀티미디어공학과', 'http://mme.dongguk.edu/k3/sub5/sub1.php?page=', 4],
+        ['사범대학', 'https://edu.dongguk.edu/article/notice/list?pageIndex=', 2],
+        ['교육학과', 'https://education.dongguk.edu/article/news2/list?pageIndex=', 1],
+        ['국어교육과', 'https://duce.dongguk.edu/article/notice/list?pageIndex=', 1],
+        ['역사교육과', 'https://historyedu.dongguk.edu/article/notice1/list?pageIndex=', 1],
+        ['지리교육과', 'https://geoedu.dongguk.edu/article/notice/list?pageIndex=', 1],
+        ['수학교육과', 'https://dume.dongguk.edu/article/notice/list?pageIndex=', 1],
+        ['가정교육과', 'https://homeedu.dongguk.edu/article/notice/list?pageIndex=', 1],
+        ['체육교육과', 'https://pe.dongguk.edu/article/notice/list?pageIndex=', 1],
+        ['예술대학', 'https://art.dongguk.edu/article/notice/list?pageIndex=', 1],
+        ['미술학부', 'https://aart.dongguk.edu/article/notice/list?pageIndex=', 1],
+        ['연극학부', 'https://theatre.dongguk.edu/article/notice/list?pageIndex=', 1],
+        ['한국음악과', 'https://kmart.dongguk.edu/article/notice/list?pageIndex=', 1],
+        ['영화영상학과', 'https://movie.dongguk.edu/movie1_3_1/p', 5],
+        ['약학과', 'https://pharm.dongguk.edu/article/notice/list?pageIndex=', 1],
+        ['다르마칼리지', 'https://dharma.dongguk.edu/article/notice/list?pageIndex=', 1],
+        ['융합보안학과', 'https://security.dongguk.edu/bbs/data/list.do?menu_idx=30&pageIndex=', 3],
+        ['사회복지상담학과', 'https://swc.dongguk.edu/bbs/data/list.do?menu_idx=46&pageIndex=', 3],
+        ['글로벌무역학과', 'https://gt.dongguk.edu/bbs/data/list.do?menu_idx=58&pageIndex=', 3],
+        ['중앙도서관', 'https://lib.dongguk.edu/bbs/list/1?pn=', 6],
+        ['기숙사', 'https://dorm.dongguk.edu/article/notice/list?pageIndex=', 1],
+        ['생협', 'https://dgucoop.dongguk.edu/board/board.php?w=1&page=', 7]
+    ]
+
+    # Pagetype 테이블에 저장된 객체 중 Pid 값이 0, 1, 2, ... 인 객체들을
+    # 찾아서 pid_list에 저장한다.
+    pid_list = list(Pagetype.objects.filter(Pid__in=range(len(category_list))))
+
+    # Category 테이블에 데이터를 추가한다.
+    for i in range(len(category_list)):
+        c = Category(Cid=i + 1,
+                     Cname=category_list[i][0],
+                     Clink=category_list[i][1],
+                     Pid=pid_list[category_list[i][2]])
+        c.save()
+
+    u = User(Uid="9999",
+             phone="010-1234-5678",
+             college=Category.objects.get(Cname='AI융합대학'),
+             department=Category.objects.get(Cname='컴퓨터공학과'),
+             sub_college=Category.objects.get(Cname='이과대학'),
+             sub_department=Category.objects.get(Cname='물리반도체과학부')
+    )
+    u.save()
+
+    return render(request, 'test.html')
 
 
-
-
-
-
-def crawl():
+def crawlInitial(request):
     print('======================================')
     print(datetime.datetime.now())
     print('======================================')
-    threading.Timer(3600, crawl).start()  # 1시간 마다 주시적으로 실행
-
-    new_crawl_list = []  # 알림 발송할 신규 크롤링 공지 리스트
-    new_crawl_list.clear()  # 알림 발송할 신규 크롤링 공지 리스트 : 새로운 것만 들어가야 하므로, 크롤링 실행 전 초기화
-    new_crawl_count = 0  # 신규로 크롤링한 건수 체크
-
-    time.sleep(3)  # 검색 결과가 렌더링 될 때까지 잠시 대기
-    curPage = 1  # 현재 페이지
-    totalPage = 1  # 크롤링할 전체 페이지수
-    site_per = 0  # 한 페이지의 게시글 체크용
-    loop_index = 0  # 미융대 게시글 관련
-
-    # 0. div.board_list > ul > li
-    # 1. table.board > tbody > tr
-    # 2. table.board_list n_list >tbody > tr.cell_notice > td.cell_type
-    url_list = [
-
-        # 동국대메인사이트
-        [0, 'http://www.dongguk.edu/article/GENERALNOTICES/', '일반공지'],
-        [0, 'http://www.dongguk.edu/article/HAKSANOTICE/', '학사공지'],
-        [0, 'http://www.dongguk.edu/article/JANGHAKNOTICE/', '장학공지'],
-        [0, 'http://www.dongguk.edu/article/IPSINOTICE/', '입시공지'],
-        [0, 'http://www.dongguk.edu/article/GLOBALNOLTICE/', '국제공지'],
-        [0, 'http://www.dongguk.edu/article/HAKSULNOTICE/', '학술/행사공지'],
-        [0, 'http://www.dongguk.edu/article/BUDDHISTEVENT/', '행사공지'],
-        [0, 'http://www.dongguk.edu/article/ALLIM/', '알림사항'],
-
-        # 불교대학
-        [1, 'https://bs.dongguk.edu/article/notice/', '불교학부'],
-        [1, 'https://ch.dongguk.edu/article/notice/', '문화재학과'],
-
-        # 문과대학
-        [1, 'https://kor-cre.dongguk.edu/article/notice2/', '문과대학 국어국문문예창작학부'],
-        [1, 'https://kor-cre.dongguk.edu/article/info/', '국어국문문예창작학부'],
-        [1, 'https://english.dongguk.edu/article/notice1/', '영어영문학부'],
-        [1, 'https://dj.dongguk.edu/article/notice/', '일본학과'],
-        [1, 'https://china.dongguk.edu/article/notice/', '중어중문학과'],
-        [1, 'https://sophia.dongguk.edu/article/notice/', '철학과'],
-        [1, 'https://history.dongguk.edu/article/notice/', '사학과'],
-
-        # 이과대학
-        [1, 'https://math.dongguk.edu/article/notice/', '수학과'],
-        [1, 'https://chem.dongguk.edu/article/notice/', '화학과'],
-        [1, 'https://stat.dongguk.edu/article/board1/', '통계학과'],
-        [1, 'https://physics.dongguk.edu/article/notice1/', '물리.반도체과학부'],
-
-        # 법과대학
-        [1, 'https://law.dongguk.edu/article/notice1/', '법학과'],
-
-        # 사회과학대학
-        [1, 'https://politics.dongguk.edu/article/notice2/', '정치외교학전공'],
-        [1, 'https://pa.dongguk.edu/article/notice/', '행정학전공'],
-        [1, 'https://nk.dongguk.edu/article/notice/', '북한학전공'],
-        [1, 'https://econ.dongguk.edu/article/notice/', '경제학과'],
-        [1, 'https://itrade.dongguk.edu/article/notice/', '국제통상학전공'],
-        [1, 'https://comm.dongguk.edu/article/notice1/', '미디어커뮤니케이션학과 - 학사공지'],
-        [1, 'https://comm.dongguk.edu/article/notice2/', '미디어커뮤니케이션학과 - 일반공지'],
-        [1, 'https://comm.dongguk.edu/article/notice3/', '미디어커뮤니케이션학과 - 취업공지'],
-        [1, 'https://foodindus.dongguk.edu/article/notice1/', '식품산업관리학과'],
-        [1, 'https://sociology.dongguk.edu/article/notice/', '사회학전공'],
-        [1, 'https://welfare.dongguk.edu/article/notice/', '사회복지학과'],
-
-        # 경찰사법대학
-        [1, 'https://police.dongguk.edu/article/notice1/', '경찰행정학부'],
-
-        # 경영대학
-        [1, 'https://mgt.dongguk.edu/article/notice/', '경영학과'],
-        [1, 'https://acc.dongguk.edu/article/notice1/', '회계학과'],
-        [1, 'https://mis.dongguk.edu/article/news/', '경영정보학과'],
-
-        # 바이오시스템대학
-        [1, 'https://life.dongguk.edu/article/notice/', '바이오시스템대학'],
-
-        # 공과대학
-        [1, 'https://dee.dongguk.edu/article/notice1/', '전자전기공학부'],
-        [1, 'https://ice.dongguk.edu/article/notice/', '정보통신공학과'],
-        [1, 'https://civil.dongguk.edu/article/notice/', '건설환경공학과'],
-        [1, 'https://chembioeng.dongguk.edu/article/notice1/', '화공생물공학과'],
-        [1, 'https://mecha.dongguk.edu/article/notice/', '기계로봇에너지공학과'],
-        [1, 'https://archi.dongguk.edu/article/info1/', '건축공학과,건축학과'],
-        [1, 'https://ise.dongguk.edu/article/notice1/', '산업시스템공학과'],
-        [1, 'https://me.dongguk.edu/article/notice/', '융합에너지신소재공학과'],
-
-        # AI융합대학
-        [1, 'https://ai.dongguk.edu/article/notice/', 'AI소프트웨어융합학부'],
-        [1, 'https://cse.dongguk.edu/article/notice1/', '컴퓨터공학과'],
-        [4, 'http://mme.dongguk.edu/k3/sub5/sub1.php?tsort=51&msort=62', '멀티미디어공학과'],
-
-        # 사범대학
-        [2, 'https://edu.dongguk.edu/article/notice/', '사범대학'],
-        [1, 'https://education.dongguk.edu/article/news2/', '교육학과'],
-        [1, 'https://duce.dongguk.edu/article/notice/', '국어교육과'],
-        [1, 'https://historyedu.dongguk.edu/article/notice1/', '역사교육과'],
-        [1, 'https://geoedu.dongguk.edu/article/notice/', '지리교육과'],
-        [1, 'https://dume.dongguk.edu/article/notice/', '수학교육과'],
-        [1, 'https://homeedu.dongguk.edu/article/notice/', '가정교육과'],
-        [1, 'https://pe.dongguk.edu/article/notice/', '체육교육과'],
-
-        # 예술대학
-        # [1, 'https://aart.dongguk.edu/article/notice/', '미술학부'], 공지사항 없음
-        [1, 'https://theatre.dongguk.edu/article/notice/', '연극학부'],
-        [1, 'https://kmart.dongguk.edu/article/notice/', '한국음악과'],
-
-        # 약학대학
-        [1, 'https://pharm.dongguk.edu/article/notice/', '약학과'],
-
-        # 다르마칼리지
-        [1, 'https://dharma.dongguk.edu/article/notice/', '다르마칼리지'],
-
-
-    ]
-
-    # 예외 사이트
-    """
-    # 융합대학
-
-      # 멀미난다...
-
-    """
-
-    # 사이트마다 페이징을 위한 변수가 다름.
-    page_list = [
-        'list?pageIndex=',
-        'list?pageIndex=',
-        'list?pageIndex=',
-    ]
-
-    # 1. 전체 2. 공지글분류 3. url
-    crawl_var_list = [
-        ['div.board_list > ul > li', 'div.mark > span', 'a', 'p.tit'],
-        ['table.board > tbody > tr', 'td.td_num > span', 'td.td_tit > a'],
-        ['table.board > tbody > tr', 'td.td_num > span', 'td.td_tit > a'],
-        ['table.board_list n_list > tbody > tr.cell_notice > td.cell_type']
-    ]
-
-    # 데이터베이스에 저장할 게시글의 링크용
-    link_list = [
-        '/article/notice/',
-        '/article/notice/',
-        '/article/notice1/',
-    ]
+    #threading.Timer(3600, crawl).start()  # 1시간 마다 주시적으로 실행
 
     for list in url_list:
 
@@ -404,8 +273,5 @@ def crawl():
 
     del soup  # BeautifulSoup 인스턴스 삭제
 
-
 #    session.close()  # DB 세션 종료
 #    return "크롤링 페이지"
-
-crawl()

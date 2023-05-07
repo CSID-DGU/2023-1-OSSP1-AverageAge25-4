@@ -3,9 +3,23 @@ from django.db import models
 
 # Create your models here.
 
+class Pagetype(models.Model):
+    Pid = models.IntegerField(primary_key=True)
+    Nlist = models.CharField(max_length=20)
+    Nfixed = models.CharField(max_length=20)
+    Nname = models.CharField(max_length=20)
+    Nlink = models.CharField(max_length=20)
+    Ntime = models.CharField(max_length=20)
+
+    def __str__(self):
+        return str(self.Pid)
+
+
 class Category(models.Model):
     Cid = models.IntegerField(primary_key=True)
-    Cname = models.CharField(max_length=100)
+    Cname = models.CharField(max_length=20)
+    Clink = models.CharField(max_length=100)
+    Pid = models.ForeignKey(Pagetype, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return self.Cname
