@@ -19,6 +19,7 @@ build/
 *.egg-info/
 *.egg
 .env
+db.sqlite3
 
 #Frontend
 # React
