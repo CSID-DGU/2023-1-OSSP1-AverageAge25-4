@@ -18,6 +18,7 @@ from django.urls import path
 from dgunotice import views
 
 urlpatterns = [
+    path('', views.testPage, name="test"),
     path('admin/', admin.site.urls),
     path('makeDB/', views.DBInitial, name="DBInitial"),
     path('firstCrawl/', views.crawlInitial, name="crawlInitial"),
