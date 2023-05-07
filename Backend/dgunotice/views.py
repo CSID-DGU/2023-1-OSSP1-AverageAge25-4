@@ -11,6 +11,9 @@ import random
 import datetime
 import re
 
+def testPage(request):
+    return render(request, 'test.html')
+
 def DBInitial(request):
     #먼저 테이블 데이터 전체 제거후 진행
     Pagetype.objects.all().delete()
@@ -151,17 +154,17 @@ def crawlInitial(request):
     category_list = Category.objects.select_related('Pid').all()
 
     for category in category_list:
-        url = category.Clink  # url_list가 2차원 배열이므로, 공지사항 링크를 변수 url에 저장
+        url = category.Clink
         page_type = category.Pid.Pid
 
-        curPage = 1  # url_list의 loop를 돌면서 url이 변경될 때 마다 현재 페이지를 1로 설정
-        site_per = 0  # url_list의 loop를 돌면서 url이 변경될 때 마다 크롤링 한 게시글의 개수 파악
+        page_num = 1  #페이지 수
+        normal_notice_count = 0  #페이지내 일반 공지 갯수
+        fixed_notice_count = 0   #페이지내 고정 공지 갯수
 
-        # 페이지 번호 출력
-        while curPage < 2:
-            print('\n----- Current Page : {}'.format(curPage), '------\noriginal url : ' + url)
+        while True:
+            print('\n----- Current Page : {}'.format(page_num), '------\noriginal url : ' + url)
             # 변경된 url에 페이지 번호를 붙임
-            url_change = url + f'{curPage}'
+            url_change = url + f'{page_num}'
             print('changed url : ' + url_change + '\n-------------------------------------------------')
 
             # 페이지가 변경됨에 따라 delay 발생 시킴
@@ -176,119 +179,93 @@ def crawlInitial(request):
 
             for notice in notice_list:
                 #고정 공지는 건너뛰기
-                isFixed = notice.select_one(category.Pid.Nfixed)
-
+                is_fixed = notice.select_one(category.Pid.Nfixed)
                 if page_type == 0:
-                    if isFixed.get("class") == ["fix"]:
+                    if is_fixed.get("class") == ["fix"]:
+                        fixed_notice_count += 1
                         continue
                 elif page_type == 1 or page_type == 2:
-                    if isFixed.get("class") == ["mark"]:
+                    if is_fixed.get("class") == ["mark"]:
+                        fixed_notice_count += 1
                         continue
                 elif page_type == 3:
                     if notice.get("class") == ["cell_notice"]:
+                        fixed_notice_count += 1
                         continue
                 elif page_type == 4:
-                    if isFixed.find("img") is not None:
+                    if is_fixed.find("img") is not None:
+                        fixed_notice_count += 1
                         continue
                 elif page_type == 5:
-                    if isFixed.get("class") == ["bo_notice"]:
+                    if is_fixed.get("class") == ["bo_notice"]:
+                        fixed_notice_count += 1
                         continue
                 elif page_type == 6:
                     if notice.get("class") == ["always"]:
+                        fixed_notice_count += 1
                         continue
 
-
                 #게시글 제목
-                nameTag = notice.select_one(category.Pid.Nname)
-
+                name_tag = notice.select_one(category.Pid.Nname)
                 if page_type == 2:
-                    nameTag = nameTag.select_one("span").extract()
+                    name_tag = name_tag.select_one("span").extract()
 
-                name = nameTag.text.strip()
+                name = name_tag.text.strip()
 
                 #게시글 링크
-                linkTag = notice.select_one(category.Pid.Nlink)
+                link_tag = notice.select_one(category.Pid.Nlink)
                 link = ""
                 if page_type == 0:
-                    link = re.sub(r'list?pageIndex=', 'detail/', url) + re.sub(r'[^0-9]', '', linkTag.get('onclick'))
+                    link = re.sub(r'list?pageIndex=', 'detail/', url) + re.sub(r'[^0-9]', '', link_tag.get('onclick'))
                 elif page_type == 1 or page_type == 2:
-                    link = re.sub(r'\/article\/(notice\d*|news\d*|info\d*|board\d*)\/list?pageIndex=', '', url) + linkTag.get('href')
+                    link = re.sub(r'\/article\/(notice\d*|news\d*|info\d*|board\d*)\/list?pageIndex=', '', url) + link_tag.get('href')
                 elif page_type == 3:
-                    link = linkTag.get('href') #추가 조치 필요
+                    link = link_tag.get('href') #추가 조치 필요
                 elif page_type == 4:
-                    link = re.sub(r'/k3/sub5/sub1.php?page=', '', url) + linkTag.get('href')
+                    link = re.sub(r'/k3/sub5/sub1.php?page=', '', url) + link_tag.get('href')
                 elif page_type == 5:
-                    link = linkTag.get('href')
+                    link = link_tag.get('href')
                 elif page_type == 6:
-                    link = re.sub(r'/bbs/list/1?pn=', '', url) + linkTag.get('href')
+                    link = re.sub(r'/bbs/list/1?pn=', '', url) + link_tag.get('href')
                 elif page_type == 7:
-                    link = linkTag.get('onclick') #추가 조치 필요
+                    link = link_tag.get('onclick') #추가 조치 필요
                     
                 #게시글 날짜
-                Ntime = notice.select_one(category.Pid.Ntime).text.strip()
+                ntime = notice.select_one(category.Pid.Ntime).text.strip()
 
                 print("카테고리 : ", category)
                 print("공지이름 : ", name.replace("\xa0", " "))
                 print("링크 : ", link)
-                print("시간 : ", Ntime)
-                curPage += 1
+                print("시간 : ", ntime)
+
+                n = Notice(Cid=category,
+                           title=name.replace("\xa0", " "),
+                           link=link,
+                           time=ntime)
+                n.save()
+
+                # 크롤링 한 게시글 개수 증가
+                normal_notice_count += 1
+
+            if page_type == 5: #고정공지 + 일반공지 합쳐서 15개 - 고정공지 개념을 조금 다시 확인해봐야할거같음
+                break
+            elif page_type == 6: #고정공지 + 일반공지 합쳐서 10개 - 근데 애초에 고정공지가 그냥 일반공지임
+                if normal_notice_count + fixed_notice_count < 10:
+                    print('------------------ 게시글 개수가 적어서 현재 페이지에서 크롤링 종료 (10) ------------------')
+                    break
+            elif page_type == 7:
+                if normal_notice_count < 20:
+                    print('------------------ 게시글 개수가 적어서 현재 페이지에서 크롤링 종료 (20) ------------------')
+                    break
+            else:
+                if normal_notice_count < 10:
+                    print('------------------ 게시글 개수가 적어서 현재 페이지에서 크롤링 종료 (10) ------------------')
+                    break
+
+            #다음 페이지 탐색
+            page_num += 1
 
     return render(request, 'DBtest.html')
-    #
-    #             '''
-    #             # DB에 저장
-    #             results = session.query(Crawl.link).filter_by(category=category, link=link).all()
-    #             if not results:
-    #                 now_time = str(datetime.datetime.now())
-    #                 session.add(Crawl(category=category, title=name, link=link, crawl_time=now_time))
-    #                 session.commit()
-    #                 print('성공 : [' + category + ']' + name + ' >> ' + link)
-    #
-    #                 # new_crawl_list를 2차원 형태로 만들어서 신규 크롤링 데이터 추가
-    #                 new_crawl_list.append([])
-    #                 new_crawl_list[new_crawl_count].append(category)
-    #                 new_crawl_list[new_crawl_count].append(name.replace("\xa0", " "))
-    #                 new_crawl_list[new_crawl_count].append(link)
-    #                 new_crawl_list[new_crawl_count].append(now_time)
-    #
-    #                 # 유사 단어 찾아서 알림 발송하기
-    #                 #findSimilar(new_crawl_list)
-    #                 #send_kakao(new_crawl_list[new_crawl_count])
-    #
-    #                 new_crawl_count += 1
-    #             else:
-    #                 print('     실패 : [' + category + ']' + name + ' >> ' + link)
-    #
-    #             '''
-    #             # 크롤링 한 게시글 개수 증가
-    #             site_per += 1
-    #
-    #         # 현재 페이지의 게시글을 크롤링하는 for loop 종료
-    #
-    #         # 페이지 수 증가
-    #         curPage += 1
-    #
-    #         if category.Pid == 9999:
-    #             pass
-    #         else:
-    #             if site_per < 10:
-    #                 print('------------------ 게시글 개수가 적어서 현재 페이지에서 크롤링 종료 (15) ------------------')
-    #                 break
-    #
-    #         if curPage > totalPage:
-    #             print('------------------ ' + category + ' 크롤링 종료 ------------------')
-    #             break
-    #
-    #         # 3초간 대기
-    #         time.sleep(3)
-    #
-    #     # 미래융합대학 학과별 사이트 상세링크 관련
-    #     if category.Pid == 6:
-    #         loop_index += 1
-    #
-    # print("~~~ 크롤링 끄읕 !!!")
-    #
-    # del soup  # BeautifulSoup 인스턴스 삭제
 
-#    session.close()  # DB 세션 종료
+
 
