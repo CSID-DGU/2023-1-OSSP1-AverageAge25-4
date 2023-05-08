@@ -168,7 +168,7 @@ def crawlInitial(request):
             print('changed url : ' + url_change + '\n-------------------------------------------------')
 
             # 페이지가 변경됨에 따라 delay 발생 시킴
-            time.sleep(random.uniform(4, 6))
+            time.sleep(random.uniform(3, 6))
 
             # 변경된 url로 이동하여 크롤링하기 위해 html 페이지를 파싱
             html = urllib.request.urlopen(url_change).read()
@@ -267,5 +267,7 @@ def crawlInitial(request):
 
     return render(request, 'DBtest.html')
 
-
-
+def mainPage(request):
+    categories = Category.objects.all()[:5]
+    context = {'categories': categories}
+    return render(request, 'mainPageTest.html', context)

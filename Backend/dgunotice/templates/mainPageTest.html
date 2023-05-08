@@ -1,0 +1,8 @@
+{% for category in categories %}
+    <h2>{{ category.Cname }}</h2>
+    <ul>
+    {% for notice in category.notice_set.all|slice:":5" %}
+        <li>{{ notice.title }}</li>
+    {% endfor %}
+    </ul>
+{% endfor %}
