@@ -16,11 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from dgunotice import views
+from dgunotice.views import LoginPageView
 
 urlpatterns = [
     path('', views.testPage, name="test"),
     path('admin/', admin.site.urls),
     path('makeDB/', views.DBInitial, name="DBInitial"),
     path('firstCrawl/', views.crawlInitial, name="crawlInitial"),
-    path('mainPage/', views.mainPage, name="mainPage")
+    path('mainPage/', views.mainPage, name="mainPage"),
+    path('loginPage/', LoginPageView.as_view(), name="loginPage"),
 ]

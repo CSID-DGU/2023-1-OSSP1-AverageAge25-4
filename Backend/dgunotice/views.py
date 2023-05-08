@@ -1,11 +1,11 @@
-from django.shortcuts import render
+from django.views import View
+from django.shortcuts import render, redirect
 from .models import Pagetype, Category, User, Keyword, Notice
 
 # Create your views here.
 # 크롤링 관련
 import urllib
 from bs4 import BeautifulSoup
-from selenium.webdriver.chrome.options import Options
 import time
 import random
 import datetime
@@ -161,14 +161,14 @@ def crawlInitial(request):
         normal_notice_count = 0  #페이지내 일반 공지 갯수
         fixed_notice_count = 0   #페이지내 고정 공지 갯수
 
-        while True:
+        while page_num < 2:
             print('\n----- Current Page : {}'.format(page_num), '------\noriginal url : ' + url)
             # 변경된 url에 페이지 번호를 붙임
             url_change = url + f'{page_num}'
             print('changed url : ' + url_change + '\n-------------------------------------------------')
 
             # 페이지가 변경됨에 따라 delay 발생 시킴
-            time.sleep(random.uniform(3, 6))
+            time.sleep(random.uniform(4, 7))
 
             # 변경된 url로 이동하여 크롤링하기 위해 html 페이지를 파싱
             html = urllib.request.urlopen(url_change).read()
@@ -180,30 +180,14 @@ def crawlInitial(request):
             for notice in notice_list:
                 #고정 공지는 건너뛰기
                 is_fixed = notice.select_one(category.Pid.Nfixed)
-                if page_type == 0:
-                    if is_fixed.get("class") == ["fix"]:
-                        fixed_notice_count += 1
-                        continue
-                elif page_type == 1 or page_type == 2:
-                    if is_fixed.get("class") == ["mark"]:
-                        fixed_notice_count += 1
-                        continue
-                elif page_type == 3:
-                    if notice.get("class") == ["cell_notice"]:
-                        fixed_notice_count += 1
-                        continue
-                elif page_type == 4:
-                    if is_fixed.find("img") is not None:
-                        fixed_notice_count += 1
-                        continue
-                elif page_type == 5:
-                    if is_fixed.get("class") == ["bo_notice"]:
-                        fixed_notice_count += 1
-                        continue
-                elif page_type == 6:
-                    if notice.get("class") == ["always"]:
-                        fixed_notice_count += 1
-                        continue
+                if (page_type == 0 and is_fixed.get("class") == ["fix"]) or \
+                    (page_type in [1, 2] and is_fixed.get("class") == ["mark"]) or \
+                    (page_type == 3 and notice.get("class") == ["cell_notice"]) or \
+                    (page_type == 4 and is_fixed.find("img") is not None) or \
+                    (page_type == 5 and is_fixed.get("class") == ["bo_notice"]) or \
+                    (page_type == 6 and notice.get("class") == ["always"]):
+                    fixed_notice_count += 1
+                    continue
 
                 #게시글 제목
                 name_tag = notice.select_one(category.Pid.Nname)
@@ -216,17 +200,17 @@ def crawlInitial(request):
                 link_tag = notice.select_one(category.Pid.Nlink)
                 link = ""
                 if page_type == 0:
-                    link = re.sub(r'list?pageIndex=', 'detail/', url) + re.sub(r'[^0-9]', '', link_tag.get('onclick'))
+                    link = re.sub(r'list\?pageIndex=', 'detail/', url) + re.sub(r'[^0-9]', '', link_tag.get('onclick'))
                 elif page_type == 1 or page_type == 2:
-                    link = re.sub(r'\/article\/(notice\d*|news\d*|info\d*|board\d*)\/list?pageIndex=', '', url) + link_tag.get('href')
+                    link = re.sub(r'\/article\/(notice\d*|news\d*|info\d*|board\d*)\/list\?pageIndex=', '', url) + link_tag.get('href')
                 elif page_type == 3:
                     link = link_tag.get('href') #추가 조치 필요
                 elif page_type == 4:
-                    link = re.sub(r'/k3/sub5/sub1.php?page=', '', url) + link_tag.get('href')
+                    link = re.sub(r'/k3/sub5/sub1.php\?page=', '', url) + link_tag.get('href')
                 elif page_type == 5:
                     link = link_tag.get('href')
                 elif page_type == 6:
-                    link = re.sub(r'/bbs/list/1?pn=', '', url) + link_tag.get('href')
+                    link = re.sub(r'/bbs/list/1\?pn=', '', url) + link_tag.get('href')
                 elif page_type == 7:
                     link = link_tag.get('onclick') #추가 조치 필요
                     
@@ -265,9 +249,27 @@ def crawlInitial(request):
             #다음 페이지 탐색
             page_num += 1
 
-    return render(request, 'DBtest.html')
+    return render(request, 'crawlTest.html')
+
+class LoginPageView(View):
+    def get(self, request):
+        return render(request, 'loginPage.html')
+
+    def post(self, request):
+        uid = request.POST.get('uid')
+        phone = request.POST.get('phone')
+
+        user = User.objects.filter(Uid=uid, phone=phone).first()
+
+        if user:
+            request.session['user_id'] = uid
+            return redirect('mainPage')
+        else:
+            context = {'error_message': '해당하는 유저가 없습니다.'}
+            return render(request, 'loginPage.html', context)
 
 def mainPage(request):
     categories = Category.objects.all()[:5]
     context = {'categories': categories}
     return render(request, 'mainPageTest.html', context)
+

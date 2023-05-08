@@ -1,0 +1,14 @@
+{% if error_message %}
+    <p>{{ error_message }}</p>
+{% endif %}
+
+<form method="POST" action="{% url 'loginPage' %}">
+    {% csrf_token %}
+    <label for="uid">ID:</label>
+    <input type="text" id="uid" name="uid" required><br>
+
+    <label for="phone">Phone Number:</label>
+    <input type="text" id="phone" name="phone" required><br>
+
+    <input type="submit" value="Submit">
+</form>

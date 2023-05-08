@@ -2,7 +2,7 @@
     <h2>{{ category.Cname }}</h2>
     <ul>
     {% for notice in category.notice_set.all|slice:":5" %}
-        <li>{{ notice.title }}</li>
+        <li><a href="{{ notice.link }}">{{ notice.title }}</a> - {{ notice.time }}</li>
     {% endfor %}
     </ul>
 {% endfor %}
