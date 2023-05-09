@@ -249,6 +249,17 @@ def crawlInitial(request):
 
     return render(request, 'crawlTest.html')
 
+def crawl_list(category_list):
+    new_list = []
+    for category in category_list:
+        category.time_remaining -= 1
+        if category.time_remaining == 0:
+            new_list.append(category)
+            category.time_remaining = category.time_initial
+        category.save()
+    return new_list
+# crawl_ready = crawl_list(category_list) # 쓰임 예시
+
 class LoginPageView(View):
     def get(self, request):
         return render(request, 'loginPage.html')
