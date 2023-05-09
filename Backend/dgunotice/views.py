@@ -1,6 +1,9 @@
 from django.views import View
 from django.shortcuts import render, redirect
 from .models import Pagetype, Category, User, Keyword, Notice
+from rest_framework import generics, status
+from rest_framework.response import Response
+from .serializers import PagetypeSerializer, CategorySerializer,UserSerializer, KeywordSerializer, NoticeSerializer
 
 # Create your views here.
 # 크롤링 관련
@@ -146,11 +149,6 @@ def DBInitial(request):
     return render(request, 'DBtest.html')
 
 def crawlInitial(request):
-    print('======================================')
-    print(datetime.datetime.now())
-    print('======================================')
-    #threading.Timer(3600, crawl).start()  # 1시간 마다 주시적으로 실행
-
     category_list = Category.objects.select_related('Pid').all()
 
     for category in category_list:
@@ -273,3 +271,50 @@ def mainPage(request):
     context = {'categories': categories}
     return render(request, 'mainPageTest.html', context)
 
+class KeywordCR(generics.ListCreateAPIView):
+    serializer_class = KeywordSerializer
+
+    def get_queryset(self):
+        #get요청시 user_id에 해당하는 키워드 리스트 전달
+        user_id = self.request.session.get('user_id')
+        queryset = Keyword.objects.filter(Uid_id=user_id)
+        return queryset
+
+    def create(self, request, *args, **kwargs):
+        #POST요청시 키워드 추가
+        #전달된 데이터(request.data)를 serializer에 저장 many = True로 복수개 생성 가능
+        serializer = self.get_serializer(data=request.data, many=True)
+
+        #전달된 데이터의 유효성 검사
+        serializer.is_valid(raise_exception=True)
+
+        #세션에 저장된 유저id 가져와 serializer에 넣고 객체 추가
+        user_id = request.session.get('user_id')
+        serializer.save(Uid_id=user_id)
+
+        #마지막으로 생성된 객체를 클라이언트에게 반환
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+class KeywordUD(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = KeywordSerializer
+
+    def get_queryset(self):
+        #Uid와 삭제하고 싶은 key에 해당하는 쿼리셋을 queryset에 저장
+        user_id = self.request.session.get('user_id')
+        queryset = Keyword.objects.filter(Uid_id=user_id, key=self.kwargs.get('key'))
+        return queryset
+
+    def delete(self, request, *args, **kwargs):
+        #queryset 삭제 진행
+        queryset = self.get_queryset()
+        queryset.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)

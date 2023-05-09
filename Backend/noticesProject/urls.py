@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from dgunotice import views
-from dgunotice.views import LoginPageView
+from dgunotice.views import LoginPageView, KeywordCR, KeywordUD
 
 urlpatterns = [
     path('', views.testPage, name="test"),
@@ -25,4 +25,7 @@ urlpatterns = [
     path('firstCrawl/', views.crawlInitial, name="crawlInitial"),
     path('mainPage/', views.mainPage, name="mainPage"),
     path('loginPage/', LoginPageView.as_view(), name="loginPage"),
+    path('loginPage/keywords/', KeywordCR.as_view(), name="keywordCR"),
+    path('loginPage/keywords/<str:key>/', KeywordUD.as_view(), name="keywordUD"),
+
 ]
