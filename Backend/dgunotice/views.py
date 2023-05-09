@@ -11,6 +11,7 @@ import urllib
 from bs4 import BeautifulSoup
 import time
 import random
+import threading
 import datetime
 import re
 
@@ -148,6 +149,7 @@ def DBInitial(request):
 
     return render(request, 'DBtest.html')
 
+
 def crawlInitial(request):
     category_list = Category.objects.select_related('Pid').all()
 
@@ -249,16 +251,15 @@ def crawlInitial(request):
 
     return render(request, 'crawlTest.html')
 
-def crawl_list(category_list):
-    new_list = []
-    for category in category_list:
-        category.time_remaining -= 1
-        if category.time_remaining == 0:
-            new_list.append(category)
-            category.time_remaining = category.time_initial
-        category.save()
-    return new_list
-# crawl_ready = crawl_list(category_list) # 쓰임 예시
+def crawlCheck():
+    # 1시간마다 주기 체크
+    threading.Timer(3600, crawlCheck).start()
+    Category.objects.filter(time_remaining__gt=0).update(
+        time_remaining=F('time_remaining') - 1
+    )
+    crawl_list = Category.objects.filter(time_remaining=0)
+    crawl_list.update(time_remaining=F('time_initial'))
+    return crawl(crawl_list)
 
 class LoginPageView(View):
     def get(self, request):
