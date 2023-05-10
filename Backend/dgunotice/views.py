@@ -5,6 +5,7 @@ from .models import Pagetype, Category, User, Keyword, Notice
 from rest_framework import generics, status
 from rest_framework.response import Response
 from .serializers import PagetypeSerializer, CategorySerializer,UserSerializer, KeywordSerializer, NoticeSerializer
+from django.db.models import F
 
 # Create your views here.
 # 크롤링 관련
@@ -50,6 +51,7 @@ def DBInitial(request):
         )
         p.save()
 
+    # 카테고리(Cname), URL링크(Clink), 페이지타입(pid)
     category_list = [
         ['일반공지', 'http://www.dongguk.edu/article/GENERALNOTICES/list?pageIndex=', 0],
         ['학사공지', 'http://www.dongguk.edu/article/HAKSANOTICE/list?pageIndex=', 0],
@@ -252,7 +254,8 @@ def crawlInitial(request):
 
     return render(request, 'crawlTest.html')
 
-
+def crawl(crawl_list):
+    pass
 
 def frequencyUpdate():
     #하루마다 업데이트
@@ -311,7 +314,6 @@ def frequencyUpdate():
         weight = (100 - keyword_percentile + day_percentile + week_percentile + month_percentile)/4
 
         Category.objects.filter(pk=category.Cid).update(time_initial=weight)
-
 
 def crawlCheck():
     # 1시간마다 주기 체크

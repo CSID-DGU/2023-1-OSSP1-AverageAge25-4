@@ -1,7 +1,7 @@
 {% for category in categories %}
     <h2>{{ category.Cname }}</h2>
     <ul>
-    {% for notice in category.notice_set.all|slice:":5" %}
+    {% for notice in category.notice_set.all|slice:":20" %}
         <li><a href="{{ notice.link }}">{{ notice.title }}</a> - {{ notice.time }}</li>
     {% endfor %}
     </ul>
