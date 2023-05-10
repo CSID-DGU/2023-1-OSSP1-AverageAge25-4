@@ -1,3 +1,4 @@
+from django.db.models import F
 from django.views import View
 from django.shortcuts import render, redirect
 from .models import Pagetype, Category, User, Keyword, Notice
@@ -250,6 +251,66 @@ def crawlInitial(request):
             page_num += 1
 
     return render(request, 'crawlTest.html')
+
+
+
+def frequencyUpdate():
+    #하루마다 업데이트
+    threading.Timer(86400, frequencyUpdate).start()
+
+
+   #가중치를 24개 구간으로 쪼개기
+    def get_percentile(value, min_value, max_value):
+        percentile = (value - min_value) / (max_value - min_value) * 23 + 1
+        return int(percentile)
+
+
+    categories = Category.objects.all()
+
+    #관련 변수 값을 담을 리스트
+    keyword_list, day_list, week_list, month_list = [], [], [], []
+
+    #관련 변수값을 리스트에 담기
+    for category in categories:
+
+        keyword_num = Keyword.objects.filter(Cid=category).count()
+        day_num = Notice.objects.filter(Cid=category, time__gte=datetime.datetime.now()-datetime.timedelta(days=1)).count()
+        week_num = Notice.objects.filter(Cid=category, time__gte=datetime.datetime.now()-datetime.timedelta(days=7)).count()
+        month_num = Notice.objects.filter(Cid=category, time__gte=datetime.datetime.now()-datetime.timedelta(days=30)).count()
+
+        keyword_list.append(keyword_num)
+        day_list.append(day_num)
+        week_list.append(week_num)
+        month_list.append(month_num)
+
+    #구간 설정을 위한 최대, 최소 구하기
+    keyword_max = max(keyword_list)
+    day_max = max(day_list)
+    week_max = max(week_list)
+    month_max = max(week_list)
+
+    keyword_min = min(keyword_list)
+    day_min = min(day_list)
+    week_min = min(week_list)
+    month_min = min(month_list)
+
+    for category in categories:
+
+        keyword_num = Keyword.objects.filter(Cid=category).count()
+        day_num = Notice.objects.filter(Cid=category, time__gte=datetime.datetime.now()-datetime.timedelta(days=1)).count()
+        week_num = Notice.objects.filter(Cid=category, time__gte=datetime.datetime.now()-datetime.timedelta(days=7)).count()
+        month_num = Notice.objects.filter(Cid=category, time__gte=datetime.datetime.now()-datetime.timedelta(days=30)).count()
+
+        #가중치를 시간으로 환산
+        keyword_percentile = 25 - get_percentile(keyword_num, keyword_min, keyword_max)
+        day_percentile = 25 - get_percentile(day_num, day_min, day_max)
+        week_percentile = 25 - get_percentile(week_num, week_min, week_max)
+        month_percentile = 25 - get_percentile(month_num, month_min, month_max)
+
+        weight = (keyword_percentile + day_percentile + week_percentile + month_percentile)/4
+
+        Category.objects.filter(pk=category.Cid).update(time_initial=weight)
+
 
 def crawlCheck():
     # 1시간마다 주기 체크
