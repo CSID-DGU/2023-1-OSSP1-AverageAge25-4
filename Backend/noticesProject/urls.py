@@ -14,7 +14,8 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, re_path
+from django.views.generic import TemplateView
 from dgunotice import views
 from dgunotice.views import LoginPageView, KeywordCR, KeywordUD
 
@@ -25,7 +26,7 @@ urlpatterns = [
     path('firstCrawl/', views.crawlInitial, name="crawlInitial"),
     path('mainPage/', views.mainPage, name="mainPage"),
     path('loginPage/', LoginPageView.as_view(), name="loginPage"),
-    path('loginPage/keywords/', KeywordCR.as_view(), name="keywordCR"),
-    path('loginPage/keywords/<str:key>/', KeywordUD.as_view(), name="keywordUD"),
-
+    path('mainPage/keywords/', KeywordCR.as_view(), name="keywordCR"),
+    path('mainPage/keywords/<str:key>/', KeywordUD.as_view(), name="keywordUD"),
+    #re_path('.*', TemplateView.as_view(template_name='index.html')),
 ]
