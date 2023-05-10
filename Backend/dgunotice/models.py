@@ -20,8 +20,8 @@ class Category(models.Model):
     Cname = models.CharField(max_length=20)
     Clink = models.CharField(max_length=100)
     Pid = models.ForeignKey(Pagetype, on_delete=models.SET_NULL, null=True)
-    time_initial = models.IntegerField()
-    time_remaining = models.IntegerField()
+    time_initial = models.IntegerField(default=1)
+    time_remaining = models.IntegerField(default=1)
 
     def __str__(self):
         return self.Cname
