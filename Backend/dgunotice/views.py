@@ -302,12 +302,13 @@ def frequencyUpdate():
         month_num = Notice.objects.filter(Cid=category, time__gte=datetime.datetime.now()-datetime.timedelta(days=30)).count()
 
         #가중치를 시간으로 환산
-        keyword_percentile = 25 - get_percentile(keyword_num, keyword_min, keyword_max)
-        day_percentile = 25 - get_percentile(day_num, day_min, day_max)
-        week_percentile = 25 - get_percentile(week_num, week_min, week_max)
-        month_percentile = 25 - get_percentile(month_num, month_min, month_max)
+        keyword_percentile = get_percentile(keyword_num, keyword_min, keyword_max)
+        day_percentile = get_percentile(day_num, day_min, day_max)
+        week_percentile = get_percentile(week_num, week_min, week_max)
+        month_percentile = get_percentile(month_num, month_min, month_max)
 
-        weight = (keyword_percentile + day_percentile + week_percentile + month_percentile)/4
+        #시간에 우선도 반영
+        weight = (100 - keyword_percentile + day_percentile + week_percentile + month_percentile)/4
 
         Category.objects.filter(pk=category.Cid).update(time_initial=weight)
 
