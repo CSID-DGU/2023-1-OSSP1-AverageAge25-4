@@ -120,4 +120,6 @@ for item in category_list:
     temp = item[0]
     item[0] = item[2]
     item[2] = temp
+    item.append(1)
+    item.append(1)
     print(item, end=",\n")
