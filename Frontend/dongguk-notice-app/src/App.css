@@ -1,21 +1,24 @@
 .container {
   display: flex;
   flex-direction: column;
-  background-color: #d7d7d7;
+  background-color:  #F4F3EA;
   width: 100%;
   height: 100vh;
+  
 }
+
 .up{
   display: flex;
   flex-direction: row;
   justify-content: center;
   margin: 10px 10px 10px 10px;
+  
 }
 .down{
   display: flex;
   flex-direction: row;
   justify-content: center;
-  
+  width: 100%;
 }
 
 a {
@@ -24,14 +27,18 @@ a {
 }
 
 .menubar {
-  background-color:  	#FFB86E;
+  display: flex;
+  background-color:  #A3C6C4	;
   color: #000000;
-  padding: 15px;
+  padding: 18px;
   height: 300px;
-  width: 170px;
+  width: 17%;
   margin: 40px 10px 10px 10px;
-  border-radius: 3%;
-  box-shadow: 2px 2px 2px #ccae92;
+  border-radius: 2%;
+  box-shadow: 2px 2px 2px #D5D5D5;
+  min-width: 150px;
+  font-size: 1rem;
+  
 }
 
 ul {
@@ -75,8 +82,11 @@ li {
   
 }
 
-h3 {
+h5 {
   margin-top: 0;
-  Color: #e37500;
-  line-height: 10%;
+  Color: #354649;
+  line-height: 8%;
+  font-weight: 510;
+  font-size: 1.15rem;
+  margin-bottom: 1em;
 }

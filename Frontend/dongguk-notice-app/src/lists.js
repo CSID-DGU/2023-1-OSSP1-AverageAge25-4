@@ -34,8 +34,8 @@ import ListItemText from '@mui/material/ListItemText';
           maxHeight: 250,
           '& ul': { padding: 0 },
           fontSize: '16px',
-          borderRadius: '2%',
-          boxShadow: '2px 2px 2px #b4b4b4',
+          borderRadius: '0%',
+          boxShadow: '2px 2px 2px #D5D5D5',
         }}
         subheader={<li />}
       >
