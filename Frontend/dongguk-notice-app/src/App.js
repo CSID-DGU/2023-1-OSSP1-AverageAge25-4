@@ -59,7 +59,6 @@ function App() {
     { id: 7, title: "(예비군연대) 제 414차 민방위의 날 민" ,link: '/',date: "5.3"},
     { id: 8, title: "LINC3.0 만족도조사 참여하고 모바일 " ,link: '/',date: "5.2"},
     { id: 9, title: "[LINC3.0] 산학공동 기술개발과제 모집" ,link: '/',date: "5.2"}
-   
   ];
 
   const notifys2=[
@@ -114,52 +113,50 @@ function App() {
   
 
 
- return (
+return (
 
   <div className="container" >
     <div className="up"> 
-           <SearchBar />
+      <SearchBar />
     </div>
 
 
     <div className="down">
-   
-       <div className="menubar">
-           <MenuBar keywords={keywords}></MenuBar>
-       </div>
+        <div className="menubar">
+          <MenuBar keywords={keywords}></MenuBar>
+        </div>
 
+        <div className="component-wrapper">
 
-       <div className="component-wrapper">
-
-         <div className="row1">
+          <div className="row1">
             <div className="component-container">
               <h5>&nbsp; 일반 </h5> 
-              <PinnedSubheaderList notifys={notifys1} />
-           </div>
+              <PinnedSubheaderList Cid={1} />
+            </div>
 
             <div className="component-container">
               <h5>&nbsp; 학사 </h5>
-              <PinnedSubheaderList notifys={notifys2}/>
+              <PinnedSubheaderList Cid={2}/>
             </div>
-         </div>
+          </div>
 
-         <div className="row2">
-             <div className="component-container">
-               <h5>&nbsp; 장학 </h5>
-               <PinnedSubheaderList notifys={notifys3}/>
-             </div>
 
-             <div className="component-container">
+          <div className="row2">
+            <div className="component-container">
+              <h5>&nbsp; 장학 </h5>
+              <PinnedSubheaderList Cid={3}/>
+            </div>
+
+            <div className="component-container">
               <h5>&nbsp; 입시 </h5>
-              <PinnedSubheaderList notifys={notifys4}/>
-             </div>
-         </div>
-         
-      </div>
-    </div>
+              <PinnedSubheaderList Cid={4}/>
+            </div>
+          </div>
 
+        </div>
+
+    </div>
   </div>
- 
     );
   }
   
