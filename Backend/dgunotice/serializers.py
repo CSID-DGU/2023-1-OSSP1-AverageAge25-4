@@ -9,7 +9,7 @@ class PagetypeSerializer(serializers.ModelSerializer):
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = '__all__'
+        fields = ['Cid', 'Cname', 'Clink']
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:

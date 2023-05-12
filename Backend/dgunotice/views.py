@@ -352,7 +352,7 @@ class NoticeR(APIView):
         cid_list = list(map(int, list(str(User.objects.get(Uid=Uid).notice_order))))
 
         # Category와 그에 연결된 Notice를 가져옴
-        categories = Category.objects.filter(Cid__in=cid_list).select_related('Pid')
+        categories = Category.objects.filter(Cid__in=cid_list)
         notices = Notice.objects.filter(Cid__in=cid_list)
 
         # Category와 Notice 객체를 serialize
