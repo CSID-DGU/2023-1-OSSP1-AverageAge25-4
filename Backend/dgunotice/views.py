@@ -2,6 +2,7 @@ from django.db.models import F
 from django.views import View
 from django.shortcuts import render, redirect
 from .models import Pagetype, Category, User, Keyword, Notice
+from rest_framework.views import APIView
 from rest_framework import generics, status
 from rest_framework.response import Response
 from .serializers import PagetypeSerializer, CategorySerializer,UserSerializer, KeywordSerializer, NoticeSerializer
@@ -342,10 +343,29 @@ class LoginPageView(View):
             context = {'error_message': '해당하는 유저가 없습니다.'}
             return render(request, 'loginPage.html', context)
 
-def mainPage(request):
-    categories = Category.objects.all()[:5]
-    context = {'categories': categories}
-    return render(request, 'mainPageTest.html', context)
+class NoticeR(APIView):
+    def get(self, request):
+        # 세션에서 Uid값을 가져옴
+        Uid = request.session.get('Uid')
+
+        # User.notice_order에서 Cid값을 가져옴
+        cid_list = list(map(int, list(str(User.objects.get(Uid=Uid).notice_order))))
+
+        # Category와 그에 연결된 Notice를 가져옴
+        categories = Category.objects.filter(Cid__in=cid_list).select_related('Pid')
+        notices = Notice.objects.filter(Cid__in=cid_list)
+
+        # Category와 Notice 객체를 serialize
+        category_serializer = CategorySerializer(categories, many=True)
+        notice_serializer = NoticeSerializer(notices, many=True)
+
+        # Serializer로부터 JSON Response 생성
+        response_data = {
+            'categories': category_serializer.data,
+            'notices': notice_serializer.data
+        }
+
+        return Response(response_data, status=status.HTTP_200_OK)
 
 class KeywordCR(generics.ListCreateAPIView):
     serializer_class = KeywordSerializer

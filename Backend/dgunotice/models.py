@@ -34,6 +34,7 @@ class User(models.Model):
     department = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name='department')
     sub_college = models.ForeignKey(Category,  on_delete=models.SET_NULL, null=True, related_name='sub_college')
     sub_department = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name='sub_department')
+    notice_order = models.CharField(max_length=10, default="123456")
 
     def __str__(self):
         return self.phone
