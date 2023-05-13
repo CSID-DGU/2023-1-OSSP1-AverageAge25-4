@@ -7,6 +7,7 @@ from rest_framework import generics, status
 from rest_framework.response import Response
 from .serializers import PagetypeSerializer, CategorySerializer,UserSerializer, KeywordSerializer, NoticeSerializer
 from django.db.models import F
+from django.contrib.auth import authenticate
 
 # Create your views here.
 # 크롤링 관련
@@ -326,22 +327,17 @@ def crawlCheck():
     crawl_list.update(time_remaining=F('time_initial'))
     return crawl(crawl_list)
 
-class LoginPageView(View):
-    def get(self, request):
-        return render(request, 'loginPage.html')
-
+class LoginView(APIView):
     def post(self, request):
-        uid = request.POST.get('uid')
-        phone = request.POST.get('phone')
-
-        user = User.objects.filter(Uid=uid, phone=phone).first()
-
-        if user:
+        uid = request.data.get('uid')
+        phone = request.data.get('phone')
+        #Uid와 phone을 이용해 User찾기 ( 없으면 None반환 )
+        user = authenticate(request, Uid=uid, phone=phone)
+        if user is not None:
             request.session['user_id'] = uid
-            return redirect('mainPage')
+            return Response({'message': '로그인 성공'}, status=status.HTTP_200_OK)
         else:
-            context = {'error_message': '해당하는 유저가 없습니다.'}
-            return render(request, 'loginPage.html', context)
+            return Response({'message': '로그인 실패'}, status=status.HTTP_401_UNAUTHORIZED)
 
 class NoticeR(APIView):
     def get(self, request):
