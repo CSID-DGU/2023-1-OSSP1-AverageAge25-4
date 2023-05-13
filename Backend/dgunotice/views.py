@@ -1,11 +1,10 @@
-from django.db.models import F
-from django.views import View
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from .models import Pagetype, Category, User, Keyword, Notice
+from .serializers import PagetypeSerializer, CategorySerializer,UserSerializer, KeywordSerializer, NoticeSerializer
 from rest_framework.views import APIView
 from rest_framework import generics, status
 from rest_framework.response import Response
-from .serializers import PagetypeSerializer, CategorySerializer,UserSerializer, KeywordSerializer, NoticeSerializer
+
 from django.db.models import F
 from django.contrib.auth import authenticate
 
@@ -154,6 +153,71 @@ def DBInitial(request):
 
     return render(request, 'DBtest.html')
 
+def getHtml(url):
+    # 변경된 url로 이동하여 크롤링하기 위해 html 페이지를 파싱
+    html = urllib.request.urlopen(url).read()
+    soup = BeautifulSoup(html, 'html.parser')
+    return soup
+
+def getNoticeInfo(category, notice):
+    url = category.Clink
+    page_type = category.Pid.Pid
+
+    # 고정 공지는 건너뛰기
+    is_fixed = notice.select_one(category.Pid.Nfixed)
+    if (page_type == 0 and is_fixed.get("class") == ["fix"]) or \
+            (page_type in [1, 2] and is_fixed.get("class") == ["mark"]) or \
+            (page_type == 3 and notice.get("class") == ["cell_notice"]) or \
+            (page_type == 4 and is_fixed.find("img") is not None) or \
+            (page_type == 5 and is_fixed.get("class") == ["bo_notice"]) or \
+            (page_type == 6 and notice.get("class") == ["always"]):
+        return None
+
+    # 게시글 제목
+    name_tag = notice.select_one(category.Pid.Nname)
+    if page_type == 2:
+        name_tag = name_tag.select_one("span").extract()
+
+    name = name_tag.text.strip()
+
+    # 게시글 링크
+    link_tag = notice.select_one(category.Pid.Nlink)
+    link = ""
+    if page_type == 0:
+        link = re.sub(r'list\?pageIndex=', 'detail/', url) + re.sub(r'[^0-9]', '', link_tag.get('onclick'))
+    elif page_type == 1 or page_type == 2:
+        link = re.sub(r'\/article\/(notice\d*|news\d*|info\d*|board\d*)\/list\?pageIndex=', '', url) + link_tag.get(
+            'href')
+    elif page_type == 3:
+        link = link_tag.get('href')  # 추가 조치 필요
+    elif page_type == 4:
+        link = re.sub(r'/k3/sub5/sub1.php\?page=', '', url) + link_tag.get('href')
+    elif page_type == 5:
+        link = link_tag.get('href')
+    elif page_type == 6:
+        link = re.sub(r'/bbs/list/1\?pn=', '', url) + link_tag.get('href')
+    elif page_type == 7:
+        link = link_tag.get('onclick')  # 추가 조치 필요
+
+    # 게시글 날짜
+    ntime = notice.select_one(category.Pid.Ntime).text.strip()
+
+    #### 테스트용 ####
+    print("카테고리 : ", category)
+    print("공지이름 : ", name.replace("\xa0", " "))
+    print("링크 : ", link)
+    print("시간 : ", ntime)
+
+    return category, name.replace("\xa0", " "), link, ntime
+
+def saveNotice(notice_info):
+    category, name, link, ntime = notice_info
+
+    n = Notice(Cid=category,
+               title=name,
+               link=link,
+               time=ntime)
+    n.save()
 
 def crawlInitial(request):
     category_list = Category.objects.select_related('Pid').all()
@@ -175,66 +239,21 @@ def crawlInitial(request):
             # 페이지가 변경됨에 따라 delay 발생 시킴
             time.sleep(random.uniform(4, 7))
 
-            # 변경된 url로 이동하여 크롤링하기 위해 html 페이지를 파싱
-            html = urllib.request.urlopen(url_change).read()
-            soup = BeautifulSoup(html, 'html.parser')
+            soup = getHtml(url_change)
 
             # 게시글 리스트 선택
             notice_list = soup.select(category.Pid.Nlist)
 
             for notice in notice_list:
-                #고정 공지는 건너뛰기
-                is_fixed = notice.select_one(category.Pid.Nfixed)
-                if (page_type == 0 and is_fixed.get("class") == ["fix"]) or \
-                    (page_type in [1, 2] and is_fixed.get("class") == ["mark"]) or \
-                    (page_type == 3 and notice.get("class") == ["cell_notice"]) or \
-                    (page_type == 4 and is_fixed.find("img") is not None) or \
-                    (page_type == 5 and is_fixed.get("class") == ["bo_notice"]) or \
-                    (page_type == 6 and notice.get("class") == ["always"]):
+                notice_info = getNoticeInfo(category, notice)
+
+                if notice_info is not None: #일반 공지인 경우
+                    saveNotice(notice_info)
+                    # 크롤링 한 게시글 개수 증가
+                    normal_notice_count += 1
+
+                else: #고정 공지인 경우
                     fixed_notice_count += 1
-                    continue
-
-                #게시글 제목
-                name_tag = notice.select_one(category.Pid.Nname)
-                if page_type == 2:
-                    name_tag = name_tag.select_one("span").extract()
-
-                name = name_tag.text.strip()
-
-                #게시글 링크
-                link_tag = notice.select_one(category.Pid.Nlink)
-                link = ""
-                if page_type == 0:
-                    link = re.sub(r'list\?pageIndex=', 'detail/', url) + re.sub(r'[^0-9]', '', link_tag.get('onclick'))
-                elif page_type == 1 or page_type == 2:
-                    link = re.sub(r'\/article\/(notice\d*|news\d*|info\d*|board\d*)\/list\?pageIndex=', '', url) + link_tag.get('href')
-                elif page_type == 3:
-                    link = link_tag.get('href') #추가 조치 필요
-                elif page_type == 4:
-                    link = re.sub(r'/k3/sub5/sub1.php\?page=', '', url) + link_tag.get('href')
-                elif page_type == 5:
-                    link = link_tag.get('href')
-                elif page_type == 6:
-                    link = re.sub(r'/bbs/list/1\?pn=', '', url) + link_tag.get('href')
-                elif page_type == 7:
-                    link = link_tag.get('onclick') #추가 조치 필요
-                    
-                #게시글 날짜
-                ntime = notice.select_one(category.Pid.Ntime).text.strip()
-
-                print("카테고리 : ", category)
-                print("공지이름 : ", name.replace("\xa0", " "))
-                print("링크 : ", link)
-                print("시간 : ", ntime)
-
-                n = Notice(Cid=category,
-                           title=name.replace("\xa0", " "),
-                           link=link,
-                           time=ntime)
-                n.save()
-
-                # 크롤링 한 게시글 개수 증가
-                normal_notice_count += 1
 
             if page_type == 5: #고정공지 + 일반공지 합쳐서 15개 - 고정공지 개념을 조금 다시 확인해봐야할거같음
                 break
@@ -257,7 +276,18 @@ def crawlInitial(request):
     return render(request, 'crawlTest.html')
 
 def crawl(crawl_list):
-    pass
+    for category in crawl_list:
+        url = category.Clink + '1'
+
+        soup = getHtml(url)
+
+        # 게시글 리스트 선택
+        notice_list = soup.select(category.Pid.Nlist)
+        for notice in notice_list:
+            notice_info = getNoticeInfo(category, notice)
+
+            if notice_info is not None:  # 일반 공지인 경우
+                saveNotice(notice_info)
 
 def frequencyUpdate():
     #하루마다 업데이트
