@@ -45,12 +45,19 @@ def trainModel(model_path):
     return model
 
 
-# 정확한 순서대로 5개
-def getSimKey(model_path, keyword):
-    model = Word2Vec.load(model_path)
-    similar_words = model.wv.most_similar(keyword, topn=5)
-    similar_words = [word for word, similarity in similar_words]
+# # 정확한 순서대로 5개
+# def getSimKey(model_path, keyword):
+#     model = Word2Vec.load(model_path)
+#     similar_words = model.wv.most_similar(keyword, topn=5)
+#     similar_words = [word for word, similarity in similar_words]
+#
+#     return similar_words
 
-    return similar_words
 
+#정확도 조정, -1 < accuracy < 1 범위에서 높을수록 정확
+def getSimKey(model_path, keyword, accuracy):
+        model = Word2Vec.load(model_path)
+        similar_words = model.wv.most_similar(keyword, topn=None)
+        similar_words = [(word, score) for word, score in similar_words if score >= accuracy]
 
+        return sorted(similar_words, key=lambda x: x[1], reverse=True)[:5]
