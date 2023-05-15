@@ -37,5 +37,20 @@ def tokenize():
 
     return tokenized_data
 
+def trainModel(model_path):
+    tokenized_data = tokenize()
+    global model
+    model = Word2Vec(sentences=tokenized_data, sg=1)
+    model.save(model_path)
+    return model
+
+
+# 정확한 순서대로 5개
+def getSimKey(model_path, keyword):
+    model = Word2Vec.load(model_path)
+    similar_words = model.wv.most_similar(keyword, topn=5)
+    similar_words = [word for word, similarity in similar_words]
+
+    return similar_words
 
 
