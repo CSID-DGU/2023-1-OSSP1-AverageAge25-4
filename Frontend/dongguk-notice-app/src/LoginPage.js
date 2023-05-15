@@ -21,8 +21,6 @@ function LoginPage() {
         .catch((error) => {
         console.error('Error sending post:', error);
         });
-        const res = axios.get('http://127.0.0.1:8000/login/')
-        console.log(res.status);
     }
 
     return (
@@ -36,7 +34,7 @@ function LoginPage() {
                 <label>UserID</label>
                 <input type='text' value={userID} onChange={onIDHandler}/>
                 <label>PhoneNum</label>
-                <input type='number' value={phoneNum} onChange={onPhoneNumHandler}/>
+                <input type='text' value={phoneNum} onChange={onPhoneNumHandler}/>
                 <br />
                 <button formAction=''>
                     Login
