@@ -13,11 +13,11 @@ import ListItemText from '@mui/material/ListItemText';
     // User 테이블에서 notice_order에 따라서 백에서 순서에 맞게 반환
     // 그 공지사항들을 get하여 출력
 
-    useEffect(() => {
+    /* useEffect(() => {
       fetchNotices();
-    }, []);
+    }, []); */
 
-    const fetchNotices = async () => {
+    /* const fetchNotices = async () => {
       try {
         const res = await axios.get('http://127.0.0.1:8000/mainPage/notices/');
         console.log(res.data);
@@ -25,7 +25,7 @@ import ListItemText from '@mui/material/ListItemText';
       } catch (error) {
         console.error(error);
       }
-    };
+    }; */
 
     // props로 받은 Cid와 같은 공지들만 notify에 담도록 수정 예정 
     // -> 애초에 Cid와 일치하는 공지만 가져오는게 좋을듯

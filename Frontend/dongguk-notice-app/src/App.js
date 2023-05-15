@@ -4,6 +4,7 @@ import SearchBar from './SearchBar';
 import MenuBar from './components/MenuBar';
 import PinnedSubheaderList from './lists';
 import './App.css';
+import LoginPage from './LoginPage';
 
 const Card = () => {
   const spacing = '1em';
@@ -48,6 +49,10 @@ function App() {
 return (
 
   <div className="container" >
+    <div className="up">
+      <LoginPage/>
+    </div>
+
     <div className="up"> 
       <SearchBar />
     </div>
