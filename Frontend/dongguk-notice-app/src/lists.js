@@ -5,18 +5,13 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
   
-// props로 어떤 카테고리인지 받음
+// 모든 공지사항을 받아와서 출력하는 형태
   const PinnedSubheaderList = (props) => {
 
     const [notices, setNotices] = useState(null);
 
-    // 'Notices/'+ props.Cid 등으로 해당 카테고리의 공지만 가져올 수 있도록 구현 예정
-    // Cid별로 Notices들을 json으로 주는 url로 부탁드립니다
-    // http://127.0.0.1:8000/notices/ => 모든 공지들
-    // http://127.0.0.1:8000/notices/1 => Cid 1인 일반공지 notices들
-    // http://127.0.0.1:8000/notices/2 => CId 2인 학사공지 notices들
-    
-    // 추후 user의 과에 해당하는 Cid를 받아서 해당 학과, 단과대 공지도 출력할 예정
+    // User 테이블에서 notice_order에 따라서 백에서 순서에 맞게 반환
+    // 그 공지사항들을 get하여 출력
 
     useEffect(() => {
       fetchNotices();
@@ -24,7 +19,7 @@ import ListItemText from '@mui/material/ListItemText';
 
     const fetchNotices = async () => {
       try {
-        const res = await axios.get('http://127.0.0.1:8000/mainPage/');
+        const res = await axios.get('http://127.0.0.1:8000/mainPage/notices/');
         console.log(res.data);
         setNotices(res.data);
       } catch (error) {
