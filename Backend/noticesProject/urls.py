@@ -23,11 +23,8 @@ urlpatterns = [
     path('', views.testPage, name="test"),
     path('admin/', admin.site.urls),
     path('makeDB/', views.DBInitial, name="DBInitial"),
-    path('firstCrawl/', views.crawlInitial, name="crawlInitial"),
     path('login/', LoginView.as_view(), name="Login"),
-    #path('mainPage/', views.mainPage, name="mainPage"),
     path('mainPage/notices/', NoticeR.as_view(), name='NoticeR'),
     path('mainPage/keywords/', KeywordCR.as_view(), name="keywordCR"),
     path('mainPage/keywords/<str:key>/', KeywordUD.as_view(), name="keywordUD"),
-    #re_path('.*', TemplateView.as_view(template_name='index.html')),
 ]
