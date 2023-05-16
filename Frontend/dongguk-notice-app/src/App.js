@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
-import SearchBar from './SearchBar';
+import SearchBar from './components/SearchBar';
 import MenuBar from './components/MenuBar';
 import PinnedSubheaderList from './lists';
 import './App.css';

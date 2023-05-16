@@ -7,11 +7,11 @@ function LoginPage() {
     const moveToLogin = useNavigate();
 
     function goMain() {
-        moveToMain('')
+        moveToMain('/mainPage/')
     }
 
     function goLogin() {
-        moveToLogin('/login/')
+        moveToLogin('')
     }
 
     const [userID, setUserID] = useState("");
@@ -29,14 +29,12 @@ function LoginPage() {
         axios.post('http://127.0.0.1:8000/login/', { uid : userID, phone : phoneNum })
         .then((response) => {
             console.log('Post sent successfully:', response.data);
-
-            if(response.status===200)
+            if(response.data.status===200)
             {
                 console.log("로그인 성공");
                 goMain();
             }
-
-            else if(response.status===401)
+            else if(response.data.status===401)
             {
                 console.log("로그인 실패");
                 goLogin();
@@ -60,11 +58,8 @@ function LoginPage() {
                 <label>PhoneNum</label>
                 <input type='text' value={phoneNum} onChange={onPhoneNumHandler}/>
                 <br />
-                <button formAction=''>
-                    Login
-                </button>
                 <button onClick={sendPost}>
-                    Send Post
+                    Login
                 </button>
             </form>
         </div>
