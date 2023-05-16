@@ -11,7 +11,7 @@ const Login = () => {
     try {
       const response = await axios.post('http://localhost:8000/login/', { uid, phone });
       if (response.status === 200) {
-        navigate('/mainPage');
+        navigate('/mainPage/');
       } else {
         // Handle login failure
       }
