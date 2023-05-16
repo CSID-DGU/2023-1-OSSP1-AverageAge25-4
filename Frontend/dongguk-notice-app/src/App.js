@@ -5,6 +5,7 @@ import MenuBar from './components/MenuBar';
 import PinnedSubheaderList from './lists';
 import './App.css';
 import LoginPage from './LoginPage';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 const Card = () => {
   const spacing = '1em';
@@ -49,11 +50,16 @@ function App() {
 return (
 
   <div className="container" >
-    <div className="up">
-      <LoginPage/>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path={""} element={<LoginPage/>}></Route>
+        <Route path={"/mainPage/"} element={<SearchBar/>}></Route>
+      </Routes>
+    </BrowserRouter>
+  </div>
 
-    <div className="up"> 
+  
+    /* <div className="up"> 
       <SearchBar />
     </div>
 
@@ -91,9 +97,12 @@ return (
           </div>
 
         </div>
+    </div> */
+    
 
-    </div>
-  </div>
+    
+  
+  
     );
   }
   
