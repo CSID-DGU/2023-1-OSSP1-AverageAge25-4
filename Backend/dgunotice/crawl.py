@@ -9,6 +9,23 @@ import threading
 import datetime
 import re
 
+import logging
+
+logger = logging.getLogger(__name__)
+logging.config.dictConfig({
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'DEBUG',
+    },
+})
+
 def getHtml(url):
     # 변경된 url로 이동하여 크롤링하기 위해 html 페이지를 파싱
     html = urllib.request.urlopen(url).read()
@@ -59,10 +76,14 @@ def getNoticeInfo(category, notice):
     ntime = notice.select_one(category.Pid.Ntime).text.strip()
 
     #### 테스트용 ####
-    print("카테고리 : ", category)
-    print("공지이름 : ", name.replace("\xa0", " "))
-    print("링크 : ", link)
-    print("시간 : ", ntime)
+    # print("카테고리 : ", category)
+    # print("공지이름 : ", name.replace("\xa0", " "))
+    # print("링크 : ", link)
+    # print("시간 : ", ntime)
+    logger.info("카테고리: %s", category)
+    logger.info("공지이름: %s", name.replace("\xa0", " "))
+    logger.info("링크: %s", link)
+    logger.info("시간: %s", ntime)
 
     return category, name.replace("\xa0", " "), link, ntime
 
@@ -143,17 +164,14 @@ def crawl(crawl_list):
             if notice_info is not None:  # 일반 공지인 경우
                 saveNotice(notice_info)
 
+
+def get_percentile(value, min_value, max_value):
+    percentile = (value - min_value) / (max_value - min_value) * 23 + 1
+    return int(percentile)
+
 def frequencyUpdate():
-    #하루마다 업데이트
-    threading.Timer(86400, frequencyUpdate).start()
-
-
-   #가중치를 24개 구간으로 쪼개기
-    def get_percentile(value, min_value, max_value):
-        percentile = (value - min_value) / (max_value - min_value) * 23 + 1
-        return int(percentile)
-
-
+    print("실행은 됐음1111")
+    #가중치를 24개 구간으로 쪼개기
     categories = Category.objects.all()
 
     #관련 변수 값을 담을 리스트
@@ -161,7 +179,6 @@ def frequencyUpdate():
 
     #관련 변수값을 리스트에 담기
     for category in categories:
-
         keyword_num = Keyword.objects.filter(Cid=category).count()
         day_num = Notice.objects.filter(Cid=category, time__gte=datetime.datetime.now()-datetime.timedelta(days=1)).count()
         week_num = Notice.objects.filter(Cid=category, time__gte=datetime.datetime.now()-datetime.timedelta(days=7)).count()
@@ -171,20 +188,20 @@ def frequencyUpdate():
         day_list.append(day_num)
         week_list.append(week_num)
         month_list.append(month_num)
-
+    print("실행은 됐음2222")
     #구간 설정을 위한 최대, 최소 구하기
     keyword_max = max(keyword_list)
     day_max = max(day_list)
     week_max = max(week_list)
-    month_max = max(week_list)
+    month_max = max(month_list)
 
     keyword_min = min(keyword_list)
     day_min = min(day_list)
     week_min = min(week_list)
     month_min = min(month_list)
 
+    print("실행은 됐음2233")
     for category in categories:
-
         keyword_num = Keyword.objects.filter(Cid=category).count()
         day_num = Notice.objects.filter(Cid=category, time__gte=datetime.datetime.now()-datetime.timedelta(days=1)).count()
         week_num = Notice.objects.filter(Cid=category, time__gte=datetime.datetime.now()-datetime.timedelta(days=7)).count()
@@ -200,6 +217,9 @@ def frequencyUpdate():
         weight = (100 - keyword_percentile + day_percentile + week_percentile + month_percentile)/4
 
         Category.objects.filter(pk=category.Cid).update(time_initial=weight)
+        print("실행은 됐음3333")
+
+    print("실행은 됐음4444")
 
 def crawlCheck():
     # 1시간마다 주기 체크

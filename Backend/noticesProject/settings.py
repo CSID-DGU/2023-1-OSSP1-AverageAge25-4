@@ -48,6 +48,12 @@ INSTALLED_APPS = [
     'dgunotice.apps.DgunoticeConfig',
     'rest_framework',
     'corsheaders',
+    'django_cron',
+]
+
+CRON_CLASSES = [
+    'dgunotice.tasks.CrawlCheckJob',
+    'dgunotice.tasks.FrequencyUpdateJob',
 ]
 
 MIDDLEWARE = [
