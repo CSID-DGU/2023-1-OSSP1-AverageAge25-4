@@ -33,6 +33,11 @@ def tokenized():
 
     return tokenized_data
 
+def trainModel():
+    model = gensim.models.Word2Vec.load(mode_path)
+    model.build_vocab(tokenized(), update=True)
+    model.train(tokenized(), total_examples=model.corpus_count, epochs=model.epochs)
+    model.save(model_path)
 
 
 # # 정확한 순서대로 5개
