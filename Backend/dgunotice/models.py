@@ -24,7 +24,7 @@ class Category(models.Model):
     time_remaining = models.IntegerField(default=1)
 
     def __str__(self):
-        return self.Cname
+        return f"{self.Cid}.{self.Cname}"
 
 
 class User(models.Model):
@@ -34,7 +34,7 @@ class User(models.Model):
     department = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name='department')
     sub_college = models.ForeignKey(Category,  on_delete=models.SET_NULL, null=True, related_name='sub_college')
     sub_department = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name='sub_department')
-    notice_order = models.CharField(max_length=10, default="123456")
+    notice_order = models.CharField(max_length=30, default="1/2/3/4/5/6")
 
     def __str__(self):
         return self.phone
@@ -55,6 +55,7 @@ class Notice(models.Model):
     title = models.CharField(max_length=200)
     link = models.CharField(max_length=250, primary_key=True)
     time = models.CharField(max_length=30)
+    isSended = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.title
+        return f"{self.Cid.Cid} + {self.Cid.Cname} - {self.title}"
