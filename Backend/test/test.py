@@ -1,18 +1,17 @@
-from gensim.models import KeyedVectors
+
+from gensim.models.word2vec import Word2Vec
+
+model0_path = '../model/Kkma_dataset.model'
+def getSimKey(model_path, keyword, accuracy):
+    model = Word2Vec.load(model_path)
+    try:
+        similar_words = model.wv.most_similar(keyword, topn=100)
+        similar_words = [(word, score) for word, score in similar_words if score >= accuracy]
+        return similar_words
+    except KeyError:
+        print(f"{keyword} is not in vocabulary")
+
+        return []
 
 
-# Load the model from the bin file
-wv = KeyedVectors.load_word2vec_format('ko.bin', binary=True, encoding='utf-8')
-
-# Load the word vectors from the tsv file
-wv.init_sims(replace=True)
-wv.vocab.clear()
-with open('ko.tsv', 'r', encoding='utf-8') as f:
-    for line in f:
-        word, *vec = line.rstrip().split('\t')
-        vec = [float(v) for v in vec]
-        wv.add_vector(word, vec)
-
-# Get the most similar words
-similar_words = wv.most_similar('단어')
-print(similar_words)
+print(getSimKey(model0_path, "수강신청", 0.8))
