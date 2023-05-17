@@ -4,12 +4,12 @@ from models import Notice
 from konlpy.tag import Kkma
 from gensim.models.word2vec import Word2Vec
 
-model0_path = 'model/Kkma_dataset.model'
+model0_path = '../model/Kkma_dataset.model'
 # 아래 모델들은 테스트 예정
-model1_path = 'model/Hannanum_dataset.model'
-model2_path = 'model/Komoran_dataset.model'
-model3_path = 'model/Okt_dataset.model'
-model4_path = 'model/Mecab_dataset.model'
+model1_path = '../model/Hannanum_dataset.model'
+model2_path = '../model/Komoran_dataset.model'
+model3_path = '../model/Okt_dataset.model'
+model4_path = '../model/Mecab_dataset.model'
 
 def getDataSet():
     data_set = Notice.objects.values_list('title', flat=True)
@@ -55,9 +55,17 @@ def trainModel(model_path):
 
 
 #정확도 조정, -1 < accuracy < 1 범위에서 높을수록 정확
-def getSimKey(model_path, keyword, accuracy):
-        model = Word2Vec.load(model_path)
-        similar_words = model.wv.most_similar(keyword, topn=None)
-        similar_words = [(word, score) for word, score in similar_words if score >= accuracy]
 
-        return sorted(similar_words, key=lambda x: x[1], reverse=True)[:5]
+def getSimKey(model_path, keyword, accuracy):
+    model = Word2Vec.load(model_path)
+    try:
+        similar_words = model.wv.most_similar(keyword, topn=100)
+        similar_words = [(word, score) for word, score in similar_words if score >= accuracy]
+        return similar_words
+    except KeyError:
+        print(f"{keyword} is not in vocabulary")
+
+        return []
+
+
+# print(getSimKey(model0_path, "학사", 0.8))
