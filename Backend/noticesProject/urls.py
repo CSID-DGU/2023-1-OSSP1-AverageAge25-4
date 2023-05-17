@@ -17,14 +17,14 @@ from django.contrib import admin
 from django.urls import path, re_path
 from django.views.generic import TemplateView
 from dgunotice import views
-from dgunotice.views import LoginView, NoticeR, KeywordCR, KeywordUD
+from dgunotice.views import LoginView, MainPageView, SearchView
 
 urlpatterns = [
     path('', views.testPage, name="test"),
     path('admin/', admin.site.urls),
     path('makeDB/', views.DBInitial, name="DBInitial"),
+    path('crawlDB/', views.crawlstart, name="crawlstart"),
     path('login/', LoginView.as_view(), name="Login"),
-    path('mainPage/notices/', NoticeR.as_view(), name='NoticeR'),
-    path('mainPage/keywords/', KeywordCR.as_view(), name="keywordCR"),
-    path('mainPage/keywords/<str:key>/', KeywordUD.as_view(), name="keywordUD"),
+    path('mainPage/', MainPageView.as_view(), name='main_page'),
+    path('search/', SearchView.as_view(), name='search'),
 ]

@@ -1,0 +1,14 @@
+<form action="/search/" method="get">
+    <input type="text" name="keyword" placeholder="검색어를 입력하세요">
+    <button type="submit">검색</button>
+</form>
+
+{% if notices %}
+    <h2>"{{ keyword }}"에 대한 검색 결과입니다.</h2>
+    {% for notice in notices %}
+        <a href="{{ notice.link }}">[{{ notice.Cid.Cname }}] {{ notice.title }}</a> - {{ notice.time }}<br>
+    {% endfor %}
+{% else %}
+    <p>검색 결과가 없습니다.</p>
+{% endif %}
+

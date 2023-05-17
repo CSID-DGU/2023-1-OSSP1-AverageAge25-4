@@ -19,10 +19,10 @@ env = environ.Env(
     DEBUG=(bool, False)
 )
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 environ.Env.read_env(
-    env_file=os.path.join(BASE_DIR,'Backend','.env')
+    env_file=os.path.join(BASE_DIR,'.env')
 )
 
 # Quick-start development settings - unsuitable for production
@@ -46,8 +46,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'dgunotice.apps.DgunoticeConfig',
-    'rest_framework',
-    'corsheaders',
     'django_cron',
 ]
 
@@ -57,7 +55,6 @@ CRON_CLASSES = [
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -67,21 +64,12 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CORS_ORIGIN_WHITELIST = [
-    "http://localhost:3000",
-    "http://127.0.0.1:8000",
-]
-
-CORS_ALLOW_CREDENTIALS = True
-
 ROOT_URLCONF = 'noticesProject.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-            os.path.join(BASE_DIR, 'Frontend', 'dongguk-notice-app'), # 경로 변경
-        ],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -94,10 +82,6 @@ TEMPLATES = [
     },
 ]
 
-#경로 추가
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'Frontend', 'dongguk-notice-app', 'static'),
-]
 
 WSGI_APPLICATION = 'noticesProject.wsgi.application'
 
@@ -108,7 +92,7 @@ WSGI_APPLICATION = 'noticesProject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'Backend', 'db.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 

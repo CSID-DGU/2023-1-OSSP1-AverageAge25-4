@@ -1,13 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+from django.views import View
 from .models import Pagetype, Category, User, Keyword, Notice
-from .serializers import PagetypeSerializer, CategorySerializer,UserSerializer, KeywordSerializer, NoticeSerializer
-from rest_framework.views import APIView
-from rest_framework import generics, status
-from rest_framework.response import Response
 from .crawl import *
 
 def testPage(request):
     return render(request, 'test.html')
+
+def crawlstart(request):
+    crawlInitial()
+    return render(request, 'crawlTest.html')
 
 def DBInitial(request):
     #먼저 테이블 데이터 전체 제거후 진행
@@ -141,87 +142,131 @@ def DBInitial(request):
 
     return render(request, 'DBtest.html')
 
-class LoginView(APIView):
-    def post(self, request):
-        uid = request.data.get('uid')
-        phone = request.data.get('phone')
-        #Uid와 phone을 이용해 User찾기 ( 없으면 None반환 )
-        print(uid, phone)
-        user = User.objects.filter(Uid=uid, phone=phone).first()
-        if user is not None:
-            request.session['user_id'] = uid
-            return Response({'message': '로그인 성공'}, status=status.HTTP_200_OK)
-        else:
-            return Response({'message': '로그인 실패'}, status=status.HTTP_401_UNAUTHORIZED)
+# class LoginView(APIView):
+#     def post(self, request):
+#         uid = request.data.get('uid')
+#         phone = request.data.get('phone')
+#         #Uid와 phone을 이용해 User찾기 ( 없으면 None반환 )
+#         print(uid, phone)
+#         user = User.objects.filter(Uid=uid, phone=phone).first()
+#         if user is not None:
+#             request.session['user_id'] = uid
+#             return Response({'message': '로그인 성공'}, status=status.HTTP_200_OK)
+#         else:
+#             return Response({'message': '로그인 실패'}, status=status.HTTP_401_UNAUTHORIZED)
 
-class NoticeR(APIView):
+# class NoticeR(APIView):
+#     def get(self, request):
+#         # 세션에서 Uid값을 가져옴
+#         Uid = request.session.get('Uid')
+#
+#         # User.notice_order에서 Cid값을 가져옴
+#         notice_order = User.objects.get(Uid=Uid).notice_order
+#         cid_list = list(map(int, notice_order.split("/")))
+#
+#         # Category와 그에 연결된 Notice를 가져옴
+#         categories = Category.objects.filter(Cid__in=cid_list)
+#         notices = Notice.objects.filter(Cid__in=cid_list)
+#
+#         # Category와 Notice 객체를 serialize
+#         category_serializer = CategorySerializer(categories, many=True)
+#         notice_serializer = NoticeSerializer(notices, many=True)
+#
+#         # Serializer로부터 JSON Response 생성
+#         response_data = {
+#             'categories': category_serializer.data,
+#             'notices': notice_serializer.data
+#         }
+#
+#         return Response(response_data, status=status.HTTP_200_OK)
+#
+# class KeywordCR(generics.ListCreateAPIView):
+#     serializer_class = KeywordSerializer
+#
+#     def get_queryset(self):
+#         #get요청시 user_id에 해당하는 키워드 리스트 전달
+#         user_id = self.request.session.get('user_id')
+#         queryset = Keyword.objects.filter(Uid_id=user_id)
+#         return queryset
+#
+#     def create(self, request, *args, **kwargs):
+#         #POST요청시 키워드 추가
+#         #전달된 데이터(request.data)를 serializer에 저장 many = True로 복수개 생성 가능
+#         serializer = self.get_serializer(data=request.data, many=True)
+#
+#         #전달된 데이터의 유효성 검사
+#         serializer.is_valid(raise_exception=True)
+#
+#         #세션에 저장된 유저id 가져와 serializer에 넣고 객체 추가
+#         user_id = request.session.get('user_id')
+#         serializer.save(Uid_id=user_id)
+#
+#         #마지막으로 생성된 객체를 클라이언트에게 반환
+#         headers = self.get_success_headers(serializer.data)
+#         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+#
+# class KeywordUD(generics.RetrieveUpdateDestroyAPIView):
+#     serializer_class = KeywordSerializer
+#
+#     def get_queryset(self):
+#         #Uid와 삭제하고 싶은 key에 해당하는 쿼리셋을 queryset에 저장
+#         user_id = self.request.session.get('user_id')
+#         queryset = Keyword.objects.filter(Uid_id=user_id, key=self.kwargs.get('key'))
+#         return queryset
+#
+#     def delete(self, request, *args, **kwargs):
+#         #queryset 삭제 진행
+#         queryset = self.get_queryset()
+#         queryset.delete()
+#         return Response(status=status.HTTP_204_NO_CONTENT)
+#
+#     def update(self, request, *args, **kwargs):
+#         partial = kwargs.pop('partial', False)
+#         instance = self.get_object()
+#         serializer = self.get_serializer(instance, data=request.data, partial=partial)
+#         serializer.is_valid(raise_exception=True)
+#         serializer.save()
+#         return Response(serializer.data)
+
+class MainPageView(View):
     def get(self, request):
-        # 세션에서 Uid값을 가져옴
-        Uid = request.session.get('Uid')
-
+        user_id = self.request.session.get('user_id')
+        keywords = Keyword.objects.filter(Uid_id=user_id)
         # User.notice_order에서 Cid값을 가져옴
-        cid_list = list(map(int, list(str(User.objects.get(Uid=Uid).notice_order))))
+        notice_order = User.objects.get(Uid=user_id).notice_order
+        cid_list = list(map(int, notice_order.split("/")))
 
         # Category와 그에 연결된 Notice를 가져옴
         categories = Category.objects.filter(Cid__in=cid_list)
-        notices = Notice.objects.filter(Cid__in=cid_list)
 
-        # Category와 Notice 객체를 serialize
-        category_serializer = CategorySerializer(categories, many=True)
-        notice_serializer = NoticeSerializer(notices, many=True)
+        # Render the template with the data
+        return render(request, 'mainPageTest.html', {'keywords': keywords, 'categories': categories})
 
-        # Serializer로부터 JSON Response 생성
-        response_data = {
-            'categories': category_serializer.data,
-            'notices': notice_serializer.data
+class LoginView(View):
+    def post(self, request):
+        uid = request.POST.get('uid')
+        phone = request.POST.get('phone')
+        # Uid와 phone을 이용해 User 찾기 (없으면 None 반환)
+        user = User.objects.filter(Uid=uid, phone=phone).first()
+        if user is not None:
+            request.session['user_id'] = uid
+            return redirect('/mainPage')
+        else:
+            return redirect('/login')
+
+    def get(self, request):
+        return render(request, 'loginPage.html')
+
+class SearchView(View):
+    def get(self, request):
+        keyword = request.GET.get('keyword')
+
+        # 제목 필드에서 검색어를 포함하는 공지사항 검색
+        notices = Notice.objects.filter(title__icontains=keyword)
+
+        context = {
+            'notices': notices,
+            'keyword': keyword,
         }
 
-        return Response(response_data, status=status.HTTP_200_OK)
-
-class KeywordCR(generics.ListCreateAPIView):
-    serializer_class = KeywordSerializer
-
-    def get_queryset(self):
-        #get요청시 user_id에 해당하는 키워드 리스트 전달
-        user_id = self.request.session.get('user_id')
-        queryset = Keyword.objects.filter(Uid_id=user_id)
-        return queryset
-
-    def create(self, request, *args, **kwargs):
-        #POST요청시 키워드 추가
-        #전달된 데이터(request.data)를 serializer에 저장 many = True로 복수개 생성 가능
-        serializer = self.get_serializer(data=request.data, many=True)
-
-        #전달된 데이터의 유효성 검사
-        serializer.is_valid(raise_exception=True)
-
-        #세션에 저장된 유저id 가져와 serializer에 넣고 객체 추가
-        user_id = request.session.get('user_id')
-        serializer.save(Uid_id=user_id)
-
-        #마지막으로 생성된 객체를 클라이언트에게 반환
-        headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
-
-class KeywordUD(generics.RetrieveUpdateDestroyAPIView):
-    serializer_class = KeywordSerializer
-
-    def get_queryset(self):
-        #Uid와 삭제하고 싶은 key에 해당하는 쿼리셋을 queryset에 저장
-        user_id = self.request.session.get('user_id')
-        queryset = Keyword.objects.filter(Uid_id=user_id, key=self.kwargs.get('key'))
-        return queryset
-
-    def delete(self, request, *args, **kwargs):
-        #queryset 삭제 진행
-        queryset = self.get_queryset()
-        queryset.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
-    def update(self, request, *args, **kwargs):
-        partial = kwargs.pop('partial', False)
-        instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data, partial=partial)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data)
+        return render(request, 'searchPage.html', context)
