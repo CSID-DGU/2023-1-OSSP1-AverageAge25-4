@@ -214,7 +214,7 @@ def frequencyUpdate():
         month_percentile = get_percentile(month_num, month_min, month_max)
 
         #시간에 우선도 반영
-        weight = (100 - keyword_percentile + day_percentile + week_percentile + month_percentile)/4
+        weight = (100 - (keyword_percentile + day_percentile + week_percentile + month_percentile))/4
 
         Category.objects.filter(pk=category.Cid).update(time_initial=weight)
         print("실행은 됐음3333")
