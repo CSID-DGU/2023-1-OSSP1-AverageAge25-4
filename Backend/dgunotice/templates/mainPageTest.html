@@ -1,7 +1,5 @@
 {% load static %}
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-
 <div class="container">
     <div class="up">
         <form action="/search/" method="get">
@@ -13,8 +11,13 @@
     <div class="down">
         <div class="menubar">
             <h5>유저 키워드 확인</h5>
-            {% for keyword in keywords %}
-                <li>{{ keyword.key }} - {{ keyword.Cid.Cname }}</li>
+            {% regroup keywords by key as grouped_keywords %}
+            {% for grouped_keyword in grouped_keywords %}
+                <li>{{ grouped_keyword.grouper }} -
+                    {% for keyword in grouped_keyword.list %}
+                        {{ keyword.Cid.Cname }}{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </li>
             {% endfor %}
         </div>
 
