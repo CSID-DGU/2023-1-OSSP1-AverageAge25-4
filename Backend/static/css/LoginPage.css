@@ -1,5 +1,11 @@
-form {
+body {
     background: #F4F3EA;
+}
+
+p {
+    margin-top: 80px;
+    color : orange;
+    text-align: center;
 }
 
 div {

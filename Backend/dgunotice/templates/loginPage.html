@@ -5,6 +5,9 @@
 {% endif %}
 
 <link rel="stylesheet" href="{% static 'css/LoginPage.css' %}?after">
+<html>
+<p className='notice'>Dongguk Notice</p>
+<body>
     <form method="POST" action="{% url 'Login' %}" >
     {% csrf_token %}
         <div>
@@ -22,4 +25,6 @@
         </div>
         
     </form>
+</body>
+</html>
 </link>

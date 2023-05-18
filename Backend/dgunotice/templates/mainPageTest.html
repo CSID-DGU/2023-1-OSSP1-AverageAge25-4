@@ -1,12 +1,16 @@
 {% load static %}
 
+<link rel="stylesheet" href="{% static 'css/MainPage.css' %}?after">
 <div class="container">
-    <div class="up">
-        <form action="/search/" method="get">
-            <input type="text" name="keyword" placeholder="검색어를 입력하세요">
-            <button type="submit">검색</button>
-        </form>
-    </div>
+
+    <form action="/search/" method="get">
+        <input type="text" name="keyword" placeholder="검색어를 입력하세요">
+        <button class="search" type="submit">검색</button>
+    </form>
+
+    <p2>
+        <button class="order" type="submit">공지사항 순서 변경</button>
+    </p2>
 
     <div class="down">
         <div class="menubar">
@@ -24,7 +28,7 @@
         <div class="component-wrapper">
 
         {% for category in categories %}
-            <div className="row{{ forloop.counter }}">
+            <div class="row{{ forloop.counter }}">
                 <h5>{{ category.Cname }}</h5>
                 <ul>
                 {% for notice in category.notice_set.all|slice:":5" %}
@@ -37,3 +41,4 @@
         </div>
     </div>
 </div>
+</link>
