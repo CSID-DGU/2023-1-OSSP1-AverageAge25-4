@@ -1,14 +1,25 @@
+{% load static %}
+
 {% if error_message %}
     <p>{{ error_message }}</p>
 {% endif %}
 
-<form method="POST" action="{% url 'Login' %}">
+<link rel="stylesheet" href="{% static 'css/LoginPage.css' %}?after">
+    <form method="POST" action="{% url 'Login' %}" >
     {% csrf_token %}
-    <label for="uid">ID:</label>
-    <input type="text" id="uid" name="uid" required><br>
+        <div>
+            <label for="uid">ID:</label>
+            <input type="text" id="uid" name="uid" required><br>
+        </div>
 
-    <label for="phone">Phone Number:</label>
-    <input type="text" id="phone" name="phone" required><br>
+        <div>
+            <label for="phone">PhoneNumber:</label>
+            <input type="text" id="phone" name="phone" required><br>
+        </div>
 
-    <input type="submit" value="Submit">
-</form>
+        <div>
+            <input type="submit" value="Submit">
+        </div>
+        
+    </form>
+</link>
