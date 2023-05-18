@@ -1,19 +1,36 @@
+@font-face {
+    font-family: 'DU';
+    src: 
+    url('../css/DU.ttf'),
+    url('../css/DU.woff');
+} 
+
 body {
     background: #F4F3EA;
 }
 
 p {
+    font-family: 'DU';
+    font-size: 30px;
     margin-top: 80px;
     color : orange;
     text-align: center;
 }
 
+form {
+    margin: 0 auto ;
+}
+
 div {
+    font-family: 'DU';
     width : 200px;
-    margin : 0 auto;
+    margin: 15px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 input {
+    font-family: 'DU';
     width : 200px;
     margin : 0 auto;
 }

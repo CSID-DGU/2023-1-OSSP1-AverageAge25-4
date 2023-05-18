@@ -1,4 +1,12 @@
+@font-face {
+    font-family: 'DU';
+    src:
+    url('../css/DU.ttf'),
+    url('../css/DU.woff');
+} 
+
 body {
+    font-family: 'DU';
     background: #F4F3EA;
 }
 
@@ -13,12 +21,14 @@ form {
 }
 
 input {
+    font-family: 'DU';
     height: 35px;
     width: 450px;
     margin : 5px;
 }
 
 .search {
+    font-family: 'DU';
     height: 35px;
     width: 50px;
     margin : 5px;
@@ -29,6 +39,7 @@ p2 {
 }
 
 .order {
+    font-family: 'DU';
     margin-right: 30px;
 }
 
@@ -90,4 +101,8 @@ h5 {
     border-color: orange;
     background-color: #F3E2A9;
     margin: 20px;
+}
+
+li{
+    margin: 10px;
 }

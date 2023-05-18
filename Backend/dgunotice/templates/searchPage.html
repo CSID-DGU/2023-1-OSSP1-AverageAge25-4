@@ -11,8 +11,10 @@
         <h2>"{{ keyword }}"에 대한 검색 결과입니다.</h2>
         <div>
             {% for notice in notices %}
+            <li>
                 <a href="{{ notice.link }}">[{{ notice.Cid.Cname }}] {{ notice.title }}</a> - {{ notice.time }}<br>
-            {% endfor %}
+            </li>
+                {% endfor %}
         </div>
     {% else %}
         <p>검색 결과가 없습니다.</p>
