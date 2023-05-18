@@ -3,14 +3,27 @@
 <link rel="stylesheet" href="{% static 'css/MainPage.css' %}?after">
 <div class="container">
 
-    <form action="/search/" method="get">
-        <input type="text" name="keyword" placeholder="검색어를 입력하세요">
-        <button class="search" type="submit">검색</button>
-    </form>
+    <div class="up">
 
-    <p2>
-        <button class="order" type="submit">공지사항 순서 변경</button>
-    </p2>
+        <div class="up-left">
+         <img  src="{% static 'images/logo.png' %}" />
+        </div>
+
+          <div class="up-right">
+           <form action="/search/" method="get">
+             <input type="text" name="keyword" placeholder="검색어를 입력하세요">
+             <button class="search" type="submit">검색</button>
+           </form>
+         </div>
+
+    </div>
+    
+      <div class="middle">
+       <p2>
+          <button class="order" type="submit">공지사항 순서 변경</button>
+       </p2>
+     </div>
+
 
     <div class="down">
         <div class="menubar">
@@ -42,3 +55,9 @@
     </div>
 </div>
 </link>
+
+
+
+
+
+
