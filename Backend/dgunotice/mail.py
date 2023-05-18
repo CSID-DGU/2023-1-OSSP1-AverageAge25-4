@@ -22,3 +22,31 @@ message.set_text('내용')
 
 # 이메일 보내기.
 gmail.send_message(credentials, message)
+
+
+# ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+
+import requests
+
+# 네이버 SMTP API URL
+NAVER_SMTP_API_URL = "https://apis.naver.com/mail/v1/send"
+
+# 네이버 SMTP API 인증 키
+NAVER_SMTP_API_KEY = "YOUR_NAVER_SMTP_API_KEY"
+
+# 이메일 메시지
+message = {
+  "from": "내주소",
+  "to": "보낼 주소",
+  "subject": "제목",
+  "body": "내용"
+}
+
+# 네이버 SMTP API에 요청을 보내고 결과를 가져오기
+response = requests.post(NAVER_SMTP_API_URL, headers={"Authorization": "Bearer {}".format(NAVER_SMTP_API_KEY)}, data=message)
+
+# 결과를 확인합니다.
+if response.status_code == 200:
+  print("이메일을 성공적으로 보냈습니다.")
+else:
+  print("이메일을 보내지 못했습니다.")
