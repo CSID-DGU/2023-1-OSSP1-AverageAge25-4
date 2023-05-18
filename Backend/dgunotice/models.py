@@ -5,11 +5,11 @@ from django.db import models
 
 class Pagetype(models.Model):
     Pid = models.IntegerField(primary_key=True)
-    Nlist = models.CharField(max_length=20)
-    Nfixed = models.CharField(max_length=20)
-    Nname = models.CharField(max_length=20)
-    Nlink = models.CharField(max_length=20)
-    Ntime = models.CharField(max_length=20)
+    Nlist = models.CharField(max_length=50)
+    Nfixed = models.CharField(max_length=50)
+    Nname = models.CharField(max_length=50)
+    Nlink = models.CharField(max_length=50)
+    Ntime = models.CharField(max_length=50)
 
     def __str__(self):
         return str(self.Pid)

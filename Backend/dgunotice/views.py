@@ -23,11 +23,11 @@ def DBInitial(request):
         [0, 'div.board_list > ul > li', 'a > div.mark > span', 'a > div.top > p.tit', 'a', 'a > div.top > div.info > span:nth-child(1)'],
         [1, 'table.board > tbody > tr', 'td.td_num > span', 'td.td_tit > a', 'td.td_tit > a', 'td:nth-child(4)'],
         [2, 'table.board > tbody > tr', 'td.td_num > span', 'td.td_tit > a', 'td.td_tit > a', 'td:nth-child(4)'],
-        [3, 'table > tbody > tr', '', 'td.cell_type > a', 'td.cell_type > a', 'td:nth-child(5)'],
+        [3, 'table > tbody > tr', 'self', 'td.cell_type > a', 'td.cell_type > a', 'td:nth-child(5)'],
         [4, 'table> tbody > tr', ' td:nth-child(1)', ' td.subject > a', ' td.subject > a', 'td.w_date'],
-        [5, 'table > tbody >  tr', '', 'td.td_subject > a:nth-child(2)', 'td.td_subject > a:nth-child(2)', 'd.td_date'],
-        [6, 'table > tbody > tr ', '', 'td.title.expand > a', 'td.title.expand > a', 'td.reportDate'],
-        [7, 'table > tbody > tr', '', 'td:nth-child(2)', '', ' td:nth-child(5)']
+        [5, 'table > tbody >  tr', 'self', 'td.td_subject > a:nth-child(2)', 'td.td_subject > a:nth-child(2)', 'td.td_date'],
+        [6, 'table > tbody > tr ', 'self', 'td.title > a', 'td.title > a', 'td.reportDate'],
+        [7, 'table > tbody > tr', 'self', 'td:nth-child(2)', 'self', ' td:nth-child(5)']
     ]
 
     for page in pageType_list:
@@ -76,7 +76,6 @@ def DBInitial(request):
         ['식품산업관리학과', 'https://foodindus.dongguk.edu/article/notice1/list?pageIndex=', 1],
         ['사회학전공', 'https://sociology.dongguk.edu/article/notice/list?pageIndex=', 1],
         ['사회복지학과', 'https://welfare.dongguk.edu/article/notice/list?pageIndex=', 1],
-        ['광고홍보학과', 'http://dguadpr.kr/bbs/board.php?bo_table=table31&page=', 5],
         ['경찰사법대학', 'https://justice.dongguk.edu/article/notice/list?pageIndex=', 1],
         ['경찰행정학부', 'https://police.dongguk.edu/article/notice1/list?pageIndex=', 1],
         ['경영대학', 'https://sba.dongguk.edu/article/notice/list?pageIndex=', 1],
