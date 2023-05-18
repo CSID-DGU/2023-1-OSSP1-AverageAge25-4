@@ -1,0 +1,30 @@
+body {
+    background: #F4F3EA;
+}
+
+form {
+    display : flex;
+    justify-content: center;
+    margin: 30px;
+}
+
+input {
+    height: 35px;
+    width: 450px;
+    margin : 5px;
+}
+
+.search {
+    height: 35px;
+    width: 50px;
+    margin : 5px;
+}
+
+div {
+    padding: 8px;
+    border-style: solid;
+    border-width: 3px;
+    border-color: orange;
+    background-color: #F3E2A9;
+    margin: 5px;
+}
