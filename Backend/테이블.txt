@@ -1,0 +1,56 @@
+CREATE DATABASE OSSProject;
+
+USE OSSProject;
+
+CREATE TABLE Pagetype (
+    Pid INT PRIMARY KEY,
+    Nlist VARCHAR(50),
+    Nfixed VARCHAR(50),
+    Nname VARCHAR(50),
+    Nlink VARCHAR(50),
+    Ntime VARCHAR(50)
+);
+
+CREATE TABLE Category (
+    Cid INT PRIMARY KEY,
+    Cname VARCHAR(20),
+    Clink VARCHAR(100),
+    Pid INT,
+    time_initial INT DEFAULT 1,
+    time_remaining INT DEFAULT 1,
+    FOREIGN KEY (Pid) REFERENCES Pagetype(Pid) ON DELETE SET NULL ON UPDATE CASCADE
+);
+
+CREATE TABLE User (
+    Uid VARCHAR(100) PRIMARY KEY,
+    phone VARCHAR(20),
+    college INT,
+    department INT,
+    sub_college INT,
+    sub_department INT,
+    notice_order VARCHAR(30) DEFAULT '1/2/3/4/5/6',
+    FOREIGN KEY (college) REFERENCES Category(Cid) ON DELETE SET NULL ON UPDATE CASCADE,
+    FOREIGN KEY (department) REFERENCES Category(Cid) ON DELETE SET NULL ON UPDATE CASCADE,
+    FOREIGN KEY (sub_college) REFERENCES Category(Cid) ON DELETE SET NULL ON UPDATE CASCADE,
+    FOREIGN KEY (sub_department) REFERENCES Category(Cid) ON DELETE SET NULL ON UPDATE CASCADE
+);
+
+CREATE TABLE Keyword (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    Uid VARCHAR(100),
+    `key` VARCHAR(10),
+    Cid INT,
+    FOREIGN KEY (Uid) REFERENCES User(Uid) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (Cid) REFERENCES Category(Cid) ON DELETE CASCADE ON UPDATE CASCADE,
+    UNIQUE (Uid, `key`, Cid)
+);
+
+CREATE TABLE Notice (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    Cid INT,
+    title VARCHAR(200),
+    link VARCHAR(250),
+    `time` VARCHAR(30),
+    isSended BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (Cid) REFERENCES Category(Cid) ON DELETE CASCADE ON UPDATE CASCADE
+);
