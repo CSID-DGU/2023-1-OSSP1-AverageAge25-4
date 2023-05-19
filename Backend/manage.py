@@ -2,7 +2,13 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
-from pathlib import Path
+
+# pymysql 설정 추가 ( for mac OS )
+try:
+    import MySQLdb
+except ImportError:
+    import pymysql
+    pymysql.install_as_MySQLdb()
 
 def main():
     """Run administrative tasks."""
