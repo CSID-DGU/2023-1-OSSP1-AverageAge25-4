@@ -23,7 +23,6 @@ urlpatterns = [
     path('', views.testPage, name="test"),
     path('admin/', admin.site.urls),
     path('makeDB/', views.DBInitial, name="DBInitial"),
-    path('crawlDB/', views.crawlstart, name="crawlstart"),
     path('login/', LoginView.as_view(), name="Login"),
     path('mainPage/', MainPageView.as_view(), name='main_page'),
     path('search/', SearchView.as_view(), name='search'),

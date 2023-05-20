@@ -1,14 +1,9 @@
 from django.shortcuts import redirect, render
 from django.views import View
 from .models import Pagetype, Category, User, Keyword, Notice
-from .crawl import *
 
 def testPage(request):
     return render(request, 'test.html')
-
-def crawlstart(request):
-    crawlInitial()
-    return render(request, 'crawlTest.html')
 
 def DBInitial(request):
     #먼저 테이블 데이터 전체 제거후 진행
