@@ -37,7 +37,7 @@ class Category(models.Model):
 
 class User(models.Model):
     Uid = models.CharField(max_length=100, primary_key=True)
-    phone = models.CharField(max_length=20)
+    password = models.CharField(max_length=100)
     college = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name='college')
     department = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name='department')
     sub_college = models.ForeignKey(Category,  on_delete=models.SET_NULL, null=True, related_name='sub_college')
@@ -49,7 +49,7 @@ class User(models.Model):
         db_table = 'user'
 
     def __str__(self):
-        return self.phone
+        return self.Uid
 
 class Keyword(models.Model):
     Uid = models.ForeignKey(User, on_delete=models.CASCADE)

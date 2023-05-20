@@ -1,4 +1,5 @@
 from django.shortcuts import redirect, render
+from django.contrib.auth.hashers import make_password, check_password
 from django.views import View
 from .models import Pagetype, Category, User, Keyword, Notice
 
@@ -136,19 +137,6 @@ def DBInitial(request):
 
     return render(request, 'DBtest.html')
 
-# class LoginView(APIView):
-#     def post(self, request):
-#         uid = request.data.get('uid')
-#         phone = request.data.get('phone')
-#         #Uid와 phone을 이용해 User찾기 ( 없으면 None반환 )
-#         print(uid, phone)
-#         user = User.objects.filter(Uid=uid, phone=phone).first()
-#         if user is not None:
-#             request.session['user_id'] = uid
-#             return Response({'message': '로그인 성공'}, status=status.HTTP_200_OK)
-#         else:
-#             return Response({'message': '로그인 실패'}, status=status.HTTP_401_UNAUTHORIZED)
-
 # class NoticeR(APIView):
 #     def get(self, request):
 #         # 세션에서 Uid값을 가져옴
@@ -222,6 +210,68 @@ def DBInitial(request):
 #         serializer.save()
 #         return Response(serializer.data)
 
+class SignupView(View):
+    template_name = 'signup.html'
+    def get(self, request):
+        return render(request, self.template_name)
+
+    def post(self, request):
+        uid = request.POST.get('uid')
+        password = request.POST.get('password')
+        pwcheck = request.POST.get('pwcheck')
+
+        error_message = None
+
+        # 이메일 중복 및 패스워드 확인
+        if User.objects.filter(Uid=uid).exists():
+            error_message = "해당 이메일이 이미 존재합니다."
+        elif password != pwcheck:
+            error_message = "패스워드 확인이 틀렸습니다."
+
+        if error_message is not None:
+            context = {
+                'uid': uid,
+                'password': password,
+                'pwcheck': pwcheck,
+                'error_message': error_message,
+            }
+            return render(request, self.template_name, context)
+
+        hashed_password = make_password(password)
+
+        print(hashed_password)
+        print(password)
+        user = User(
+            Uid=uid,
+            password=hashed_password
+        )
+
+        user.save()
+
+        return redirect('Login')
+
+class LoginView(View):
+    def post(self, request):
+        uid = request.POST.get('uid')
+        password = request.POST.get('password')
+
+        # Uid를 이용해 User 찾기 (없으면 None 반환)
+        user = User.objects.filter(Uid=uid).first()
+        if user is not None and check_password(password, user.password):
+            request.session['user_id'] = uid
+            return redirect('/mainPage')
+        else:
+            error_message = '이메일 또는 비밀번호가 잘못되었습니다.'
+            context = {
+                'uid': uid,
+                'password': password,
+                'error_message': error_message,
+            }
+            return render(request, 'loginPage.html', context)
+
+    def get(self, request):
+        return render(request, 'loginPage.html')
+
 class MainPageView(View):
     def get(self, request):
         user_id = self.request.session.get('user_id')
@@ -235,21 +285,6 @@ class MainPageView(View):
 
         # Render the template with the data
         return render(request, 'mainPageTest.html', {'keywords': keywords, 'categories': categories})
-
-class LoginView(View):
-    def post(self, request):
-        uid = request.POST.get('uid')
-        phone = request.POST.get('phone')
-        # Uid와 phone을 이용해 User 찾기 (없으면 None 반환)
-        user = User.objects.filter(Uid=uid, phone=phone).first()
-        if user is not None:
-            request.session['user_id'] = uid
-            return redirect('/mainPage')
-        else:
-            return redirect('/login')
-
-    def get(self, request):
-        return render(request, 'loginPage.html')
 
 class SearchView(View):
     def get(self, request):
