@@ -38,7 +38,7 @@ def sendAll():
         )
 
         cursor = connection.cursor()
-        cursor.execute("SELECT * FROM Notice WHERE isSended = TRUE")
+        cursor.execute("SELECT * FROM Notice WHERE isSended = FALSE")
         notices = cursor.fetchall()
 
         # 공지 레코드마다 title, link 값 가져오기
