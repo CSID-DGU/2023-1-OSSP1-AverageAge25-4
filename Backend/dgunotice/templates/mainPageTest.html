@@ -50,37 +50,41 @@
        </p2>
     </div>
 
-
     <div class="down">
-        <div class="menubar"  style="position: relative; left: 200px;">
-            <h5>유저 키워드 확인</h5>
-            <ul id="keyword-list">
-                {% regroup keywords by key as grouped_keywords %}
-                {% for grouped_keyword in grouped_keywords %}
-                    <li>{{ grouped_keyword.grouper }} -
+        <div class="menubar">
+                <h5 style="text-align: center;">KEYWORDS</h5>
+
+
+                    <ul id="keyword-list" >
+                    {% regroup keywords by key as grouped_keywords %}
+                     {% for grouped_keyword in grouped_keywords %}
+                      <li style="list-style-type: none;margin-left: 0px; margin-top:15px">
+                          {{ grouped_keyword.grouper }} -
                         {% for keyword in grouped_keyword.list %}
                             {{ keyword.Cid.Cname }}{% if not forloop.last %}, {% endif %}
                         {% endfor %}
-                    </li>
-                {% endfor %}
-            </ul>
-            <button id="add-keyword-btn">+</button>
+                       </li>
+                        {% endfor %}
+                     </ul>
+
+              <button id="add-keyword-btn">+</button>
 
             <div id="keyword-input-wrapper" style="display: none;">
-                <!-- 추가된 부분: 유저 키워드 입력 폼 -->
-                <form id="keyword-form" action="{% url 'Login' %}" method="post">
-                    {% csrf_token %}
-                    <input type="text" name="keyword_name" placeholder="키워드를 입력하세요">
-                    <select name="category_id">
-                        {% for category in categories %}
-                            <option value="{{ category.Cid }}">{{ category.Cname }}</option>
-                        {% endfor %}
+               <!-- 추가된 부분: 유저 키워드 입력 폼 -->
+               <form id="keyword-form" action="{% url 'Login' %}" method="post">
+                  {% csrf_token %}
+                <input class="keyinput" type="text" name="keyword_name" placeholder="키워드를 입력하세요">
+                <select class="catinput" name="category_id">
+                  {% for category in categories %}
+                           <option value="{{ category.Cid }}">{{ category.Cname }}</option>
+                    {% endfor %}
                     </select>
-                    <button type="submit">추가</button>
-                    <button id="cancel-keyword-btn" type="button">취소</button>
-                </form>
-            </div>
+                     <button class="btn" type="submit">추가</button>
+                    <button class="btn" id="cancel-keyword-btn" type="button">취소</button>
+               </form>
+              </div>
         </div>
+
         <div class="component-wrapper">
 
         {% for category in categories %}
@@ -147,8 +151,4 @@
     // Event listener for close button click to close the modal
     closeBtn.addEventListener("click", closeModal);
 </script>
-
-
-
-
 
