@@ -79,6 +79,9 @@ def sendAll():
             # 공지마다 관련 유저들에게  발송
             sendEmail(send_list, title, link)
 
+            cursor.close()
+            connection.close()
+
     except Exception as e:
         # 예외 처리
         print('An error occurred:', str(e))

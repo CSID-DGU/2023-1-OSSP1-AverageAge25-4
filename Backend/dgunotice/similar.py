@@ -41,6 +41,9 @@ def getDataSetInitial():
 
         data_set = [row[0] for row in rows]
 
+        cursor.close()
+        connection.close()
+
         return data_set
 
     except Exception as e:
@@ -62,6 +65,9 @@ def getDataSet():
         rows = cursor.fetchall()
 
         data_set = [row[0] for row in rows]
+
+        cursor.close()
+        connection.close()
 
         return data_set
 
