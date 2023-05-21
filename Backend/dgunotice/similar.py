@@ -129,3 +129,15 @@ def trainModel(load_path, saved_path):
             data_set = []
 
     print("성공")
+
+def getSimKey(keyword, num):
+    try:
+        model = Word2Vec.load(combined_path)
+        similar_words = model.wv.most_similar(keyword, topn=num)
+        similar_words = [word for word, score in similar_words if score >= 0]
+        return similar_words
+
+    except KeyError:
+        print(f"{keyword} is not in vocabulary")
+
+        return []
