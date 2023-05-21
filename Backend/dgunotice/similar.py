@@ -78,28 +78,3 @@ def tokenized(data):
 
     return preprocessed
 
-def trainModelInitial():
-    model = gensim.models.Word2Vec.load(model_path)
-    model.build_vocab(tokenizedInitial(), update=True)
-    model.train(tokenizedInitial(), total_examples=model.corpus_count, epochs=model.epochs)
-    model.save(model_path)
-
-def trainModel():
-    model = gensim.models.Word2Vec.load(model_path)
-    model.build_vocab(tokenized(), update=True)
-    model.train(tokenized(), total_examples=model.corpus_count, epochs=model.epochs)
-    model.save(model_path)
-
-
-def getSimKey(keyword, accuracy, num):
-    model = Word2Vec.load(model_path)
-    try:
-        similar_words = model.wv.most_similar(keyword, topn=num)
-        similar_words = [word for word, score in similar_words if score >= accuracy]
-        return similar_words
-    except KeyError:
-        print(f"{keyword} is not in vocabulary")
-
-        return []
-
-print(tokenized("안녕하세요 왜 오셨어요"))
