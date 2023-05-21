@@ -55,6 +55,13 @@ def getDB():
         print('An error occurred:', str(e))
 
 
+# 정규표현식
+def cleanText(data):
+    first_process = re.sub(r"[^\uAC00-\uD7A30-9a-zA-Z\s]", "", data) # 특수문자 제거
+    second_process = re.sub(r"[0-9]", "", first_process) # 숫자 제거
+    cleaned_data = second_process.strip() # 좌측 우측 양측 공백 제거
+    return cleaned_data
+
 # 전처리
 def tokenized(data):
     stop_words = []
