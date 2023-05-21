@@ -41,8 +41,10 @@ def sendAll():
         cursor.execute("SELECT * FROM Notice WHERE isSended = TRUE") # 원래 FALSE 지금은 체크용도
         notices = cursor.fetchall()
 
-        # 전송된 공지 개수
+        # 키워드 전송된 공지 개수
         count = 0
+        # notice 탐색 횟수
+        notice_cycle = 0
 
         # 공지 레코드마다 title, link 값 가져오기
         for notice in notices:
@@ -78,17 +80,21 @@ def sendAll():
 
             # 중복 방지
             send_list = list(set(send_list))
+            # Empty set 전송 방지
             if send_list:
-                # 공지마다 관련 유저들에게  발송
                 sendEmail(send_list, title, link)
 
-                # 체크용도
-                print(send_list)
-                print(title)
-                print(link)
-                print(count)
-
                 count += 1
+                # 테스트
+                print("전송된 유저 목록 : ", send_list)
+                print("제목 : ", title)
+                print("링크 : ", link)
+                print("전송된 공지 카운트 : ", count)
+
+            notice_cycle += 1
+            print("공지 탐색 횟수 : ", notice_cycle)
+            print("")
+
 
         cursor.close()
         connection.close()
@@ -97,8 +103,6 @@ def sendAll():
     except Exception as e:
         # 예외 처리
         print('An error occurred:', str(e))
-
-
 
 
 def sendEmail(send_list, title, link):
@@ -111,7 +115,6 @@ def sendEmail(send_list, title, link):
 
     text1 = title
     text2 = link
-
 
     content = """
         <html>
