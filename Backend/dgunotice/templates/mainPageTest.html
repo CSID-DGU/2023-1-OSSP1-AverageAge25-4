@@ -49,34 +49,47 @@
             </div>
        </p2>
     </div>
- <div class="down">
+
+    <div class="down">
         <div class="menubar">
                 <h5 style="text-align: center; ">KEYWORDS</h5>
 
 
-                    <ul id="keyword-list" style="margin-top: 0px" >
-                    {% regroup keywords by key as grouped_keywords %}
-                     {% for grouped_keyword in grouped_keywords %}
-                      <li style="list-style-type: none;  margin-left: 0px; margin-top:15px">
-                          {{ grouped_keyword.grouper }} -
-                        {% for keyword in grouped_keyword.list %}
-                            {{ keyword.Cid.Cname }}{% if not forloop.last %}, {% endif %}
-                        {% endfor %}
+                    <ul id="keyword-list" style="margin-top: 0px; ">
+                        {% regroup keywords by key as grouped_keywords %}
+                           {% for grouped_keyword in grouped_keywords %}
+                         <li class="keylist" style="list-style-type: none; margin-left: 0px; margin-top: 15px; display:inline-block">
+
+                             {{ grouped_keyword.grouper }} -
+                               {% for keyword in grouped_keyword.list %}
+                                 {{ keyword.Cid.Cname }}
+
+
+                                         {% csrf_token %}
+                                      <input class="hidden" type="hidden" name="grouped_keyword_grouper" value="{{ grouped_keyword.grouper }}" style="display:inline-block" />
+                                     <input class="hidden" type="hidden" name="keyword_cid_cname" value="{{ keyword.Cid.Cname }}"style="display:inline-block"  />
+                                     <a href=/keydelete/{{grouped_keyword.grouper}}><button type="submit" class="delete-key-btn" style="font-size: 14px; "  >-</button></a>
+
+                            {% if not forloop.last %}, {% endif %}
+                         {% endfor %}
                        </li>
-                        {% endfor %}
-                     </ul>
+                 {% endfor %}
+                    </ul>
+                      <button id="add-keyword-btn" style="font-size: 16px; width : 50px; height:23px; margin-left: 75px">+</button>
+
+                   <div id="keyword-input-wrapper" style="display: none;">
+                    <!-- 추가된 부분: 유저 키워드 입력 폼 -->
+                      <form id="keyword-form" action="{% url 'Login' %}" method="post">
+                      {% csrf_token %}
+
+                     <input class="keyinput" type="text" name="keyword_name" placeholder="키워드를 입력하세요">
+                     {% for category in categories %}
+
+                        <label><input type="checkbox" style="width: 12px; height: 12px;" value="{{ category.Cid }}">
+                        <span style="font-size: 12px;">{{ category.Cname }}</span>
+                    </label>
 
 
-              <button id="add-keyword-btn" style="font-size: 16px; width : 50px; height:23px; margin-left: 75px">+</button>
-
-            <div id="keyword-input-wrapper" style="display: none;">
-               <!-- 추가된 부분: 유저 키워드 입력 폼 -->
-               <form id="keyword-form" action="{% url 'Login' %}" method="post">
-                  {% csrf_token %}
-                <input class="keyinput" type="text" name="keyword_name" placeholder="키워드를 입력하세요">
-                <select class="catinput" name="category_id">
-                  {% for category in categories %}
-                           <option value="{{ category.Cid }}">{{ category.Cname }}</option>
                     {% endfor %}
                     </select>
                     <div class="btn-group">
