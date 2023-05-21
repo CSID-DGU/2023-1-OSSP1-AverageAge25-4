@@ -3,7 +3,7 @@
     src:
     url('../css/DU.ttf'),
     url('../css/DU.woff');
-} 
+}
 
 body {
     display : flex;
@@ -14,7 +14,7 @@ body {
 
 .container {
     background: #F4F3EA;
-    display : inline-flex;
+
     flex-direction: column;
     width: 100vw;
     height: 100vh;
@@ -33,7 +33,6 @@ body {
 .down{
     display : flex;
     flex-direction: row;
-
 }
 
 .up-left{
@@ -46,10 +45,14 @@ body {
 }
 
 .menubar{
+display:flex;
+flex-direction: column;
 width: 200px;
-height:auto;
-background: yellow;
-
+height: 300px;
+margin-left: 30px;
+margin-right:30px;
+background: LightGrey;
+border-radius: 5%;
 
 }
 
@@ -72,24 +75,48 @@ form {
     /*justify-content: center;*/
     margin: 30px;
 }
+
 #keyword-form{
 display : flex;
 flex-direction: column;
- margin-left:10px;
+
 }
 .keyinput{
- width: 170px;
+    height: 30px;
+    width: 170px;
 
-}
+    }
+#keyword-form{
+    align-items: center;
+
+    }
 .catinput{
- width: 170px;
- align-items: center;
+  font-family: 'DU';
+  width:170px;
+  font-size: 0.8rem;
+  font-weight: 100;
+  line-height: 1;
+  color: grey;
+  background-color: #fff;
+
+  padding: 0.6em 1.4em 0.5em 0.8em;
+
 }
 .btn{
- width: 100px;
+      width: 50px;
+      margin-top: 5px;
+
  }
+.btn-group{
+   float: right;
+}
 
 
+.keywordlist{
+padding: 8px;
+background: LightGrey;
+border-radius: 5%;
+}
 
 input {
     font-family: 'DU';

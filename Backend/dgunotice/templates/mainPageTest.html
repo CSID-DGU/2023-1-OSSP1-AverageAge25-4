@@ -49,16 +49,15 @@
             </div>
        </p2>
     </div>
-
-    <div class="down">
+ <div class="down">
         <div class="menubar">
-                <h5 style="text-align: center;">KEYWORDS</h5>
+                <h5 style="text-align: center; ">KEYWORDS</h5>
 
 
-                    <ul id="keyword-list" >
+                    <ul id="keyword-list" style="margin-top: 0px" >
                     {% regroup keywords by key as grouped_keywords %}
                      {% for grouped_keyword in grouped_keywords %}
-                      <li style="list-style-type: none;margin-left: 0px; margin-top:15px">
+                      <li style="list-style-type: none;  margin-left: 0px; margin-top:15px">
                           {{ grouped_keyword.grouper }} -
                         {% for keyword in grouped_keyword.list %}
                             {{ keyword.Cid.Cname }}{% if not forloop.last %}, {% endif %}
@@ -67,7 +66,8 @@
                         {% endfor %}
                      </ul>
 
-              <button id="add-keyword-btn">+</button>
+
+              <button id="add-keyword-btn" style="font-size: 16px; width : 50px; height:23px; margin-left: 75px">+</button>
 
             <div id="keyword-input-wrapper" style="display: none;">
                <!-- 추가된 부분: 유저 키워드 입력 폼 -->
@@ -79,8 +79,10 @@
                            <option value="{{ category.Cid }}">{{ category.Cname }}</option>
                     {% endfor %}
                     </select>
+                    <div class="btn-group">
                      <button class="btn" type="submit">추가</button>
                     <button class="btn" id="cancel-keyword-btn" type="button">취소</button>
+                    </div>
                </form>
               </div>
         </div>
