@@ -38,8 +38,11 @@ def sendAll():
         )
 
         cursor = connection.cursor()
-        cursor.execute("SELECT * FROM Notice WHERE isSended = FALSE")
+        cursor.execute("SELECT * FROM Notice WHERE isSended = TRUE") # 원래 FALSE 지금은 체크용도
         notices = cursor.fetchall()
+
+        # 전송된 공지 개수
+        count = 0
 
         # 공지 레코드마다 title, link 값 가져오기
         for notice in notices:
@@ -47,12 +50,10 @@ def sendAll():
             title = notice[0]
             link = notice[1]
             cid = notice[4]
-
             # 각 공지 레코드의 Cid 값이랑 같은 Keyword 레코드만 가져옴
             query = "SELECT * FROM Keyword WHERE Cid_id = %s"
             cursor.execute(query, (cid,))
             keywords = cursor.fetchall()
-
             if keywords:
                 for keyword in keywords :
                     email_address = keyword[3]
@@ -77,15 +78,27 @@ def sendAll():
 
             # 중복 방지
             send_list = list(set(send_list))
-            # 공지마다 관련 유저들에게  발송
-            sendEmail(send_list, title, link)
+            if send_list:
+                # 공지마다 관련 유저들에게  발송
+                sendEmail(send_list, title, link)
 
-            cursor.close()
-            connection.close()
+                # 체크용도
+                print(send_list)
+                print(title)
+                print(link)
+                print(count)
+
+                count += 1
+
+        cursor.close()
+        connection.close()
+
 
     except Exception as e:
         # 예외 처리
         print('An error occurred:', str(e))
+
+
 
 
 def sendEmail(send_list, title, link):
@@ -121,3 +134,5 @@ def sendEmail(send_list, title, link):
     server.login(email_id, email_pw)
     server.sendmail(message['From'], recipients, message.as_string())
     server.quit()
+
+sendAll()
