@@ -1,12 +1,14 @@
 import environ
 from pathlib import Path
 import os
+import re
 import MySQLdb
 import gensim
 import tqdm as tqdm
 import pandas as pd
 from konlpy.tag import Kkma
 from gensim.models.word2vec import Word2Vec
+from gensim.models import KeyedVectors
 
 
 model_path = '../model/ko.bin'
@@ -26,7 +28,7 @@ environ.Env.read_env(
 )
 
 
-def getDataSet():
+def getDB():
     try:
         connection = MySQLdb.connect(
             host=env('DATABASE_HOST'),
@@ -37,7 +39,7 @@ def getDataSet():
 
         cursor = connection.cursor()
 
-        cursor.execute("SELECT title FROM Notice WHERE isSended = False")
+        cursor.execute("SELECT title FROM Notice WHERE isSended = TRUE")
 
         rows = cursor.fetchall()
 
@@ -93,4 +95,4 @@ def getSimKey(keyword, accuracy, num):
 
         return []
 
-print(getDataSet())
+print(tokenized("안녕하세요 왜 오셨어요"))
