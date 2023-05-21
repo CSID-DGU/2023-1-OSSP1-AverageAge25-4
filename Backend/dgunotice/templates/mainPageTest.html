@@ -28,7 +28,7 @@
                 <span class="close">&times;</span>
                     <!-- Modal content here -->
                 <h2>공지사항 순서 변경</h2>
-                    <form>
+                    <div>
                         1 : 일반공지 <br>
                         2 : 학사공지 <br>
                         3 : 장학공지 <br>
@@ -37,8 +37,11 @@
                         6 : 학술/행사공지 <br>
                         숫자/숫자/숫자/숫자/숫자/숫자 형태로 입력하세요.<br>
                         ex) 1/3/6/2/4/5 <br>
+                    </div>
+                    <form method="post">
+                        {% csrf_token %}
                         <input type="text" name="notice_order" placeholder="공지사항 순서를 입력하세요.">
-                        <button>변경</button>
+                        <button type="submit">변경</button>
                     </form>
                 </div>
             </div>
