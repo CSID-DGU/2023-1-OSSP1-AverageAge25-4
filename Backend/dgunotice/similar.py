@@ -141,3 +141,18 @@ def getSimKey(keyword, num):
         print(f"{keyword} is not in vocabulary")
 
         return []
+
+# own_path = notice title 학습 모델
+# os_path = Kyubyong OS 사전 학습 모델
+# combined_path = 합친 모델
+def getSimKeyTester(keyword, num, path):
+    try:
+        model = Word2Vec.load(path)
+        similar_words = model.wv.most_similar(keyword, topn=num)
+        similar_words = [word for word, score in similar_words if score >= 0]
+        return similar_words
+
+    except KeyError:
+        print(f"{keyword} is not in vocabulary")
+
+        return []
