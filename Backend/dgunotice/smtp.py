@@ -57,7 +57,7 @@ def sendAll():
                 for keyword in keywords :
                     email_address = keyword[3]
                     keyword_text = keyword[1]
-                    keywords_similar = getSimKey(keyword_text, 0.5, 5)
+                    keywords_similar = getSimKey(keyword_text, 5)
                     is_overlapped = False   #키워드가 매칭 되었는데 유사단어도 매칭된다면 중복 발송 방지
 
                     # 가져온 key값이 공지 레코드의 title의 substring과 매치된다면 send_list에 이메일주소 저장

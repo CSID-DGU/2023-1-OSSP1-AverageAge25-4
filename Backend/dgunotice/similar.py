@@ -3,13 +3,8 @@ from pathlib import Path
 import os
 import re
 import MySQLdb
-import gensim
-import tqdm as tqdm
-import pandas as pd
 from konlpy.tag import Kkma
 from gensim.models.word2vec import Word2Vec
-from gensim.models import KeyedVectors
-
 
 os_path = '../model/ko.bin'
 own_path = '../model/ko_own.bin'
