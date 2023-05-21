@@ -110,3 +110,22 @@ def buildModel():
 
 
     print("성공")
+
+def trainModel(load_path, saved_path):
+    data_set = []
+    title_list = getDB()
+    count = 0
+
+    for title in title_list:
+        preprocessed = tokenized(title)
+        data_set.append(preprocessed)
+        count += 1
+        if count >= 50:
+            model = Word2Vec.load(load_path)
+            model.build_vocab(data_set, update=True)
+            model.train(data_set, total_examples=model.corpus_count, epochs=model.epochs)
+            model.save(saved_path)
+            count = 0
+            data_set = []
+
+    print("성공")
