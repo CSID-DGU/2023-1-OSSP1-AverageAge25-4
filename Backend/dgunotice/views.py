@@ -126,15 +126,6 @@ def DBInitial(request):
                      Pid=pid_list[category_list[i][2]])
         c.save()
 
-    u = User(Uid="9999",
-             phone="010-1234-5678",
-             college=Category.objects.get(Cname='AI융합대학'),
-             department=Category.objects.get(Cname='컴퓨터공학과'),
-             sub_college=Category.objects.get(Cname='이과대학'),
-             sub_department=Category.objects.get(Cname='물리반도체과학부')
-    )
-    u.save()
-
     return render(request, 'DBtest.html')
 
 # class NoticeR(APIView):
