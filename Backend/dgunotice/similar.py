@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 environ.Env.read_env(
     env_file=os.path.join(BASE_DIR, 'Backend', '.env')
 )
-
+print(env('DATABASE_NAME'))
 def getDataSetInitial():
     try:
         connection = MySQLdb.connect(
@@ -34,16 +34,19 @@ def getDataSetInitial():
             db=env('DATABASE_NAME')
         )
         cursor = connection.cursor()
-
+        print(env('DATABASE_PASSWORD'))
         cursor.execute("SELECT title FROM Notice")
 
         rows = cursor.fetchall()
 
         data_set = [row[0] for row in rows]
 
+
+
+        print(data_set)
+
         cursor.close()
         connection.close()
-
         return data_set
 
     except Exception as e:
@@ -76,10 +79,7 @@ def getDataSet():
         print('An error occurred:', str(e))
 
 
-def tokenizedInitial():
-    db_data = getDataSetInitial()
-    db_data = pd.DataFrame(db_data, columns=['제목'])
-    db_data['제목'] = db_data['제목'].str.replace("[^ㄱ-ㅎㅏ-ㅣ가-힣 ]", "")
+def tokenized(data):
 
     stop_words = []
     with open('stopword.txt', encoding='utf-8') as f:
@@ -88,36 +88,12 @@ def tokenizedInitial():
 
     kkma = Kkma()
 
-    tokenized_data = []
+    tokenized_sentence = kkma.nouns(data)
+    preprocessed_data = [word for word in tokenized_sentence if not word in stop_words]  # 불용어 제거
 
-    for sentence in tqdm.tqdm(db_data['제목']):
-        tokenized_sentence = kkma.nouns(sentence)
-        stopwords_removed_sentence = [word for word in tokenized_sentence if not word in stop_words]
-        tokenized_data.append(stopwords_removed_sentence)
 
-    return tokenized_data
+    return preprocessed_data
 
-# 전처리
-def tokenized():
-    db_data = getDataSet()
-    db_data = pd.DataFrame(db_data, columns=['제목'])
-    db_data['제목'] = db_data['제목'].str.replace("[^ㄱ-ㅎㅏ-ㅣ가-힣 ]", "")
-
-    stop_words = []
-    with open('stopword.txt', encoding='utf-8') as f:
-        for i in f:
-            stop_words.append(i.strip())
-
-    kkma = Kkma()
-
-    tokenized_data = []
-
-    for sentence in tqdm.tqdm(db_data['제목']):
-        tokenized_sentence = kkma.nouns(sentence)
-        stopwords_removed_sentence = [word for word in tokenized_sentence if not word in stop_words]
-        tokenized_data.append(stopwords_removed_sentence)
-
-    return tokenized_data
 
 def trainModelInitial():
     model = gensim.models.Word2Vec.load(model_path)
@@ -127,7 +103,9 @@ def trainModelInitial():
 
 def trainModel():
     model = gensim.models.Word2Vec.load(model_path)
+
     model.build_vocab(tokenized(), update=True)
+    print("test")
     model.train(tokenized(), total_examples=model.corpus_count, epochs=model.epochs)
     model.save(model_path)
 
@@ -142,3 +120,7 @@ def getSimKey(keyword, accuracy, num):
         print(f"{keyword} is not in vocabulary")
 
         return []
+
+
+
+print(getDataSetInitial())
