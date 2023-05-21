@@ -136,12 +136,9 @@ def getSimKey(keyword, accuracy, num):
     model = Word2Vec.load(model_path)
     try:
         similar_words = model.wv.most_similar(keyword, topn=num)
-        similar_words = [(word, score) for word, score in similar_words if score >= accuracy]
+        similar_words = [ word for word, score in similar_words if score >= accuracy]
         return similar_words
     except KeyError:
         print(f"{keyword} is not in vocabulary")
 
         return []
-
-
-# print(getSimKey("학사", 0.8,5))
