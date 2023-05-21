@@ -64,6 +64,8 @@ def cleanText(data):
 
 # 전처리
 def tokenized(data):
+    cleaned_data = cleanText(data)
+
     stop_words = []
     with open('stopword.txt', encoding='utf-8') as f:
         for i in f:
@@ -71,10 +73,8 @@ def tokenized(data):
 
     kkma = Kkma()
 
-    for sentence in tqdm.tqdm(data):
-        tokenized_sentence = kkma.nouns(sentence)
-        preprocessed = [word for word in tokenized_sentence if not word in stop_words]
-
+    tokenized_sentence = kkma.nouns(cleaned_data)
+    preprocessed = [word for word in tokenized_sentence if not word in stop_words]  # 불용어 제거
 
     return preprocessed
 
