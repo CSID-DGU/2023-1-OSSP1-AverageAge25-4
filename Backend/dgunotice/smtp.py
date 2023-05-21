@@ -36,8 +36,9 @@ def sendAll():
             passwd=env('DATABASE_PASSWORD'),
             db=env('DATABASE_NAME')
         )
+
         cursor = connection.cursor()
-        cursor.execute("SELECT * FROM Notice WHERE isSended = FALSE")
+        cursor.execute("SELECT * FROM Notice WHERE isSended = TRUE")
         notices = cursor.fetchall()
 
         # 공지 레코드마다 title, link 값 가져오기
@@ -90,7 +91,7 @@ def sendAll():
 def sendEmail(send_list, title, link):
     # 수신자
     recipients = send_list
-    message = MIMEMultipart();
+    message = MIMEMultipart()
     message['Subject'] = title
     message['From'] = env('NAVER_ADDRESS')
     message['To'] = ",".join(recipients)
