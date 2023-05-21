@@ -57,6 +57,15 @@ border-radius: 5%;
 }
 
 
+
+
+.delete-form{
+ display: inline;
+ flex-direction: row;
+ padding:0;
+
+}
+
 ul {
     list-style: none;
     padding: 0;
@@ -76,20 +85,20 @@ form {
     margin: 30px;
 }
 
-#keyword-form{
-display : flex;
-flex-direction: column;
 
-}
 .keyinput{
     height: 30px;
     width: 170px;
 
     }
 #keyword-form{
+    margin-top: 0px;
     align-items: center;
+    display: flex;
+    flex-direction: column;
 
     }
+
 .catinput{
   font-family: 'DU';
   width:170px;
@@ -112,6 +121,15 @@ flex-direction: column;
 }
 
 
+  .checkbox-wrapper {
+    display: inline-block;
+    width: 50%;
+    box-sizing: border-box;
+    padding: 5px;
+  }
+
+
+
 .keywordlist{
 padding: 8px;
 background: LightGrey;
@@ -125,12 +143,23 @@ input {
     margin : 5px;
 }
 
+.cat-container{
+
+overflow: auto;
+}
+
+.cat-container::-webkit-scrollbar {
+    width: 10px;
+    background-color: black;
+  }
+
 .search {
     font-family: 'DU';
     height: 35px;
     width: 50px;
     margin : 5px;
 }
+
 
 p2 {
     float: right;
@@ -208,7 +237,8 @@ h5 {
 }
 
 li{
-    margin: 10px;
+margin:10px;
+
 }
 
 /* Style the button to open the modal */
