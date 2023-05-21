@@ -11,7 +11,10 @@ from gensim.models.word2vec import Word2Vec
 from gensim.models import KeyedVectors
 
 
-model_path = '../model/ko.bin'
+os_path = '../model/ko.bin'
+own_path = '../model/ko_own.bin'
+combined_path = '../model/ko_combined.bin'
+
 
 env = environ.Env(
     DATABASE_NAME=(str, ''),
@@ -78,3 +81,32 @@ def tokenized(data):
 
     return preprocessed
 
+def buildModel():
+    data_set = []
+    title_list = getDB()
+    count = 0
+    is_built = False
+
+    for title in title_list:
+        preprocessed = tokenized(title)
+        data_set.append(preprocessed)
+        count += 1
+
+        # 초기 빌드 데이터
+        if count >= 50:
+            if is_built:
+                model = Word2Vec.load(own_path)
+                model.build_vocab(data_set, update=True)
+                model.train(data_set, total_examples=model.corpus_count, epochs=model.epochs)
+                model.save(own_path)
+
+            else:
+                model = Word2Vec(data_set, size=200, window=5, min_count=1, workers=4)
+                model.save(own_path)
+                is_built = True
+
+            count = 0
+            data_set = []
+
+
+    print("성공")
