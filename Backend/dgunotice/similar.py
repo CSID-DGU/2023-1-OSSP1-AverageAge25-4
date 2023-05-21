@@ -132,8 +132,8 @@ def trainModel():
     model.save(model_path)
 
 
-def getSimKey(path, keyword, accuracy, num):
-    model = Word2Vec.load(path)
+def getSimKey(keyword, accuracy, num):
+    model = Word2Vec.load(model_path)
     try:
         similar_words = model.wv.most_similar(keyword, topn=num)
         similar_words = [(word, score) for word, score in similar_words if score >= accuracy]
@@ -144,4 +144,4 @@ def getSimKey(path, keyword, accuracy, num):
         return []
 
 
-# print(getSimKey(model0_path, "학사", 0.8,5))
+# print(getSimKey("학사", 0.8,5))
