@@ -121,5 +121,3 @@ def sendEmail(send_list, title, link):
     server.login(email_id, email_pw)
     server.sendmail(message['From'], recipients, message.as_string())
     server.quit()
-
-sendAll()
