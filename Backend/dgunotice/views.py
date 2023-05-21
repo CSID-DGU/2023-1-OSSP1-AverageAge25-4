@@ -283,8 +283,17 @@ class MainPageView(View):
         # Category와 그에 연결된 Notice를 가져옴
         categories = Category.objects.filter(Cid__in=cid_list)
 
+        # 모든 Category를 가져옴
+        allcategory = Category.objects.all()
+
+        context = {
+            'keywords': keywords,
+            'categories': categories,
+            'allcategory' : allcategory
+        }
+
         # Render the template with the data
-        return render(request, 'mainPageTest.html', {'keywords': keywords, 'categories': categories})
+        return render(request, 'mainPageTest.html', context)
 
 class SearchView(View):
     def get(self, request):
