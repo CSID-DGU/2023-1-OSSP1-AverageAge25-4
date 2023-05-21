@@ -29,12 +29,12 @@ body {
     display : flex;
     justify-content: right;
 }
+
 .down{
     display : flex;
-    justify-content: center;
-    width: 800px;
-}
+    flex-direction: row;
 
+}
 
 .up-left{
     display : flex;
@@ -45,12 +45,50 @@ body {
     justify-content: center;
 }
 
+.menubar{
+width: 200px;
+height:auto;
+background: yellow;
+
+
+}
+
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin-left: 10px;
+}
+
+.component-wrapper{
+display : flex;
+flex-direction: column;
+width:500px;
+
+}
 
 form {
     display : flex;
     /*justify-content: center;*/
     margin: 30px;
 }
+#keyword-form{
+display : flex;
+flex-direction: column;
+ margin-left:10px;
+}
+.keyinput{
+ width: 170px;
+
+}
+.catinput{
+ width: 170px;
+ align-items: center;
+}
+.btn{
+ width: 100px;
+ }
+
 
 
 input {
