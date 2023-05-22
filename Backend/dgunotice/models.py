@@ -71,6 +71,7 @@ class Notice(models.Model):
     link = models.CharField(max_length=250, primary_key=True)
     time = models.CharField(max_length=30)
     isSended = models.BooleanField(default=False)
+    isTrained = models.BooleanField(default=False)
 
     class Meta:
         managed = True
