@@ -6,9 +6,9 @@ import MySQLdb
 from konlpy.tag import Kkma
 from gensim.models.word2vec import Word2Vec
 
-os_path = '../Backend/model/ko.bin'
-own_path = '../Backend/model/ko_own.bin'
-combined_path = '../Backend/model/ko_combined.bin'
+os_path = 'model/ko.bin'
+own_path = 'model/ko_own.bin'
+combined_path = 'model/ko_combined.bin'
 
 
 env = environ.Env(
@@ -25,7 +25,6 @@ environ.Env.read_env(
     env_file=os.path.join(BASE_DIR, 'Backend', '.env')
 )
 
-
 def getDB():
     try:
         connection = MySQLdb.connect(
@@ -37,11 +36,14 @@ def getDB():
 
         cursor = connection.cursor()
 
-        cursor.execute("SELECT title FROM Notice WHERE isSended = TRUE")
+        cursor.execute("SELECT title FROM Notice WHERE isTrained = FALSE")
 
         rows = cursor.fetchall()
 
         data_set = [row[0] for row in rows]
+
+        update_query = "UPDATE Notice SET isTrained = TRUE WHERE isTrained = FALSE"
+        cursor.execute(update_query)
 
         cursor.close()
         connection.close()
@@ -117,7 +119,7 @@ def buildModel():
 
     print("성공")
 
-def trainModel(load_path, saved_path):
+def trainModelSelf(load_path, saved_path):
     data_set = []
     title_list = getDB()
     count = 0
@@ -131,6 +133,25 @@ def trainModel(load_path, saved_path):
             model.build_vocab(data_set, update=True)
             model.train(data_set, total_examples=model.corpus_count, epochs=model.epochs)
             model.save(saved_path)
+            count = 0
+            data_set = []
+
+    print("성공")
+
+def trainModel():
+    data_set = []
+    title_list = getDB()
+    count = 0
+
+    for title in title_list:
+        preprocessed = tokenized(title)
+        data_set.append(preprocessed)
+        count += 1
+        if count >= 50:
+            model = Word2Vec.load(combined_path)
+            model.build_vocab(data_set, update=True)
+            model.train(data_set, total_examples=model.corpus_count, epochs=model.epochs)
+            model.save(combined_path)
             count = 0
             data_set = []
 
@@ -163,4 +184,3 @@ def getSimKeyTester(keyword, num, path):
 
         return []
 
-print(getSimKey("학사",5))
