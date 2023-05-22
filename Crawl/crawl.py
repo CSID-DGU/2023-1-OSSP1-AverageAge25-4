@@ -196,9 +196,16 @@ def crawl(crawl_list):
             db=env('DATABASE_NAME')
         )
         cursor = connection.cursor()
+        
+        print("연결 성공")
 
         for category in crawl_list:
             url = category[2] + '1'
+
+            print('\n----- Current Page : {}'.format(1), '------\noriginal url : ' + url + '\n-------------------------------------------------')
+
+            # 페이지가 변경됨에 따라 delay 발생 시킴
+            time.sleep(random.uniform(4, 7))
 
             soup = getHtml(url)
 
@@ -238,6 +245,18 @@ def frequencyUpdate():
             db=env('DATABASE_NAME')
         )
         cursor = connection.cursor()
+        
+        ###기존 내용 확인
+        select_query = f"SELECT Cname, time_initial FROM category"
+        cursor.execute(select_query)
+        old_categories = cursor.fetchall()
+        print("기존 category 내용:")
+        for old_category in old_categories:
+            cname = old_category[0]
+            time_initial = old_category[1]
+            print(f"Cname: {cname}, time_initial: {time_initial}")
+
+        print("=================================================")
 
         #가중치를 24개 구간으로 쪼개기
         categories_query = "SELECT * FROM category"
@@ -308,11 +327,21 @@ def frequencyUpdate():
             #시간에 우선도 반영
             weight = (100 - (keyword_percentile + day_percentile + week_percentile + month_percentile))/4
 
-            update_query = f"UPDATE yourapp_category SET time_initial = {weight} WHERE Cid = {category[0]}"
+            update_query = f"UPDATE category SET time_initial = {weight} WHERE Cid = {category[0]}"
             cursor.execute(update_query)
 
         # 변경 사항을 커밋하여 데이터베이스에 반영
         connection.commit()
+
+        ### 업데이트 된 내용 확인
+        select_query = f"SELECT Cname, time_initial FROM category"
+        cursor.execute(select_query)
+        updated_categories = cursor.fetchall()
+        print("업데이트된 category 내용:")
+        for updated_category in updated_categories:
+            cname = updated_category[0]
+            time_initial = updated_category[1]
+            print(f"Cname: {cname}, time_initial: {time_initial}")
 
         # 커서와 연결 종료
         cursor.close()
@@ -341,10 +370,11 @@ def crawlCheck():
         cursor.execute(update_query)
         connection.commit()
 
-        # 잔여시간이 0인
+        # 잔여시간이 0인거 추출
         select_query = """
             SELECT *
             FROM category
+            INNER JOIN pagetype ON category.Pid_id = pagetype.Pid
             WHERE time_remaining = 0
         """
         cursor.execute(select_query)

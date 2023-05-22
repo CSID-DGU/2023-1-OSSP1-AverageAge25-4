@@ -5,10 +5,10 @@ import time
 # BackgroundScheduler 객체 생성
 scheduler = BackgroundScheduler()
 
-# 1시간마다 crawlCheck() 함수 호출
+# 1시간마다 crawlCheck() 함수 호출 테스트할때는 minutes=1로 해보세요
 scheduler.add_job(crawlCheck, 'interval', hours=1)
 
-# 24시간마다 frequencyUpdate() 함수 호출
+# 24시간마다 frequencyUpdate() 함수 호출 테스트할때는 minutes=1로 해보세요
 scheduler.add_job(frequencyUpdate, 'interval', hours=24)
 
 # 스케줄러 시작
