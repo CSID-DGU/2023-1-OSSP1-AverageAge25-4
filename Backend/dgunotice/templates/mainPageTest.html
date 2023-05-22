@@ -4,7 +4,6 @@
 <script src="{% static 'js/mainPage.js' %}"></script>
 <div class="container">
 
-    
     <div class="up">
 
         <div class="up-left">
@@ -83,15 +82,16 @@
                       <form id="keyword-form" action="{% url 'Login' %}" method="post">
                       {% csrf_token %}
 
-                     <input class="keyinput" type="text" name="keyword_name" placeholder="키워드를 입력하세요">
-                     {% for category in categories %}
-
-                        <label><input type="checkbox" style="width: 12px; height: 12px;" value="{{ category.Cid }}">
-                        <span style="font-size: 12px;">{{ category.Cname }}</span>
+                   <div class="cat-container" style="background: white; width: 170px; height: 80px; overflow: auto;">
+                   {% for category in categories %}
+                    <label class= "cat-item">
+                      <input type="checkbox" style="width: 12px; height: 12px;" value="{{ category.Cid }}">
+                     <span style="font-size: 12px;">{{ category.Cname }}</span>
                     </label>
+                  {% endfor %}
+                 </div>
 
 
-                    {% endfor %}
                     </select>
                     <div class="btn-group">
                      <button class="btn" type="submit">추가</button>
