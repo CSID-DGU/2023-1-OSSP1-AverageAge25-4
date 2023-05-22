@@ -6,9 +6,9 @@ import MySQLdb
 from konlpy.tag import Kkma
 from gensim.models.word2vec import Word2Vec
 
-os_path = 'C:/Users/batmi/PycharmProjects/2023-1-OPPS1-AverageAge25-4/Background/model/ko.bin'
-own_path = 'C:/Users/batmi/PycharmProjects/2023-1-OPPS1-AverageAge25-4/Background/model/ko_own.bin'
-combined_path = 'C:/Users/batmi/PycharmProjects/2023-1-OPPS1-AverageAge25-4/Background/model/ko_combined.bin'
+os_path = 'model/ko.bin'
+own_path = 'model/ko_own.bin'
+combined_path = 'model/ko_combined.bin'
 
 
 env = environ.Env(
