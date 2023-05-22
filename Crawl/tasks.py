@@ -1,5 +1,6 @@
 from apscheduler.schedulers.background import BackgroundScheduler
 from crawl import crawlCheck, frequencyUpdate
+from similar import trainModel
 import time
 
 # BackgroundScheduler 객체 생성
@@ -10,6 +11,9 @@ scheduler.add_job(crawlCheck, 'interval', hours=1)
 
 # 24시간마다 frequencyUpdate() 함수 호출 테스트할때는 minutes=1로 해보세요
 scheduler.add_job(frequencyUpdate, 'interval', hours=24)
+
+# 7일마다 frequencyUpdate() 함수 호출 테스트할때는 minutes=1로 해보세요
+scheduler.add_job(trainModel, 'interval', day=7)
 
 # 스케줄러 시작
 scheduler.start()
