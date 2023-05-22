@@ -60,18 +60,16 @@
                            {% for grouped_keyword in grouped_keywords %}
                          <li class="keylist" style="list-style-type: none; margin-left: 0px; margin-top: 15px; display:inline-block">
 
-                             {{ grouped_keyword.grouper }} -
-                               {% for keyword in grouped_keyword.list %}
-                                 {{ keyword.Cid.Cname }}
+                                 {{ grouped_keyword.grouper }} -
+                             {% for keyword in grouped_keyword.list %}
+                                  {{ keyword.Cid.Cname }}
+                             {% if not forloop.last %}, {% endif %}
 
+                                    {% endfor %}
 
-                                         {% csrf_token %}
-                                      <input class="hidden" type="hidden" name="grouped_keyword_grouper" value="{{ grouped_keyword.grouper }}" style="display:inline-block" />
-                                     <input class="hidden" type="hidden" name="keyword_cid_cname" value="{{ keyword.Cid.Cname }}"style="display:inline-block"  />
-                                     <a href=/keydelete/{{grouped_keyword.grouper}}><button type="submit" class="delete-key-btn" style="font-size: 14px; "  >-</button></a>
-
-                            {% if not forloop.last %}, {% endif %}
-                         {% endfor %}
+                     <input class="hidden" type="hidden" name="grouped_keyword_grouper" value="{{ grouped_keyword.grouper }}" style="display:inline-block" />
+                    <input class="hidden" type="hidden" name="keyword_cid_cname" value="{{ keyword.Cid.Cname }}"style="display:inline-block"  />
+                    <a href=/keydelete/{{grouped_keyword.grouper}}><button type="submit" class="delete-key-btn" style="font-size: 14px; "  >-</button></a>
                        </li>
                  {% endfor %}
                     </ul>
