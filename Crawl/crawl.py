@@ -1,3 +1,4 @@
+import datetime
 import MySQLdb
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
@@ -246,7 +247,7 @@ def frequencyUpdate():
         )
         cursor = connection.cursor()
         
-        ###기존 내용 확인
+        ###기존 내용 확인 ###
         select_query = f"SELECT Cname, time_initial FROM category"
         cursor.execute(select_query)
         old_categories = cursor.fetchall()
@@ -257,83 +258,134 @@ def frequencyUpdate():
             print(f"Cname: {cname}, time_initial: {time_initial}")
 
         print("=================================================")
+        ###기존 내용 확인 ###
 
-        #가중치를 24개 구간으로 쪼개기
-        categories_query = "SELECT * FROM category"
-        cursor.execute(categories_query)
-        categories = cursor.fetchall()
+        # 현재 날짜
+        current_date = datetime.date.today()
 
-        #관련 변수 값을 담을 리스트
-        keyword_list, day_list, week_list, month_list = [], [], [], []
+        # 일별 카운트 쿼리
+        daily_query = f'''
+        SELECT Category.Cid, IFNULL(COUNT(Notice.Cid_id), 0) AS day_count
+        FROM category
+        LEFT JOIN Notice ON Category.Cid = Notice.Cid_id AND DATE(Notice.time) = '{current_date}'
+        GROUP BY Category.Cid
+        '''
+        cursor.execute(daily_query)
+        daily_counts = cursor.fetchall()
 
-        #관련 변수값을 리스트에 담기
-        for category in categories:
-            keyword_query = f"SELECT COUNT(*) FROM keyword WHERE Cid_id = {category[0]}"
-            cursor.execute(keyword_query)
-            keyword_num = cursor.fetchone()[0]
+        print("일별 카운트 가져오기")
+        print(daily_counts)
 
-            day_query = f"SELECT COUNT(*) FROM notice WHERE Cid_id = {category[0]} AND time >= NOW() - INTERVAL 1 DAY"
-            cursor.execute(day_query)
-            day_num = cursor.fetchone()[0]
+        # 주별 카운트 쿼리
+        start_of_week = current_date - datetime.timedelta(days=current_date.weekday())
+        end_of_week = start_of_week + datetime.timedelta(days=6)
+        weekly_query = f'''
+        SELECT Category.Cid, IFNULL(COUNT(Notice.Cid_id), 0) AS week_count
+        FROM category
+        LEFT JOIN Notice ON Category.Cid = Notice.Cid_id AND DATE(Notice.time) >= '{start_of_week}' AND DATE(Notice.time) <= '{end_of_week}'
+        GROUP BY Category.Cid
+        '''
+        cursor.execute(weekly_query)
+        weekly_counts = cursor.fetchall()
 
-            week_query = f"SELECT COUNT(*) FROM notice WHERE Cid_id = {category[0]} AND time >= NOW() - INTERVAL 7 DAY"
-            cursor.execute(week_query)
-            week_num = cursor.fetchone()[0]
+        print("주별 카운트 가져오기")
+        print(weekly_counts)
 
-            month_query = f"SELECT COUNT(*) FROM notice WHERE Cid_id = {category[0]} AND time >= NOW() - INTERVAL 30 DAY"
-            cursor.execute(month_query)
-            month_num = cursor.fetchone()[0]
+        # 월별 카운트 쿼리
+        start_of_month = current_date.replace(day=1)
+        end_of_month = current_date.replace(day=28) + datetime.timedelta(days=4)
+        monthly_query = f'''
+        SELECT Category.Cid, IFNULL(COUNT(Notice.Cid_id), 0) AS month_count
+        FROM category
+        LEFT JOIN Notice ON Category.Cid = Notice.Cid_id AND DATE(Notice.time) >= '{start_of_month}' AND DATE(Notice.time) <= '{end_of_month}'
+        GROUP BY Category.Cid
+        '''
+        cursor.execute(monthly_query)
+        monthly_counts = cursor.fetchall()
 
-            keyword_list.append(keyword_num)
-            day_list.append(day_num)
-            week_list.append(week_num)
-            month_list.append(month_num)
+        print("월별 카운트 가져오기")
+        print(monthly_counts)
 
-        #구간 설정을 위한 최대, 최소 구하기
-        keyword_max = max(keyword_list)
-        day_max = max(day_list)
-        week_max = max(week_list)
-        month_max = max(month_list)
+        # 키워드 카운트 쿼리
+        keyword_query = f'''
+        SELECT Category.Cid, IFNULL(COUNT(keyword.Cid_id), 0) AS key_count
+        FROM category
+        LEFT JOIN keyword ON Category.Cid = keyword.Cid_id
+        GROUP BY Category.Cid
+        '''
 
-        keyword_min = min(keyword_list)
-        day_min = min(day_list)
-        week_min = min(week_list)
-        month_min = min(month_list)
+        cursor.execute(keyword_query)
+        keyword_counts = cursor.fetchall()
 
+        print("키워드 카운트 가져오기")
+        print(keyword_counts)
 
-        for category in categories:
-            keyword_query = f"SELECT COUNT(*) FROM keyword WHERE Cid_id = {category[0]}"
-            cursor.execute(keyword_query)
-            keyword_num = cursor.fetchone()[0]
+        # 일별 최대, 최소 카운트
+        day_max = max(daily_counts, key=lambda x: x[1])
+        day_min = min(daily_counts, key=lambda x: x[1])
 
-            day_query = f"SELECT COUNT(*) FROM notice WHERE Cid_id = {category[0]} AND time >= NOW() - INTERVAL 1 DAY"
-            cursor.execute(day_query)
-            day_num = cursor.fetchone()[0]
+        print("일별 최대, 최소 카운트")
+        print(day_max, day_min)
 
-            week_query = f"SELECT COUNT(*) FROM notice WHERE Cid_id = {category[0]} AND time >= NOW() - INTERVAL 7 DAY"
-            cursor.execute(week_query)
-            week_num = cursor.fetchone()[0]
+        # 주별 최대, 최소 카운트
+        week_max = max(weekly_counts, key=lambda x: x[1])
+        week_min = min(weekly_counts, key=lambda x: x[1])
 
-            month_query = f"SELECT COUNT(*) FROM notice WHERE Cid_id = {category[0]} AND time >= NOW() - INTERVAL 30 DAY"
-            cursor.execute(month_query)
-            month_num = cursor.fetchone()[0]
+        print("주별 최대, 최소 카운트")
+        print(week_max, week_min)
 
-            #가중치를 시간으로 환산
-            keyword_percentile = get_percentile(keyword_num, keyword_min, keyword_max)
-            day_percentile = get_percentile(day_num, day_min, day_max)
-            week_percentile = get_percentile(week_num, week_min, week_max)
-            month_percentile = get_percentile(month_num, month_min, month_max)
+        # 월별 최대, 최소 카운트
+        month_max = max(monthly_counts, key=lambda x: x[1])
+        month_min = min(monthly_counts, key=lambda x: x[1])
 
-            #시간에 우선도 반영
-            weight = (100 - (keyword_percentile + day_percentile + week_percentile + month_percentile))/4
+        print("월별 최대, 최소 카운트")
+        print(month_max, month_min)
 
-            update_query = f"UPDATE category SET time_initial = {weight} WHERE Cid = {category[0]}"
+        # 키워드별 최대, 최소 카운트
+        keyword_max = max(keyword_counts, key=lambda x: x[1])
+        keyword_min = min(keyword_counts, key=lambda x: x[1])
+
+        print("키워드별 최대, 최소 카운트")
+        print(keyword_max, keyword_min)
+
+        #가중치를 시간으로 환산
+        keyword_percentile = [get_percentile(count[1], keyword_min[1], keyword_max[1]) for count in keyword_counts]
+        print("키워드별 퍼센트 값")
+        print(keyword_percentile)
+        day_percentile = [get_percentile(count[1], day_min[1], day_max[1]) for count in daily_counts]
+        print("일별 퍼센트 값")
+        print(day_percentile)
+        week_percentile = [get_percentile(count[1], week_min[1], week_max[1]) for count in weekly_counts]
+        print("주별 퍼센트 값")
+        print(week_percentile)
+        month_percentile = [get_percentile(count[1], month_min[1], month_max[1]) for count in monthly_counts]
+        print("월별 퍼센트 값")
+        print(month_percentile)
+
+        # weight 계산
+        weights = [(100 - (keyword_percentile[i] + day_percentile[i] + week_percentile[i] + month_percentile[i]))/4
+                   for i in range(len(keyword_percentile))]
+
+        print("최종 weight값")
+        print(weights)
+
+        # category의 time_initial 값으로 weight 지정
+        for i in range(len(weights)):
+            cid = keyword_counts[i][0]  # cid 값 가져오기
+            weight = weights[i]  # 해당 cid에 대한 weight 값 가져오기
+
+            # category 업데이트 쿼리
+            update_query = f'''
+            UPDATE category
+            SET time_initial = {weight}
+            WHERE Cid = {cid}
+            '''
             cursor.execute(update_query)
 
         # 변경 사항을 커밋하여 데이터베이스에 반영
         connection.commit()
 
-        ### 업데이트 된 내용 확인
+        ### 업데이트 된 내용 확인 ###
         select_query = f"SELECT Cname, time_initial FROM category"
         cursor.execute(select_query)
         updated_categories = cursor.fetchall()
@@ -342,6 +394,7 @@ def frequencyUpdate():
             cname = updated_category[0]
             time_initial = updated_category[1]
             print(f"Cname: {cname}, time_initial: {time_initial}")
+        ### 업데이트 된 내용 확인 ###
 
         # 커서와 연결 종료
         cursor.close()
