@@ -55,6 +55,7 @@ class Keyword(models.Model):
     Uid = models.ForeignKey(User, on_delete=models.CASCADE)
     key = models.CharField(max_length=10)
     Cid = models.ForeignKey(Category, on_delete=models.CASCADE)
+    similar_on = models.BooleanField(default=True)
 
     class Meta:
         managed = True
