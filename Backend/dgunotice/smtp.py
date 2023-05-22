@@ -49,7 +49,8 @@ def sendAll():
 
         # 공지 레코드마다 title, link 값 가져오기
         for notice in notices:
-            send_list = []
+            send_keyword = []
+            send_similar = []
             title = notice[0]
             link = notice[1]
             cid = notice[4]
@@ -76,7 +77,7 @@ def sendAll():
                     # 토큰화된 키워드값이 공지 레코드의 title의 substring과 매치된다면 send_list에 이메일주소 저장
                     for keyword_tokenized in keywords_tokenized:
                         if keyword_tokenized in title:
-                            send_list.append(email_address)
+                            send_keyword.append(email_address)
                             is_overlapped = True
                             break #한번이라도 매칭되었으면 탈출 (중복 방지)
 
@@ -85,24 +86,35 @@ def sendAll():
                     if not is_overlapped and similar_on:
                         for keyword_similar in keywords_similar:
                             if keyword_similar in title:
-                                send_list.append(email_address)
+                                send_similar.append(email_address)
                                 break   #한번이라도 매칭되었으면 탈출 (중복 방지)
 
             else:
                 print("해당 Notice의 Cid와 매칭하는 Keyword 레코드가 없음")
 
             # List into Set (중복 방지)
-            send_list = list(set(send_list))
+            send_keyword = list(set(send_keyword))
+            send_similar = list(set(send_similar))
             # Empty Set 전송 방지
-            if send_list:
-                sendEmail(send_list, title, link)
+            if send_keyword:
+                sendEmail(send_keyword, title, link, 0)
 
                 count += 1
                 # 테스트
-                print("전송된 유저 목록 : ", send_list)
-                print("제목 : ", title)
+                print("전송된 유저 목록 : ", send_keyword)
+                print("[키워드 공지] : ", title)
                 print("링크 : ", link)
                 print("전송된 공지 카운트 : ", count)
+
+            if send_similar:
+                sendEmail(send_similar, title, link, 1)
+
+                count += 1
+                # 테스트
+                print("[전송된 유저 목록] : ", send_similar)
+                print("[유사키워드 공지] : ", title)
+                print("[링크] : ", link)
+                print("[전송된 공지 카운트] : ", count)
 
             notice_cycle += 1
             print("공지 탐색 횟수 : ", notice_cycle)
@@ -116,11 +128,21 @@ def sendAll():
         print('An error occurred:', str(e))
 
 
-def sendEmail(send_list, title, link):
+def sendEmail(send_list, title, link, type):
     # 수신자
+
     recipients = send_list
     message = MIMEMultipart()
-    message['Subject'] = title
+
+    if type == 0:
+        text0 = "[키워드 공지]"
+
+    else:
+        text0 = "[유사 키워드 공지]"
+
+    title_merged = text0 + "" + title
+
+    message['Subject'] = title_merged
     message['From'] = env('NAVER_ADDRESS')
     message['To'] = ",".join(recipients)
 
