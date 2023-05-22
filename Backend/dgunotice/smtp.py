@@ -64,14 +64,8 @@ def sendAll():
                     keyword_text = keyword[1] # 등록된 키워드
                     keywords_similar = []
                     similar_on = keyword[4] # 키워드 유사단어로 공지 받아볼지 여부
-                    tokens = tokenizedKey(keyword_text) # 키워드 토큰화
+                    keywords_tokenized = tokenizedKey(keyword_text) # 키워드 토큰화
 
-                    # 리스트에서 공백 토큰 제거
-                    tokens = [lst for lst in tokens if lst]
-                    keywords_tokenized = []
-                    for lst in tokens:
-                        if lst:
-                            keywords_tokenized.append(lst)
                     is_overlapped = False   #키워드가 매칭 되었는데 유사단어도 매칭된다면 중복 발송 방지
 
                     # 각 토큰으로부터 유사단어 추출후 5개씩 저장

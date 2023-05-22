@@ -2,6 +2,7 @@ from django.shortcuts import redirect, render
 from django.contrib.auth.hashers import make_password, check_password
 from django.views import View
 from .models import Pagetype, Category, User, Keyword, Notice
+from similar import getSimKey, tokenizedKey
 
 def testPage(request):
     return render(request, 'test.html')
@@ -289,6 +290,12 @@ class MainPageView(View):
 class SearchView(View):
     def get(self, request):
         keyword = request.GET.get('keyword')
+        keywords_tokenized = tokenizedKey(keyword)
+        keywords_similar = []
+
+        for keyword_tokenized in keywords_tokenized:
+            keywords_similar += getSimKey(keyword_tokenized, 5)
+
 
         # 제목 필드에서 검색어를 포함하는 공지사항 검색
         notices = Notice.objects.filter(title__icontains=keyword)
@@ -296,6 +303,7 @@ class SearchView(View):
         context = {
             'notices': notices,
             'keyword': keyword,
+            'keywords_similar' : keywords_similar,
         }
 
         return render(request, 'searchPage.html', context)
