@@ -2,7 +2,11 @@ from django.shortcuts import redirect, render
 from django.contrib.auth.hashers import make_password, check_password
 from django.views import View
 from .models import Pagetype, Category, User, Keyword, Notice
-from Crawl.similar import getSimKey, tokenizedKey
+from Crawl.similar import tokenizedKey, getSimKey
+
+os_path = '../../Crawl/model/ko.bin'
+own_path = '../../Crawl/model/ko_own.bin'
+combined_path = '../../Crawl/model/ko_combined.bin'
 
 def testPage(request):
     return render(request, 'test.html')
