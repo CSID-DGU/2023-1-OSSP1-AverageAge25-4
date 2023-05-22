@@ -76,6 +76,17 @@ def tokenized(data):
 
     return preprocessed
 
+# 불용어가 키워드일 경우 토큰화 진행시 Empty list가 생길수있어서
+# 따로 불용어를 제거한 tokenizedKey 정의
+def tokenizedKey(data):
+    cleaned_data = cleanText(data)
+
+    kkma = Kkma()
+
+    preprocessed = kkma.nouns(cleaned_data)
+
+    return preprocessed
+
 def buildModel():
     data_set = []
     title_list = getDB()
@@ -151,3 +162,5 @@ def getSimKeyTester(keyword, num, path):
         print(f"{keyword} is not in vocabulary")
 
         return []
+
+print(tokenizedKey("대학생안내"))
