@@ -77,10 +77,12 @@
                     </ul>
                       <button id="add-keyword-btn" style="font-size: 16px; width : 50px; height:23px; margin-left: 75px">+</button>
 
-                   <div id="keyword-input-wrapper" style="display: none;">
-                    <!-- 추가된 부분: 유저 키워드 입력 폼 -->
-                      <form id="keyword-form" action="{% url 'Login' %}" method="post">
-                      {% csrf_token %}
+
+                  <div id="keyword-input-wrapper" style="display: none;">
+                        <!-- 추가된 부분: 유저 키워드 입력 폼 -->
+                    <form id="keyword-form" action="{% url 'Login' %}" method="post">
+                             {% csrf_token %}
+                <input class="keyinput" type="text" name="keyword_name" placeholder="키워드를 입력하세요">
 
                    <div class="cat-container" style="background: white; width: 170px; height: 80px; overflow: auto;">
                    {% for category in categories %}
