@@ -4,10 +4,6 @@ from django.views import View
 from .models import Pagetype, Category, User, Keyword, Notice
 from Background.similar import tokenizedKey, getSimKey
 
-os_path = '../../Crawl/model/ko.bin'
-own_path = '../../Crawl/model/ko_own.bin'
-combined_path = '../../Crawl/model/ko_combined.bin'
-
 def testPage(request):
     return render(request, 'test.html')
 
