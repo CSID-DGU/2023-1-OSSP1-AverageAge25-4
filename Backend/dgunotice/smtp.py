@@ -3,6 +3,7 @@ import MySQLdb
 import environ
 import os
 from similar import getSimKey
+from similar import tokenizedKey
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -58,18 +59,30 @@ def sendAll():
             keywords = cursor.fetchall()
             if keywords:
                 for keyword in keywords :
-                    email_address = keyword[3]
-                    keyword_text = keyword[1]
-                    keywords_similar = getSimKey(keyword_text, 5)
+                    email_address = keyword[3] # 유저 이메일
+                    keyword_text = keyword[1] # 등록된 키워드
+                    keywords_similar = getSimKey(keyword_text, 5) # 유사단어 5개 추출
+                    similar_on = keyword[4] # 키워드 유사단어로 공지 받아볼지 여부
+                    tokens = tokenizedKey(keyword_text) # 키워드 토큰화
+
+                    # 리스트에서 공백 토큰 제거
+                    tokens = [lst for lst in tokens if lst]
+                    keywords_tokenized = []
+                    for lst in tokens:
+                        if lst:
+                            keywords_tokenized.append(lst)
                     is_overlapped = False   #키워드가 매칭 되었는데 유사단어도 매칭된다면 중복 발송 방지
 
-                    # 가져온 key값이 공지 레코드의 title의 substring과 매치된다면 send_list에 이메일주소 저장
-                    if keyword_text in title:
-                        send_list.append(email_address)
-                        is_overlapped = True
+                    # 토큰화된 키워드값이 공지 레코드의 title의 substring과 매치된다면 send_list에 이메일주소 저장
+                    for keyword_tokenized in keywords_tokenized:
+                        if keyword_tokenized in title:
+                            send_list.append(email_address)
+                            is_overlapped = True
+                            break #한번이라도 매칭되었으면 탈출 (중복 방지)
 
-                    # key값이 매치안되었으면 유사단어로 매칭
-                    if not is_overlapped:
+                    # key값이 매치안되었고 유사단어 onoff 가 on일때만 유사단어로
+                    # 공지 레코드의 title의 substring과 매치된다면 send_list에 이메일주소 저장
+                    if not is_overlapped and similar_on:
                         for keyword_similar in keywords_similar:
                             if keyword_similar in title:
                                 send_list.append(email_address)
@@ -78,9 +91,9 @@ def sendAll():
             else:
                 print("해당 Notice의 Cid와 매칭하는 Keyword 레코드가 없음")
 
-            # 중복 방지
+            # List into Set (중복 방지)
             send_list = list(set(send_list))
-            # Empty set 전송 방지
+            # Empty Set 전송 방지
             if send_list:
                 sendEmail(send_list, title, link)
 
@@ -95,10 +108,8 @@ def sendAll():
             print("공지 탐색 횟수 : ", notice_cycle)
             print("")
 
-
         cursor.close()
         connection.close()
-
 
     except Exception as e:
         # 예외 처리
@@ -138,4 +149,5 @@ def sendEmail(send_list, title, link):
     server.sendmail(message['From'], recipients, message.as_string())
     server.quit()
 
+#테스트
 sendAll()
