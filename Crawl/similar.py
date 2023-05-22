@@ -6,9 +6,9 @@ import MySQLdb
 from konlpy.tag import Kkma
 from gensim.models.word2vec import Word2Vec
 
-os_path = '../model/ko.bin'
-own_path = '../model/ko_own.bin'
-combined_path = '../model/ko_combined.bin'
+os_path = '../Backend/model/ko.bin'
+own_path = '../Backend/model/ko_own.bin'
+combined_path = '../Backend/model/ko_combined.bin'
 
 
 env = environ.Env(
@@ -22,7 +22,7 @@ env = environ.Env(
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 environ.Env.read_env(
-    env_file=os.path.join(BASE_DIR, '.env')
+    env_file=os.path.join(BASE_DIR, 'Backend', '.env')
 )
 
 
@@ -65,7 +65,7 @@ def tokenized(data):
     cleaned_data = cleanText(data)
 
     stop_words = []
-    with open('stopword.txt', encoding='utf-8') as f:
+    with open('../Backend/dgunotice/stopword.txt', encoding='utf-8') as f:
         for i in f:
             stop_words.append(i.strip())
 
@@ -162,3 +162,5 @@ def getSimKeyTester(keyword, num, path):
         print(f"{keyword} is not in vocabulary")
 
         return []
+
+print(getSimKey("학사",5))

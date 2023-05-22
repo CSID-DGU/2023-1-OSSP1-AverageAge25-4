@@ -2,7 +2,7 @@ from django.shortcuts import redirect, render
 from django.contrib.auth.hashers import make_password, check_password
 from django.views import View
 from .models import Pagetype, Category, User, Keyword, Notice
-from similar import getSimKey, tokenizedKey
+from Crawl.similar import getSimKey, tokenizedKey
 
 def testPage(request):
     return render(request, 'test.html')
@@ -307,3 +307,5 @@ class SearchView(View):
         }
 
         return render(request, 'searchPage.html', context)
+
+
