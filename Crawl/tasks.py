@@ -13,7 +13,7 @@ scheduler.add_job(crawlCheck, 'interval', hours=1)
 scheduler.add_job(frequencyUpdate, 'interval', hours=24)
 
 # 7일마다 frequencyUpdate() 함수 호출 테스트할때는 minutes=1로 해보세요
-scheduler.add_job(trainModel, 'interval', day=7)
+scheduler.add_job(trainModel, 'interval', days=7)
 
 # 스케줄러 시작
 scheduler.start()
