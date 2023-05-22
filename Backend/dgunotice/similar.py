@@ -162,5 +162,3 @@ def getSimKeyTester(keyword, num, path):
         print(f"{keyword} is not in vocabulary")
 
         return []
-
-print(tokenizedKey("대학생안내"))

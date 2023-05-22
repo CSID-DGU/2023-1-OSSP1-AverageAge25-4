@@ -62,7 +62,7 @@ def sendAll():
                 for keyword in keywords :
                     email_address = keyword[3] # 유저 이메일
                     keyword_text = keyword[1] # 등록된 키워드
-                    keywords_similar = getSimKey(keyword_text, 5) # 유사단어 5개 추출
+                    keywords_similar = []
                     similar_on = keyword[4] # 키워드 유사단어로 공지 받아볼지 여부
                     tokens = tokenizedKey(keyword_text) # 키워드 토큰화
 
@@ -74,7 +74,11 @@ def sendAll():
                             keywords_tokenized.append(lst)
                     is_overlapped = False   #키워드가 매칭 되었는데 유사단어도 매칭된다면 중복 발송 방지
 
-                    # 토큰화된 키워드값이 공지 레코드의 title의 substring과 매치된다면 send_list에 이메일주소 저장
+                    # 각 토큰으로부터 유사단어 추출후 5개씩 저장
+                    for keyword_tokenized in keywords_tokenized:
+                        keywords_similar += getSimKey(keyword_tokenized, 5)
+
+                    # 토큰화된 키워드값이 공지 레코드의 title의 substring과 매치된다면 send_key에 이메일주소 저장
                     for keyword_tokenized in keywords_tokenized:
                         if keyword_tokenized in title:
                             send_keyword.append(email_address)
@@ -82,7 +86,7 @@ def sendAll():
                             break #한번이라도 매칭되었으면 탈출 (중복 방지)
 
                     # key값이 매치안되었고 유사단어 onoff 가 on일때만 유사단어로
-                    # 공지 레코드의 title의 substring과 매치된다면 send_list에 이메일주소 저장
+                    # 공지 레코드의 title의 substring과 매치된다면 send_similar에 이메일주소 저장
                     if not is_overlapped and similar_on:
                         for keyword_similar in keywords_similar:
                             if keyword_similar in title:
