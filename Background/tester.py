@@ -1,5 +1,5 @@
 from konlpy.tag import Kkma
-from similar import getSimKey, getSimKeyTester, getSimKeyOld, tokenized
+from similar import getSimKey, getSimKeyPath, getSimKeyOld, tokenizedKey
 from smtp import sendAll
 
 os_path = 'model/ko.bin'
@@ -14,7 +14,7 @@ def printSim(keyword, type):
     if type == 0:
         print(getSimKeyOld(keyword, 5))
     elif type == 1:
-        print(getSimKeyTester(keyword, 5, own_path))
+        print(getSimKeyPath(keyword, 5, own_path))
     elif type == 2:
         print(getSimKey(keyword, 5))
 
@@ -41,10 +41,10 @@ def printTokenizedOld(data):
     tokenized_data = [word for word in tokenized_sentence if not word in stop_words]  # 불용어 제거
 
 
-    return tokenized_data
+    return print(tokenized_data)
 
 # ================================================TEST CALL======================================================#
 
-printSim("취업", 0)
-printSim("삼성 전자 취업", 1)
-printSim("삼성 전자 취업", 2)
+text = "공모전"
+for i in range (0,3):
+    printSim(text,i)
