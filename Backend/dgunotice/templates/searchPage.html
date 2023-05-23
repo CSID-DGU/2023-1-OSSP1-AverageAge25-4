@@ -7,6 +7,13 @@
         <button class="search" type="submit">검색</button>
     </form>
 
+    <h3>
+        연관 검색어 :
+        {% for keyword_similar in keywords_similar %}
+            <a href="/search/?keyword={{ keyword_similar }}"> {{ keyword_similar }}</a>
+        {% endfor %}
+    </h3>
+
     {% if notices %}
         <h2>"{{ keyword }}"에 대한 검색 결과입니다.</h2>
         <div>
