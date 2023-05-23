@@ -12,7 +12,7 @@
 
           <div class="up-right">
            <form class="searchbar" action="/search/" method="get">
-             <input type="text" name="keyword" placeholder="검색어를 입력하세요">
+             <input type="text" name="keyword" placeholder="검색어를 입력하세요" style="display:flex;flex-shrink:0.4;;width:550px;height:35px;margin-left:0px">
              <button class="search" type="submit">검색</button>
            </form>
          </div>
@@ -21,73 +21,78 @@
 
     <div class="middle">
        <p2>
-          <button id="openModalButton" class="order" type="submit">공지사항 순서 변경</button>
+          <button id="openModalButton" class="order" type="submit" >공지사항 순서 변경</button>
 
            <div id="myModal" class="modal">
                 <div class="modal-content">
                 <span class="close">&times;</span>
                 <h2>공지사항 순서 변경</h2>
-                    <div>
+                    <details>
+                 <summary>공지사항 목록</summary>
+
+
+                    <p><div>
                         {% for category in allcategory %}
                             <li>{{category.Cid}} : {{category.Cname}}</li>
                         {% endfor %}
                         원하는 카테고리 6개를 순서대로 입력해주세요.<br><br>
-                    </div>
+                    </div></p>
+                        </details>
 
                     <!-- action 보낼 주소 : /mainPage/reorder/
                          input1 ~ 6 : 각각 첫 번째부터 여섯 번째 순서
                     -->
                     <form class="input-wrapper" method="post">
                         {% csrf_token %}
-                        <div class="order_input">
-                            <label>첫 번째 공지사항</label>
-                            <select name="input1">
+                        <div class="order_input" style="margin:7px">
+                            <label>공지사항1 :</label>
+                            <select name="input1" style="height:20px; width: 90px;">
                                 {% for category in allcategory %}
                                 <option value="{{category.Cname}}">{{category.Cname}}</option>
                                 {% endfor %}
                             </select>
                         </div>
-                        <div class="order_input">
-                            <label>두 번째 공지사항</label>
-                            <select name="input2">
+                        <div class="order_input" style="margin:7px">
+                            <label>공지사항2 :</label>
+                            <select name="input2" style="height:20px; width: 90px;">
                                 {% for category in allcategory %}
                                 <option value="{{category.Cname}}">{{category.Cname}}</option>
                                 {% endfor %}
                             </select>
                         </div>
-                        <div class="order_input">
-                            <label>세 번째 공지사항</label>
-                            <select name="input3">
+                        <div class="order_input"style="margin:7px">
+                            <label>공지사항3 :</label>
+                            <select name="input3" style="height:20px; width: 90px;">
                                 {% for category in allcategory %}
                                 <option value="{{category.Cname}}">{{category.Cname}}</option>
                                 {% endfor %}
                             </select>
                         </div>
-                        <div class="order_input">
-                            <label>네 번째 공지사항</label>
-                            <select name="input4">
+                        <div class="order_input" style="margin:7px">
+                            <label>공지사항4 :</label>
+                            <select name="input4" style="height:20px; width: 90px;">
                                 {% for category in allcategory %}
                                 <option value="{{category.Cname}}">{{category.Cname}}</option>
                                 {% endfor %}
                             </select>
                         </div>
-                        <div class="order_input">
-                            <label>다섯 번째 공지사항</label>
-                            <select name="input5">
+                        <div class="order_input" style="margin:7px">
+                            <label>공지사항5 :</label>
+                            <select name="input5" style="height:20px; width: 90px;">
                                 {% for category in allcategory %}
                                 <option value="{{category.Cname}}">{{category.Cname}}</option>
                                 {% endfor %}
                             </select>
                         </div>
-                        <div class="order_input">
-                            <label>여섯 번째 공지사항</label>
-                            <select name="input6">
+                        <div class="order_input" style="margin:7px">
+                            <label>공지사항6 : </label>
+                            <select name="input6" style="height:20px; width: 90px;">
                                 {% for category in allcategory %}
                                 <option value="{{category.Cname}}">{{category.Cname}}</option>
                                 {% endfor %}
                             </select>
                         </div>
-                        <button type="submit">공지사항 순서 변경</button>
+                        <button type="submit" style="height:25px; width:60px; margin:8px;">수정</button>
                     </form>
                 </div>
             </div>
@@ -148,8 +153,8 @@
                 </li>
                 {% endfor %}
             </ul>
-
-            <button id="add-keyword-btn" style="font-size: 16px; width : 50px; height:23px; margin-left: 75px">+</button>
+           <div style=" display:flex;justify-content: center;">
+            <button id="add-keyword-btn" style="font-size: 16px; width : 50px; height:23px; ">+</button></div>
                 <div id="keyword-input-wrapper" style="display: none;">
                     <!-- 추가된 부분: 유저 키워드 입력 폼 -->
                     <form id="keyword-form" action="{% url 'Login' %}" method="post">
@@ -177,7 +182,7 @@
 
         {% for category in categories %}
             <div class="row{{ forloop.counter }}">
-                <h5>{{ category.Cname }}</h5>
+                <h5 style="margin-left:10px">{{ category.Cname }}</h5>
                 <ul>
                 {% for notice in category.notice_set.all|slice:":5" %}
                     <li class="noticelink"><a href="{{ notice.link }}"style="text-decoration:none; color: black;">{{ notice.title }}</a> - {{ notice.time }}</li>
