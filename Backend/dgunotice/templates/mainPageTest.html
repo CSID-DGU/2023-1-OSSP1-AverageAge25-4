@@ -152,14 +152,14 @@
                 </div>
         </div>
 
-        <div class="component-wrapper">
+       <div class="component-wrapper">
 
         {% for category in categories %}
             <div class="row{{ forloop.counter }}">
                 <h5>{{ category.Cname }}</h5>
                 <ul>
                 {% for notice in category.notice_set.all|slice:":5" %}
-                    <li><a href="{{ notice.link }}">{{ notice.title }}</a> - {{ notice.time }}</li>
+                    <li class="noticelink"><a href="{{ notice.link }}"style="text-decoration:none; color: black;">{{ notice.title }}</a> - {{ notice.time }}</li>
                 {% endfor %}
                 </ul>
             </div>
