@@ -3,13 +3,14 @@ from pathlib import Path
 import os
 import re
 import MySQLdb
+import gensim
 from konlpy.tag import Kkma
 from gensim.models.word2vec import Word2Vec
 
 os_path = 'model/ko.bin'
 own_path = 'model/ko_own.bin'
 combined_path = 'model/ko_combined.bin'
-
+old_path = 'model/Kkma_dataset.model'
 
 env = environ.Env(
     DATABASE_NAME=(str, ''),
@@ -67,7 +68,7 @@ def tokenized(data):
     cleaned_data = cleanText(data)
 
     stop_words = []
-    with open('../Backend/dgunotice/stopword.txt', encoding='utf-8') as f:
+    with open('model/stopword.txt', encoding='utf-8') as f:
         for i in f:
             stop_words.append(i.strip())
 
@@ -157,7 +158,8 @@ def trainModel():
 
     print("성공")
 
-def getSimKey(keyword, num):
+# 키워드에 대한 유사단어 num개 추출
+def getSimKeyBase(keyword, num):
     try:
         model = Word2Vec.load(combined_path)
         similar_words = model.wv.most_similar(keyword, topn=num)
@@ -172,9 +174,44 @@ def getSimKey(keyword, num):
 # own_path = notice title 학습 모델
 # os_path = Kyubyong OS 사전 학습 모델
 # combined_path = 합친 모델
-def getSimKeyTester(keyword, num, path):
+def getSimKeyBasePath(keyword, num, path):
     try:
         model = Word2Vec.load(path)
+        similar_words = model.wv.most_similar(tokenizedKey(keyword), topn=num)
+        similar_words = [word for word, score in similar_words if score >= 0]
+        return similar_words
+
+    except KeyError:
+        print(f"{keyword} is not in vocabulary")
+
+        return []
+
+# 키워드를 토큰화하여 토큰 마다 유사단어 num개 추출
+def getSimKey(keyword, num):
+
+    keywords_tokenized = tokenizedKey(keyword)  # 키워드 토큰화
+
+    keywords_similar = []
+
+    for keyword_tokenized in keywords_tokenized:
+        keywords_similar += getSimKeyBase(keyword_tokenized, num)
+
+        return keywords_similar
+
+
+def getSimKeyPath(keyword, num, path):
+    keywords_tokenized = tokenizedKey(keyword)  # 키워드 토큰화
+
+    keywords_similar = []
+
+    for keyword_tokenized in keywords_tokenized:
+        keywords_similar += getSimKeyPath(keyword_tokenized, num, path)
+
+        return keywords_similar
+
+def getSimKeyOld(keyword, num):
+    try:
+        model = gensim.models.word2vec.Word2Vec.load(old_path)
         similar_words = model.wv.most_similar(keyword, topn=num)
         similar_words = [word for word, score in similar_words if score >= 0]
         return similar_words
@@ -184,4 +221,3 @@ def getSimKeyTester(keyword, num, path):
 
         return []
 
-print(getSimKey("학사",5))

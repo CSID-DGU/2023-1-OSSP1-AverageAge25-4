@@ -10,6 +10,7 @@ def cleanText(data):
     cleaned_data = second_process.strip() # 좌측 우측 양측 공백 제거
     return cleaned_data
 
+
 def tokenizedKey(data):
     cleaned_data = cleanText(data)
     kkma = Kkma()
@@ -17,10 +18,11 @@ def tokenizedKey(data):
 
     return preprocessed
 
-def getSimKeyTester(keyword, num, path):
+
+def getSimKeyBasePath(keyword, num, path):
     try:
         model = Word2Vec.load(path)
-        similar_words = model.wv.most_similar(keyword, topn=num)
+        similar_words = model.wv.most_similar(tokenizedKey(keyword), topn=num)
         similar_words = [word for word, score in similar_words if score >= 0]
         return similar_words
 
@@ -29,4 +31,14 @@ def getSimKeyTester(keyword, num, path):
 
         return []
 
-print(getSimKeyTester)
+
+def getSimKeyPath(keyword, num, path):
+    keywords_tokenized = tokenizedKey(keyword)  # 키워드 토큰화
+
+    keywords_similar = []
+
+    for keyword_tokenized in keywords_tokenized:
+        keywords_similar += getSimKeyPath(keyword_tokenized, num, path)
+
+        return keywords_similar
+
