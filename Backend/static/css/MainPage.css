@@ -60,10 +60,6 @@ border-radius: 5%;
 
 }
 
-
-
-
-
 .delete-form{
  display: inline;
  flex-direction: row;
@@ -97,18 +93,16 @@ flex-wrap: wrap;
 
 }
 
-form {
+.searchbar {
     display : flex;
-    /*justify-content: center;*/
     margin: 30px;
 }
-
 
 .keyinput{
     height: 30px;
     width: 170px;
-
     }
+
 #keyword-form{
     margin-top: 0px;
     align-items: center;
@@ -144,19 +138,18 @@ ul {
     margin-left: 10px;
     color:black;
 }
-  .checkbox-wrapper {
+
+.checkbox-wrapper {
     display: inline-block;
     width: 50%;
     box-sizing: border-box;
     padding: 5px;
-  }
-
-
+}
 
 .keywordlist{
-padding: 8px;
-background: LightGrey;
-border-radius: 5%;
+    padding: 8px;
+    background: LightGrey;
+    border-radius: 5%;
 }
 
 input {
@@ -167,24 +160,24 @@ input {
 }
 
 .cat-container{
-width: 170px;
-height: 170px;
-overflow: auto;
+    width: 170px;
+    height: 170px;
+    overflow: auto;
 }
 .cat-container::-webkit-scrollbar-thumb {
-  background-color: gray;
+    background-color: gray;
 }
 
 .cat-container::-webkit-scrollbar-track {
-  background-color: lightgray;
+    background-color: lightgray;
 }
+
 .search {
     font-family: 'DU';
     height: 35px;
     width: 50px;
     margin : 5px;
 }
-
 
 p2 {
     float: right;
@@ -385,11 +378,8 @@ h5 {
     background-color: #F3E2A9;
   }
 
-
-
 li{
-margin:10px;
-
+    margin:10px;
 }
 
 /* Style the button to open the modal */
@@ -438,4 +428,14 @@ margin:10px;
   color: #000;
   text-decoration: none;
   cursor: pointer;
+}
+
+.input-wrapper {
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+}
+
+.order-input {
+    margin: 7px;
 }

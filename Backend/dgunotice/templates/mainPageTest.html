@@ -11,7 +11,7 @@
         </div>
 
           <div class="up-right">
-           <form action="/search/" method="get">
+           <form class="searchbar" action="/search/" method="get">
              <input type="text" name="keyword" placeholder="검색어를 입력하세요">
              <button class="search" type="submit">검색</button>
            </form>
@@ -31,7 +31,7 @@
                         {% for category in allcategory %}
                             <li>{{category.Cid}} : {{category.Cname}}</li>
                         {% endfor %}
-                        원하는 카테고리 6개를 순서대로 입력해주세요.<br>
+                        원하는 카테고리 6개를 순서대로 입력해주세요.<br><br>
                     </div>
 
                     <!-- action 보낼 주소 : /mainPage/reorder/
@@ -39,42 +39,54 @@
                     -->
                     <form class="input-wrapper" method="post">
                         {% csrf_token %}
-                        <label>첫 번째 공지사항</label>
-                        <select name="input1">
-                            {% for category in allcategory %}
-                            <option value="{{category.Cname}}">{{category.Cname}}</option>
-                            {% endfor %}
-                        </select>
-                        <label>두 번째 공지사항</label>
-                        <select name="input2">
-                            {% for category in allcategory %}
-                            <option value="{{category.Cname}}">{{category.Cname}}</option>
-                            {% endfor %}
-                        </select>
-                        <label>세 번째 공지사항</label>
-                        <select name="input3">
-                            {% for category in allcategory %}
-                            <option value="{{category.Cname}}">{{category.Cname}}</option>
-                            {% endfor %}
-                        </select>
-                        <label>네 번째 공지사항</label>
-                        <select name="input4">
-                            {% for category in allcategory %}
-                            <option value="{{category.Cname}}">{{category.Cname}}</option>
-                            {% endfor %}
-                        </select>
-                        <label>다섯 번째 공지사항</label>
-                        <select name="input5">
-                            {% for category in allcategory %}
-                            <option value="{{category.Cname}}">{{category.Cname}}</option>
-                            {% endfor %}
-                        </select>
-                        <label>여섯 번째 공지사항</label>
-                        <select name="input6">
-                            {% for category in allcategory %}
-                            <option value="{{category.Cname}}">{{category.Cname}}</option>
-                            {% endfor %}
-                        </select>
+                        <div class="order_input">
+                            <label>첫 번째 공지사항</label>
+                            <select name="input1">
+                                {% for category in allcategory %}
+                                <option value="{{category.Cname}}">{{category.Cname}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="order_input">
+                            <label>두 번째 공지사항</label>
+                            <select name="input2">
+                                {% for category in allcategory %}
+                                <option value="{{category.Cname}}">{{category.Cname}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="order_input">
+                            <label>세 번째 공지사항</label>
+                            <select name="input3">
+                                {% for category in allcategory %}
+                                <option value="{{category.Cname}}">{{category.Cname}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="order_input">
+                            <label>네 번째 공지사항</label>
+                            <select name="input4">
+                                {% for category in allcategory %}
+                                <option value="{{category.Cname}}">{{category.Cname}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="order_input">
+                            <label>다섯 번째 공지사항</label>
+                            <select name="input5">
+                                {% for category in allcategory %}
+                                <option value="{{category.Cname}}">{{category.Cname}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="order_input">
+                            <label>여섯 번째 공지사항</label>
+                            <select name="input6">
+                                {% for category in allcategory %}
+                                <option value="{{category.Cname}}">{{category.Cname}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
                         <button type="submit">공지사항 순서 변경</button>
                     </form>
                 </div>
