@@ -4,7 +4,7 @@ from django.contrib.auth.hashers import make_password, check_password
 from django.views import View
 from django.urls import reverse
 from .models import Pagetype, Category, User, Keyword, Notice
-from .similar2 import tokenizedKey, getSimKeyTester
+from .similar2 import tokenizedKey, getSimKeyPath
 
 path = '../Background/model/ko_combined.bin'
 
@@ -322,11 +322,7 @@ class SearchView(View):
 
     def get(self, request):
         keyword = request.GET.get('keyword')
-        keywords_tokenized = tokenizedKey(keyword)
-        keywords_similar = []
-
-        for keyword_tokenized in keywords_tokenized:
-            keywords_similar += getSimKeyTester(keyword_tokenized, 5, path)
+        keywords_similar = getSimKeyPath(keyword, 5, path)
 
         # 제목 필드에서 검색어를 포함하는 공지사항 검색
         notices = Notice.objects.filter(title__icontains=keyword)
