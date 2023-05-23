@@ -37,7 +37,7 @@
                     <!-- action 보낼 주소 : /mainPage/reorder/
                          input1 ~ 6 : 각각 첫 번째부터 여섯 번째 순서
                     -->
-                    <form class="input-wrapper" method="post" action="/mainPage/reorder/">
+                    <form class="input-wrapper" method="post">
                         {% csrf_token %}
                         <label>첫 번째 공지사항</label>
                         <select name="input1">
@@ -99,27 +99,36 @@
                     <input class="hidden" type="hidden" name="keyword_cid_cname" value="{{ keyword.Cid.Cname }}"style="display:inline-block"  />
                     <a href=/keydelete/{{grouped_keyword.grouper}}><button type="submit" class="delete-key-btn" style="font-size: 14px; "  >-</button></a>
 
-                    <button id="openModalButton1" class="order" type="submit">수정</button>
+                    <button id="openModalButton1" class="order" type="submit" >edit</button>
+
                     <div id="myModal1" class="modal">
                         <div class="modal-content">
                             <span class="close1">&times;</span>
-                            <h3>
+                            <h3 style="text-align:center">
                                 현재 키워드 : {{ grouped_keyword.grouper }} <br>
                             </h3>
                             <!-- action 보낼 주소 : /mainPage/edit_keyword/
                                  edit_keyword : 변경할 키워드
                                  edit_category : 변경할 카테고리
                             -->
-                            <form>
-                                <label>변경하고 싶은 키워드</label>
-                                <input name='edit_keyword' type="text" placeholder="키워드를 입력해주세요.">
-                                <label>변경하고 싶은 카테고리</label>
-                                    <select name="edit_category">
+                            <form style="display:flex; justify-content:center;">
+                                <div class="edit">
+                                    <div class="edit1">
+                                    <label style="width:68px; margin-top:13px">키워드를</label>
+                                    <input name='edit_keyword' type="text" placeholder="키워드 입력" style="width:120px">
+
+                                    <label style="width:120px; margin-top:14px;margin-left:5px;margin-right:0px;">로,&nbsp;&nbsp;카테고리를</label>
+                                     <select name="edit_category" style="width:120px; height:38px; margin-top:5px;margin-right:8px;">
                                         {% for category in allcategory %}
                                             <option value="{{category.Cname}}">{{category.Cname}}</option>
                                         {% endfor %}
-                                    </select>
-                                <button type="submit">키워드 수정</button>
+                                     </select>
+                                        <p>로</p>
+                                    </div>
+                                    <div style="display:flex; justify-content: center;">
+                                        <button type="submit" style="width:50px; font-size:0.95em; font-family: 'DU';">수정</button>
+                                    </div>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -240,4 +249,3 @@
     closeBtn1.addEventListener("click", closeModal1);
 
 </script>
-
