@@ -26,7 +26,6 @@
            <div id="myModal" class="modal">
                 <div class="modal-content">
                 <span class="close">&times;</span>
-                    <!-- Modal content here -->
                 <h2>공지사항 순서 변경</h2>
                     <div>
                         {% for category in allcategory %}
@@ -35,6 +34,9 @@
                         원하는 카테고리 6개를 순서대로 입력해주세요.<br>
                     </div>
 
+                    <!-- action 보낼 주소 : /mainPage/reorder/
+                         input1 ~ 6 : 각각 첫 번째부터 여섯 번째 순서
+                    -->
                     <form class="input-wrapper" method="post">
                         {% csrf_token %}
                         <label>첫 번째 공지사항</label>
@@ -82,50 +84,72 @@
 
     <div class="down">
         <div class="menubar">
-                <h5 style="text-align: center; ">KEYWORDS</h5>
+            <h5 style="text-align: center; ">KEYWORDS</h5>
+            <ul id="keyword-list" style="margin-top: 0px; ">
+                {% regroup keywords by key as grouped_keywords %}
+                {% for grouped_keyword in grouped_keywords %}
+                <li class="keylist" style="list-style-type: none; margin-left: 0px; margin-top: 15px; display:inline-block">
+                    {{ grouped_keyword.grouper }} -
+                    {% for keyword in grouped_keyword.list %}
+                        {{ keyword.Cid.Cname }}
+                        {% if not forloop.last %}, {% endif %}
+                    {% endfor %}
 
-
-                    <ul id="keyword-list" style="margin-top: 0px; ">
-                        {% regroup keywords by key as grouped_keywords %}
-                           {% for grouped_keyword in grouped_keywords %}
-                         <li class="keylist" style="list-style-type: none; margin-left: 0px; margin-top: 15px; display:inline-block">
-
-                                 {{ grouped_keyword.grouper }} -
-                             {% for keyword in grouped_keyword.list %}
-                                  {{ keyword.Cid.Cname }}
-                             {% if not forloop.last %}, {% endif %}
-                                    {% endfor %}
-
-                     <input class="hidden" type="hidden" name="grouped_keyword_grouper" value="{{ grouped_keyword.grouper }}" style="display:inline-block" />
+                    <input class="hidden" type="hidden" name="grouped_keyword_grouper" value="{{ grouped_keyword.grouper }}" style="display:inline-block" />
                     <input class="hidden" type="hidden" name="keyword_cid_cname" value="{{ keyword.Cid.Cname }}"style="display:inline-block"  />
                     <a href=/keydelete/{{grouped_keyword.grouper}}><button type="submit" class="delete-key-btn" style="font-size: 14px; "  >-</button></a>
-                       </li>
-                 {% endfor %}
-                    </ul>
-                      <button id="add-keyword-btn" style="font-size: 16px; width : 50px; height:23px; margin-left: 75px">+</button>
 
+                    <button id="openModalButton1" class="order" type="submit">수정</button>
+                    <div id="myModal1" class="modal">
+                        <div class="modal-content">
+                            <span class="close1">&times;</span>
+                            <h3>
+                                현재 키워드 : {{ grouped_keyword.grouper }} <br>
+                            </h3>
+                            <!-- action 보낼 주소 : /mainPage/edit_keyword/
+                                 edit_keyword : 변경할 키워드
+                                 edit_category : 변경할 카테고리
+                            -->
+                            <form>
+                                <label>변경하고 싶은 키워드</label>
+                                <input name='edit_keyword' type="text" placeholder="키워드를 입력해주세요.">
+                                <label>변경하고 싶은 카테고리</label>
+                                    <select name="edit_category">
+                                        {% for category in allcategory %}
+                                            <option value="{{category.Cname}}">{{category.Cname}}</option>
+                                        {% endfor %}
+                                    </select>
+                                <button type="submit">키워드 수정</button>
+                            </form>
+                        </div>
+                    </div>
 
-                  <div id="keyword-input-wrapper" style="display: none;">
-                        <!-- 추가된 부분: 유저 키워드 입력 폼 -->
+                </li>
+                {% endfor %}
+            </ul>
+
+            <button id="add-keyword-btn" style="font-size: 16px; width : 50px; height:23px; margin-left: 75px">+</button>
+                <div id="keyword-input-wrapper" style="display: none;">
+                    <!-- 추가된 부분: 유저 키워드 입력 폼 -->
                     <form id="keyword-form" action="{% url 'Login' %}" method="post">
                         {% csrf_token %}
-                    <input class="keyinput" type="text" name="keyword_name" placeholder="키워드를 입력하세요">
+                        <input class="keyinput" type="text" name="keyword_name" placeholder="키워드를 입력하세요">
 
-                    <div class="cat-container" style="background: white; width: 170px; height: 80px; overflow: auto;">
-                        {% for category in categories %}
-                        <label class= "cat-item">
-                            <input type="checkbox" style="width: 12px; height: 12px;" value="{{ category.Cid }}">
-                            <span style="font-size: 12px;">{{ category.Cname }}</span>
-                        </label>
-                        {% endfor %}
-                    </div>
+                        <div class="cat-container" style="background: white; width: 170px; height: 80px; overflow: auto;">
+                            {% for category in categories %}
+                            <label class= "cat-item">
+                                <input type="checkbox" style="width: 12px; height: 12px;" value="{{ category.Cid }}">
+                                <span style="font-size: 12px;">{{ category.Cname }}</span>
+                            </label>
+                            {% endfor %}
+                        </div>
 
-                    <div class="btn-group">
-                        <button class="btn" type="submit">추가</button>
-                        <button class="btn" id="cancel-keyword-btn" type="button">취소</button>
-                    </div>
+                        <div class="btn-group">
+                            <button class="btn" type="submit">추가</button>
+                            <button class="btn" id="cancel-keyword-btn" type="button">취소</button>
+                        </div>
                     </form>
-                  </div>
+                </div>
         </div>
 
         <div class="component-wrapper">
@@ -168,7 +192,7 @@
         });
     });
 
-    // 모달 관련
+    // 공지사항 순서 변경 모달
     // Get the modal element
     var modal = document.getElementById("myModal");
 
@@ -193,5 +217,27 @@
 
     // Event listener for close button click to close the modal
     closeBtn.addEventListener("click", closeModal);
+
+
+
+    // 키워드 수정 관련 모달
+    var modal1 = document.getElementById("myModal1");
+
+    var btn1 = document.getElementById("openModalButton1");
+
+    var closeBtn1 = document.getElementsByClassName("close1")[0];
+
+    function openModal1() {
+    modal1.style.display = "block";
+    }
+
+    function closeModal1() {
+    modal1.style.display = "none";
+    }
+
+    btn1.addEventListener("click", openModal1);
+
+    closeBtn1.addEventListener("click", closeModal1);
+
 </script>
 
