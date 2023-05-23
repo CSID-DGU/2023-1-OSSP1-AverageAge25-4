@@ -14,7 +14,7 @@ body {
 
 .container {
     background: #F4F3EA;
-
+display: flex;
     flex-direction: column;
     width: 100vw;
     height: 100vh;
@@ -23,6 +23,7 @@ body {
     display : flex;
     flex-direction: row;
     height: 100px;
+    justify-content: center;
 }
 
 .middle{
@@ -33,6 +34,7 @@ body {
 .down{
     display : flex;
     flex-direction: row;
+    justify-content: center;
 }
 
 .up-left{
@@ -50,11 +52,13 @@ flex-direction: column;
 width: 200px;
 height: 300px;
 margin-left: 30px;
-margin-right:30px;
+margin-right:50px;
+margin-top:25px;
 background: LightGrey;
 border-radius: 5%;
 
 }
+
 
 
 
@@ -74,8 +78,10 @@ ul {
 
 .component-wrapper{
 display : flex;
-flex-direction: column;
-width:500px;
+flex-direction: row;
+width:700px;
+flex-wrap: wrap;
+
 
 }
 
@@ -120,7 +126,12 @@ form {
    float: right;
 }
 
-
+ul {
+    list-style: none;
+    padding: 0;
+    margin-left: 10px;
+    color:black;
+}
   .checkbox-wrapper {
     display: inline-block;
     width: 50%;
@@ -178,65 +189,191 @@ h5 {
     font-size: 16px;
 }
 
+/*두줄로 자르기*/
+.noticelink{
+
+   white-space: normal;
+  overflow: hidden;
+   text-overflow: ellipsis;
+  text-align: left;
+    line-height: 1.2;
+    height: 2.4em;
+
+    font-size: 0.95em;
+}
+
+
 .row1 {
-    width: 500px;
+   width: 250px;
+    height:250px;
     padding: 8px;
-    border-style: solid;
-    border-width: 3px;
-    border-color: orange;
+
     background-color: #F3E2A9;
     margin: 20px;
+    height: 300px;
+
+    border-radius: 9px;
+
+    max-height:250px;
+    overflow: auto;
 }
+/* 스크롤바 전체 기본 꾸미기 */
+ .row1::-webkit-scrollbar {
+    width: 14px;
+
+  }
+  .row1::-webkit-scrollbar-thumb {
+    background-color:SandyBrown;
+    border-radius:10px;
+  }
+  .row1::-webkit-scrollbar-track {
+    background-color: white;
+    background-color: #F3E2A9;
+  }
 
 .row2 {
-    width: 500px;
+   width: 250px;
+    height:250px;
     padding: 8px;
-    border-style: solid;
-    border-width: 3px;
-    border-color: orange;
-    background-color: #F3E2A9;
-    margin: 20px;
-}
 
-.row3 {
-    width: 500px;
-    padding: 8px;
-    border-style: solid;
-    border-width: 3px;
-    border-color: orange;
     background-color: #F3E2A9;
     margin: 20px;
-}
+    height: 300px;
 
-.row4 {
-    width: 500px;
-    padding: 8px;
-    border-style: solid;
-    border-width: 3px;
-    border-color: orange;
-    background-color: #F3E2A9;
-    margin: 20px;
-}
+    border-radius: 9px;
 
-.row5 {
-    width: 500px;
-    padding: 8px;
-    border-style: solid;
-    border-width: 3px;
-    border-color: orange;
-    background-color: #F3E2A9;
-    margin: 20px;
+    max-height:250px;
+    overflow: auto;
 }
+/* 스크롤바 전체 기본 꾸미기 */
+ .row2::-webkit-scrollbar {
+    width: 14px;
 
-.row6 {
-    width: 500px;
+  }
+  .row2::-webkit-scrollbar-thumb {
+    background-color:SandyBrown;
+    border-radius:10px;
+  }
+  .row1::-webkit-scrollbar-track {
+    background-color: white;
+    background-color: #F3E2A9;
+  }
+
+  .row3{
+   width: 250px;
+    height:250px;
     padding: 8px;
-    border-style: solid;
-    border-width: 3px;
-    border-color: orange;
+
     background-color: #F3E2A9;
     margin: 20px;
+    height: 300px;
+
+    border-radius: 9px;
+
+    max-height:250px;
+    overflow: auto;
 }
+/* 스크롤바 전체 기본 꾸미기 */
+ .row3::-webkit-scrollbar {
+    width: 14px;
+
+  }
+  .row3::-webkit-scrollbar-thumb {
+    background-color: SandyBrown;
+    border-radius:10px;
+  }
+  .row3::-webkit-scrollbar-track {
+    background-color: white;
+    background-color: #F3E2A9;
+  }
+
+
+  .row4 {
+   width: 250px;
+    height:250px;
+    padding: 8px;
+
+    background-color: #F3E2A9;
+    margin: 20px;
+    height: 300px;
+
+    border-radius: 9px;
+
+    max-height:250px;
+    overflow: auto;
+}
+/* 스크롤바 전체 기본 꾸미기 */
+ .row4::-webkit-scrollbar {
+    width: 14px;
+
+  }
+  .row4::-webkit-scrollbar-thumb {
+    background-color: SandyBrown;
+    border-radius:10px;
+  }
+  .row4::-webkit-scrollbar-track {
+    background-color: white;
+    background-color: #F3E2A9;
+  }
+
+
+    .row5 {
+   width: 250px;
+    height:250px;
+    padding: 8px;
+
+    background-color: #F3E2A9;
+    margin: 20px;
+    height: 300px;
+
+    border-radius: 9px;
+
+    max-height:250px;
+    overflow: auto;
+}
+/* 스크롤바 전체 기본 꾸미기 */
+ .row5::-webkit-scrollbar {
+    width: 14px;
+
+  }
+  .row5::-webkit-scrollbar-thumb {
+    background-color: SandyBrown;
+    border-radius:10px;
+  }
+  .row5::-webkit-scrollbar-track {
+    background-color: white;
+    background-color: #F3E2A9;
+  }
+
+   .row6 {
+   width: 250px;
+    height:250px;
+    padding: 8px;
+
+    background-color: #F3E2A9;
+    margin: 20px;
+    height: 300px;
+
+    border-radius: 9px;
+
+    max-height:250px;
+    overflow: auto;
+}
+/* 스크롤바 전체 기본 꾸미기 */
+ .row6::-webkit-scrollbar {
+    width: 14px;
+
+  }
+  .row6::-webkit-scrollbar-thumb {
+    background-color: SandyBrown;
+    border-radius:10px;
+  }
+  .row6::-webkit-scrollbar-track {
+    background-color: white;
+    background-color: #F3E2A9;
+  }
+
+
 
 li{
 margin:10px;
