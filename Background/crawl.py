@@ -154,12 +154,13 @@ def crawlInitial():
                         category, name, link, ntime = notice_info
 
                         insert_query = """
-                            INSERT INTO notice (Cid_id, title, link, time, isSended)
-                            VALUES (%s, %s, %s, %s, %s)
+                            INSERT INTO notice (Cid_id, title, link, time, isSended, isTrained)
+                            VALUES (%s, %s, %s, %s, %s, %s)
                         """
                         try:
-                            cursor.execute(insert_query, (category[0], name, link, ntime, True))
+                            cursor.execute(insert_query, (category[0], name, link, ntime, True, False))
                             connection.commit()
+
                         except MySQLdb.IntegrityError as e:
                             # 중복된 항목 처리
                             print("이미 삽입된 항목입니다. 건너뜁니다.")

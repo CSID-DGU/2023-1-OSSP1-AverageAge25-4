@@ -305,7 +305,7 @@ class SearchView(View):
         context = {
             'notices': notices,
             'keyword': keyword,
-            'keywords_similar' : keywords_similar,
+            'keywords_similar': keywords_similar,
         }
 
         return render(request, 'searchPage.html', context)
