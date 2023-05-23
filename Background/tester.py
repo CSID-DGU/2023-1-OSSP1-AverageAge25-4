@@ -45,6 +45,6 @@ def printTokenizedOld(data):
 
 # ================================================TEST CALL======================================================#
 
-text = "공모전"
+text = "복수전공"
 for i in range (0,3):
     printSim(text,i)

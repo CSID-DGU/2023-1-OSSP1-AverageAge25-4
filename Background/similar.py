@@ -91,6 +91,7 @@ def buildModel():
     data_set = []
     title_list = getDB()
     count = 0
+    cnt = 0
     is_built = False
 
     for title in title_list:
@@ -105,6 +106,8 @@ def buildModel():
                 model.build_vocab(data_set, update=True)
                 model.train(data_set, total_examples=model.corpus_count, epochs=model.epochs)
                 model.save(own_path)
+                cnt += 50
+                print(cnt, "개 완료")
 
             else:
                 model = Word2Vec(data_set, size=200, window=5, min_count=1, workers=4)
@@ -117,11 +120,29 @@ def buildModel():
 
     print("성공")
 
+def buildModelInitial():
+    data_set = []
+    title_list = getDB()
+    count = 0
+    cnt = 0
+    is_built = False
+
+    for title in title_list:
+        preprocessed = tokenized(title)
+        data_set.append(preprocessed)
+
+    model = Word2Vec(data_set, size=200, window=5, min_count=1, workers=4)
+    model.save(own_path)
+    is_built = True
+
+
+    print("성공")
+
 def trainModelSelf(load_path, saved_path):
     data_set = []
     title_list = getDB()
     count = 0
-
+    cnt = 0
     for title in title_list:
         preprocessed = tokenized(title)
         data_set.append(preprocessed)
@@ -133,6 +154,8 @@ def trainModelSelf(load_path, saved_path):
             model.save(saved_path)
             count = 0
             data_set = []
+            cnt += 50
+            print(cnt, "개 완료")
 
     print("성공")
 
@@ -154,6 +177,7 @@ def trainModel():
             data_set = []
 
     print("성공")
+
 
 # 키워드에 대한 유사단어 num개 추출
 def getSimKeyBase(keyword, num):
