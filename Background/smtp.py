@@ -73,6 +73,7 @@ def sendAll():
                         if keyword_tokenized in title:
                             send_keyword.append(email_address)
                             is_overlapped = True
+
                             break #한번이라도 매칭되었으면 탈출 (중복 방지)
 
                     # key값이 매치안되었고 유사단어 onoff 가 on일때만 유사단어로

@@ -82,11 +82,8 @@ def tokenized(data):
 # 불용어가 키워드일 경우 토큰화 진행시 Empty list가 생길수있어서
 # 따로 불용어를 제거한 tokenizedKey 정의
 def tokenizedKey(data):
-    cleaned_data = cleanText(data)
 
-    kkma = Kkma()
-
-    preprocessed = kkma.nouns(cleaned_data)
+    preprocessed = data.split(" ")
 
     return preprocessed
 
@@ -220,5 +217,3 @@ def getSimKeyOld(keyword, num):
 
         return []
 
-
-print(getSimKeyPath("학사", 5, own_path))
