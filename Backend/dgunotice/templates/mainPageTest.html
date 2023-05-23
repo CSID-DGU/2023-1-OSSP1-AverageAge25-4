@@ -37,13 +37,43 @@
 
                     <form class="input-wrapper" method="post">
                         {% csrf_token %}
-                        <input type="text" name="input1" placeholder="첫 번째 공지사항">
-                        <input type="text" name="input2" placeholder="두 번째 공지사항">
-                        <input type="text" name="input3" placeholder="세 번째 공지사항">
-                        <input type="text" name="input4" placeholder="네 번째 공지사항">
-                        <input type="text" name="input5" placeholder="다섯 번째 공지사항">
-                        <input type="text" name="input6" placeholder="여섯 번째 공지사항">
-                        <button type="submit">입력</button>
+                        <label>첫 번째 공지사항</label>
+                        <select name="input1">
+                            {% for category in allcategory %}
+                            <option value="{{category.Cname}}">{{category.Cname}}</option>
+                            {% endfor %}
+                        </select>
+                        <label>두 번째 공지사항</label>
+                        <select name="input2">
+                            {% for category in allcategory %}
+                            <option value="{{category.Cname}}">{{category.Cname}}</option>
+                            {% endfor %}
+                        </select>
+                        <label>세 번째 공지사항</label>
+                        <select name="input3">
+                            {% for category in allcategory %}
+                            <option value="{{category.Cname}}">{{category.Cname}}</option>
+                            {% endfor %}
+                        </select>
+                        <label>네 번째 공지사항</label>
+                        <select name="input4">
+                            {% for category in allcategory %}
+                            <option value="{{category.Cname}}">{{category.Cname}}</option>
+                            {% endfor %}
+                        </select>
+                        <label>다섯 번째 공지사항</label>
+                        <select name="input5">
+                            {% for category in allcategory %}
+                            <option value="{{category.Cname}}">{{category.Cname}}</option>
+                            {% endfor %}
+                        </select>
+                        <label>여섯 번째 공지사항</label>
+                        <select name="input6">
+                            {% for category in allcategory %}
+                            <option value="{{category.Cname}}">{{category.Cname}}</option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit">공지사항 순서 변경</button>
                     </form>
                 </div>
             </div>
@@ -64,7 +94,6 @@
                              {% for keyword in grouped_keyword.list %}
                                   {{ keyword.Cid.Cname }}
                              {% if not forloop.last %}, {% endif %}
-
                                     {% endfor %}
 
                      <input class="hidden" type="hidden" name="grouped_keyword_grouper" value="{{ grouped_keyword.grouper }}" style="display:inline-block" />
@@ -79,26 +108,24 @@
                   <div id="keyword-input-wrapper" style="display: none;">
                         <!-- 추가된 부분: 유저 키워드 입력 폼 -->
                     <form id="keyword-form" action="{% url 'Login' %}" method="post">
-                             {% csrf_token %}
-                <input class="keyinput" type="text" name="keyword_name" placeholder="키워드를 입력하세요">
+                        {% csrf_token %}
+                    <input class="keyinput" type="text" name="keyword_name" placeholder="키워드를 입력하세요">
 
-                   <div class="cat-container" style="background: white; width: 170px; height: 80px; overflow: auto;">
-                   {% for category in categories %}
-                    <label class= "cat-item">
-                      <input type="checkbox" style="width: 12px; height: 12px;" value="{{ category.Cid }}">
-                     <span style="font-size: 12px;">{{ category.Cname }}</span>
-                    </label>
-                  {% endfor %}
-                 </div>
-
-
-                    </select>
-                    <div class="btn-group">
-                     <button class="btn" type="submit">추가</button>
-                    <button class="btn" id="cancel-keyword-btn" type="button">취소</button>
+                    <div class="cat-container" style="background: white; width: 170px; height: 80px; overflow: auto;">
+                        {% for category in categories %}
+                        <label class= "cat-item">
+                            <input type="checkbox" style="width: 12px; height: 12px;" value="{{ category.Cid }}">
+                            <span style="font-size: 12px;">{{ category.Cname }}</span>
+                        </label>
+                        {% endfor %}
                     </div>
-               </form>
-              </div>
+
+                    <div class="btn-group">
+                        <button class="btn" type="submit">추가</button>
+                        <button class="btn" id="cancel-keyword-btn" type="button">취소</button>
+                    </div>
+                    </form>
+                  </div>
         </div>
 
         <div class="component-wrapper">
