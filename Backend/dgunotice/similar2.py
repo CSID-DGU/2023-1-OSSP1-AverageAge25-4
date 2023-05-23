@@ -12,9 +12,8 @@ def cleanText(data):
 
 
 def tokenizedKey(data):
-    cleaned_data = cleanText(data)
-    kkma = Kkma()
-    preprocessed = kkma.nouns(cleaned_data)
+
+    preprocessed = data.split(" ")
 
     return preprocessed
 
