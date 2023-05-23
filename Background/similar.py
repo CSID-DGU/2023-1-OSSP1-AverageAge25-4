@@ -188,7 +188,6 @@ def getSimKeyBasePath(keyword, num, path):
 
 # 키워드를 토큰화하여 토큰 마다 유사단어 num개 추출
 def getSimKey(keyword, num):
-
     keywords_tokenized = tokenizedKey(keyword)  # 키워드 토큰화
 
     keywords_similar = []
@@ -205,7 +204,7 @@ def getSimKeyPath(keyword, num, path):
     keywords_similar = []
 
     for keyword_tokenized in keywords_tokenized:
-        keywords_similar += getSimKeyPath(keyword_tokenized, num, path)
+        keywords_similar += getSimKeyBasePath(keyword_tokenized, num, path)
 
         return keywords_similar
 
@@ -221,3 +220,5 @@ def getSimKeyOld(keyword, num):
 
         return []
 
+
+print(getSimKeyPath("학사", 5, own_path))

@@ -38,7 +38,7 @@ def getSimKeyPath(keyword, num, path):
     keywords_similar = []
 
     for keyword_tokenized in keywords_tokenized:
-        keywords_similar += getSimKeyPath(keyword_tokenized, num, path)
+        keywords_similar += getSimKeyBasePath(keyword_tokenized, num, path)
 
         return keywords_similar
 
