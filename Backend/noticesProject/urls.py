@@ -26,5 +26,6 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name="Login"),
     path('signup/', SignupView.as_view(), name='signup'),
     path('mainPage/', MainPageView.as_view(), name='main_page'),
+    path('mainPage/reorder/', MainPageView.as_view(), name='main_page_reorder'),
     path('search/', SearchView.as_view(), name='search'),
 ]

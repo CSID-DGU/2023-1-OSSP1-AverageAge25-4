@@ -37,7 +37,7 @@
                     <!-- action 보낼 주소 : /mainPage/reorder/
                          input1 ~ 6 : 각각 첫 번째부터 여섯 번째 순서
                     -->
-                    <form class="input-wrapper" method="post">
+                    <form class="input-wrapper" method="post" action="/mainPage/reorder/">
                         {% csrf_token %}
                         <label>첫 번째 공지사항</label>
                         <select name="input1">

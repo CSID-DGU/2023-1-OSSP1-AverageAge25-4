@@ -1,6 +1,8 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.contrib.auth.hashers import make_password, check_password
 from django.views import View
+from django.urls import reverse
 from .models import Pagetype, Category, User, Keyword, Notice
 from .similar2 import tokenizedKey, getSimKeyTester
 
@@ -289,6 +291,30 @@ class MainPageView(View):
         # Render the template with the data
         return render(request, 'mainPageTest.html', context)
 
+    def post(self, request):
+
+        if 'reorder' in request.path:
+            NewOrder = ''
+            for i in range(1,7):
+                input_i = f'input{i}'
+                input_value = request.POST.get(input_i)
+                Category_i = Category.objects.get(Cname=input_value)
+                cid = Category_i.Cid
+                if i==6:
+                    NewOrder += str(cid)
+                else:
+                    NewOrder += str(cid) + '/'
+
+            print(NewOrder)
+
+            user_id = self.request.session.get('user_id')
+            user = User.objects.get(Uid=user_id);
+            user.notice_order=NewOrder
+            user.save();
+
+        return HttpResponseRedirect(reverse('main_page'))
+
+
 class SearchView(View):
 
     def get(self, request):
@@ -309,5 +335,8 @@ class SearchView(View):
         }
 
         return render(request, 'searchPage.html', context)
+
+
+
 
 
