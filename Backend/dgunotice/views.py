@@ -294,10 +294,14 @@ class MainPageView(View):
     def post(self, request):
 
         if 'reorder' in request.path:
+            #새로운 공지사항 순서 저장 변수
             NewOrder = ''
+
+            #input 값 가져와서 cid 값 찾아서 저장
             for i in range(1,7):
                 input_i = f'input{i}'
                 input_value = request.POST.get(input_i)
+
                 Category_i = Category.objects.get(Cname=input_value)
                 cid = Category_i.Cid
                 if i==6:
@@ -305,12 +309,11 @@ class MainPageView(View):
                 else:
                     NewOrder += str(cid) + '/'
 
-            print(NewOrder)
-
+            #새로 만들어진 CidList DB저장
             user_id = self.request.session.get('user_id')
-            user = User.objects.get(Uid=user_id);
+            user = User.objects.get(Uid=user_id)
             user.notice_order=NewOrder
-            user.save();
+            user.save()
 
         return HttpResponseRedirect(reverse('main_page'))
 
