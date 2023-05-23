@@ -221,7 +221,7 @@ def crawl(crawl_list):
 
                     insert_query = """
                          INSERT INTO notice (Cid_id, title, link, time, isSended, isTrained)
-                         VALUES (%s, %s, %s, %s, %s)
+                         VALUES (%s, %s, %s, %s, %s, %s)
                      """
                     try:
                         cursor.execute(insert_query, (category[0], name, link, ntime, True, False))
