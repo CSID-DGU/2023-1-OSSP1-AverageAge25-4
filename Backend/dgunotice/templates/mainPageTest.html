@@ -115,7 +115,14 @@
 
                     <input class="hidden" type="hidden" name="grouped_keyword_grouper" value="{{ grouped_keyword.grouper }}" style="display:inline-block" />
                     <input class="hidden" type="hidden" name="keyword_cid_cname" value="{{ keyword.Cid.Cname }}"style="display:inline-block"  />
-                    <a href=/keydelete/{{grouped_keyword.grouper}}><button type="submit" class="delete-key-btn" style="font-size: 14px; "  >-</button></a>
+                    <!-- 요청 : /mainPage/del_keyword/
+                        del_keyword
+                    -->
+                    <form action="/mainPage/del_keyword/" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="del_keyword" value="{{ grouped_keyword.grouper }}">
+                        <button type="submit" class="delete-key-btn" style="font-size: 14px;">-</button>
+                    </form>
 
                     <button id="openModalButton1" class="order" type="submit" >edit</button>
 
@@ -126,11 +133,14 @@
                                 현재 키워드 : {{ grouped_keyword.grouper }} <br>
                             </h3>
                             <!-- action 보낼 주소 : /mainPage/edit_keyword/
+                                 now_keyword : 현재 키워드
                                  edit_keyword : 변경할 키워드
                                  edit_category : 변경할 카테고리
                             -->
-                            <form style="display:flex; justify-content:center;">
+                            <form style="display:flex; justify-content:center;" action="/mainPage/edit_keyword/" method="post">
+                                {% csrf_token %}
                                 <div class="edit">
+                                    <input type="hidden" name="now_keyword" value="{{ grouped_keyword.grouper }}">
                                     <div class="edit1" style="display:flex; align-items: center;">
                                     <label style="width:68px; ">키워드를</label>
                                     <input name='edit_keyword' type="text" placeholder="키워드 입력" style="width:120px; ">
@@ -196,7 +206,7 @@
             <div class="row{{ forloop.counter }}">
                 <h5 style="margin-left:10px">{{ category.Cname }}</h5>
                 <ul>
-                {% for notice in category.notice_set.all|slice:":5" %}
+                {% for notice in category.notice_set.all %}
                     <li class="noticelink"><a href="{{ notice.link }}"style="text-decoration:none; color: black;">{{ notice.title }}</a> - {{ notice.time }}</li>
                 {% endfor %}
                 </ul>
