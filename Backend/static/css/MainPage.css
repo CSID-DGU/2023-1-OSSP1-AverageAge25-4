@@ -207,17 +207,16 @@ h5 {
     font-size: 16px;
 }
 
-/*두줄로 자르기*/
+/*한줄로 자르기*/
 .noticelink{
-
-   white-space: normal;
+display: inline-block;
+   white-space: nowrap;
   overflow: hidden;
    text-overflow: ellipsis;
-  text-align: left;
-    line-height: 1.2;
-    height: 2.4em;
+   width:260px;
+   margin:5px;
 
-    font-size: 0.95em;
+    font-size: 0.9em;
 }
 
 
