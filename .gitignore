@@ -20,6 +20,7 @@ build/
 *.egg
 .env
 db.sqlite3
+.idea
 
 #Frontend
 # React
