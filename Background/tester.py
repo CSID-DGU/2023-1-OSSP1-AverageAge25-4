@@ -52,3 +52,4 @@ for text in texts:
     for i in range (1,4):
         printSim(text,i)
     print("")
+

@@ -12,6 +12,7 @@ os_path = 'model/ko.bin'
 own_path = 'model/ko_own.bin'
 modified_path = 'model/ko_modified.bin'
 old_path = 'model/Kkma_dataset.model'
+test_path = 'model/ko_test.model'
 
 env = environ.Env(
     DATABASE_NAME=(str, ''),
@@ -129,7 +130,7 @@ def buildModelInitial():
         preprocessed = tokenized(title)
         data_set.append(preprocessed)
 
-    model = Word2Vec(data_set, size=200, window=2, min_count=1, workers=4, sg = 1)
+    model = Word2Vec(data_set, size=200, window=10, min_count=1, workers=4, sg = 1)
     model.save(modified_path)
 
 
@@ -167,10 +168,10 @@ def trainModel():
         data_set.append(preprocessed)
         count += 1
         if count >= 50:
-            model = Word2Vec.load(combined_path)
+            model = Word2Vec.load(modified_path)
             model.build_vocab(data_set, update=True)
             model.train(data_set, total_examples=model.corpus_count, epochs=model.epochs)
-            model.save(combined_path)
+            model.save(modified_path)
             count = 0
             data_set = []
 
@@ -180,7 +181,7 @@ def trainModel():
 # 키워드에 대한 유사단어 num개 추출
 def getSimKeyBase(keyword, num):
     try:
-        model = Word2Vec.load(combined_path)
+        model = Word2Vec.load(modified_path)
         similar_words = model.wv.most_similar(keyword, topn=num)
         similar_words = [word for word, score in similar_words if score >= 0]
         return similar_words
@@ -238,4 +239,3 @@ def getSimKeyOld(keyword, num):
         print(f"{keyword} is not in vocabulary")
 
         return []
-
