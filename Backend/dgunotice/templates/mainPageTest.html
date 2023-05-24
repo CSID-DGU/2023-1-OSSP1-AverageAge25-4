@@ -98,7 +98,7 @@
     <div class="down">
         <div class="menubar">
             <h5 style="text-align: center; ">KEYWORDS</h5>
-            <ul id="keyword-list" style="margin-top: 0px; ">
+            <ul id="keyword-list" style="margin-top: 0px;">
                 {% regroup keywords by key as grouped_keywords %}
 
                 {% for grouped_keyword in grouped_keywords %}
@@ -119,8 +119,21 @@
                     </form>
                 </li>
                 {% endfor %}
-
             </ul>
+
+            <label class= "test" style="margin-bottom: 30px;">
+                        <input name="edit_category" type="checkbox" style="width: 12px; height: 12px;" value="공모">
+                        <span style="font-size: 12px;">공모</span>
+                        <input name="edit_category" type="checkbox" style="width: 12px; height: 12px;" value="공모">
+                        <span style="font-size: 12px;">정책</span>
+                        <input name="edit_category" type="checkbox" style="width: 12px; height: 12px;" value="공모">
+                        <span style="font-size: 12px;">아이디어</span>
+                        <input name="edit_category" type="checkbox" style="width: 12px; height: 12px;" value="공모">
+                        <span style="font-size: 12px;">공모전개최</span>
+                        <input name="edit_category" type="checkbox" style="width: 12px; height: 12px;" value="공모">
+                        <span style="font-size: 12px;">개최안내</span>
+                    </label>
+
             <div style=" display:flex;justify-content: center;">
                 <button id="openModalButton2" style="font-size: 16px; width: 40px; margin: 5px; ">+</button>
 
