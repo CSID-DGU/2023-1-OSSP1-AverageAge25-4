@@ -93,7 +93,7 @@ def getNoticeInfo(category, notice):
 
     return category, name.replace("\xa0", " "), link, ntime
 
-def crawlInitial():
+def crawlInitial(category_index=0, page_index=0):
     try:
         connection = MySQLdb.connect(
             host=env('DATABASE_HOST'),
@@ -111,19 +111,20 @@ def crawlInitial():
         cursor.execute(category_list_query)
         category_list = cursor.fetchall()
 
-        for category in category_list[0:74]:
+        for category in category_list[category_index:]:
             url = category[2]
             page_type = category[5]
 
-            page_num = 1  #페이지
+            category_index += 1
+            page_index += 1  #페이지
 
             while True:
                 isNext = True
                 normal_notice_count = 0  # 페이지내 일반 공지 갯수
                 fixed_notice_count = 0  # 페이지내 고정 공지 갯수
-                print('\n----- Current Page : {}'.format(page_num), '------\noriginal url : ' + url)
+                print('\n----- Current Page : {}'.format(page_index), '------\noriginal url : ' + url)
                 # 변경된 url에 페이지 번호를 붙임
-                url_change = url + f'{page_num}'
+                url_change = url + f'{page_index}'
                 print('changed url : ' + url_change + '\n-------------------------------------------------')
 
                 # 페이지가 변경됨에 따라 delay 발생 시킴
@@ -177,7 +178,7 @@ def crawlInitial():
 
                 if isNext:
                     #다음 페이지 탐색
-                    page_num += 1
+                    page_index += 1
                 else:
                     print('------------------ 게시판의 마지막 페이지라 크롤링 종료 ------------------')
                     break
@@ -188,8 +189,9 @@ def crawlInitial():
     except Exception as e:
         # 예외 처리
         print('An error occurred:', str(e))
+        crawlInitial(category_index-1, page_index-1)
 
-def crawl(crawl_list):
+def crawl(crawl_list, category_index=0):
     try:
         connection = MySQLdb.connect(
             host=env('DATABASE_HOST'),
@@ -201,7 +203,8 @@ def crawl(crawl_list):
         
         print("연결 성공")
 
-        for category in crawl_list:
+        for category in crawl_list[category_index:]:
+            category_index+=1
             url = category[2] + '1'
 
             print('\n----- Current Page : {}'.format(1), '------\noriginal url : ' + url + '\n-------------------------------------------------')
@@ -233,6 +236,7 @@ def crawl(crawl_list):
     except Exception as e:
         # 예외 처리
         print('An error occurred:', str(e))
+        crawl(crawl_list, category_index-1)
 
 def get_percentile(value, min_value, max_value):
     percentile = (value - min_value) / (max_value - min_value) * 23 + 1
