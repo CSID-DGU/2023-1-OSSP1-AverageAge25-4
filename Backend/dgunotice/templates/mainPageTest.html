@@ -164,14 +164,19 @@
             <button id="add-keyword-btn" style="font-size: 16px; width : 50px; height:23px; ">+</button></div>
                 <div id="keyword-input-wrapper" style="display: none;">
                     <!-- 추가된 부분: 유저 키워드 입력 폼 -->
-                    <form id="keyword-form" action="{% url 'Login' %}" method="post">
+                    <!--
+                               action = /mainPage/add_keyword
+                               keyword_name
+                               catagory_list
+                    -->
+                    <form id="keyword-form" action="/mainPage/add_keyword/" method="post">
                         {% csrf_token %}
                         <input class="keyinput" type="text" name="keyword_name" placeholder="키워드를 입력하세요">
 
                         <div class="cat-container" style="background: white; width: 170px; height: 80px; overflow: auto;">
                             {% for category in categories %}
                             <label class= "cat-item">
-                                <input type="checkbox" style="width: 12px; height: 12px;" value="{{ category.Cid }}">
+                                <input type="checkbox" name="catagory_list" style="width: 12px; height: 12px;" value="{{ category.Cid }}">
                                 <span style="font-size: 12px;">{{ category.Cname }}</span>
                             </label>
                             {% endfor %}
