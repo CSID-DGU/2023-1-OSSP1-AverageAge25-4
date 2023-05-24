@@ -6,7 +6,7 @@ from django.urls import reverse
 from .models import Pagetype, Category, User, Keyword, Notice
 from .similar2 import tokenizedKey, getSimKeyPath
 
-path = '../Background/model/ko_combined.bin'
+path = '../Background/model/ko_modified.bin'
 
 def testPage(request):
     return render(request, 'test.html')

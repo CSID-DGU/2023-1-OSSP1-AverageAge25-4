@@ -6,10 +6,11 @@ import MySQLdb
 import gensim
 from konlpy.tag import Kkma
 from gensim.models.word2vec import Word2Vec
+from gensim.models import Word2Vec
 
 os_path = 'model/ko.bin'
 own_path = 'model/ko_own.bin'
-combined_path = 'model/ko_combined.bin'
+modified_path = 'model/ko_modified.bin'
 old_path = 'model/Kkma_dataset.model'
 
 env = environ.Env(
@@ -123,17 +124,14 @@ def buildModel():
 def buildModelInitial():
     data_set = []
     title_list = getDB()
-    count = 0
-    cnt = 0
-    is_built = False
 
     for title in title_list:
         preprocessed = tokenized(title)
         data_set.append(preprocessed)
 
-    model = Word2Vec(data_set, size=200, window=5, min_count=1, workers=4)
-    model.save(own_path)
-    is_built = True
+    model = Word2Vec(data_set, size=200, window=2, min_count=1, workers=4, sg = 1)
+    model.save(modified_path)
+
 
 
     print("성공")

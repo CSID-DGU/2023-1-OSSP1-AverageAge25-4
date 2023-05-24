@@ -4,7 +4,7 @@ from smtp import sendAll
 
 os_path = 'model/ko.bin'
 own_path = 'model/ko_own.bin'
-combined_path = 'model/ko_combined.bin'
+combined_path = 'model/ko_modified.bin'
 old_path = 'model/Kkma_dataset.model.bin'
 
 # Old -> type = 0
@@ -12,11 +12,13 @@ old_path = 'model/Kkma_dataset.model.bin'
 
 def printSim(keyword, type):
     if type == 0:
-        print(getSimKeyOld(keyword, 5))
+         print(getSimKeyPath(keyword, 5, own_path))# 크로우
     elif type == 1:
-        print(getSimKeyPath(keyword, 5, own_path))
+        print("기존 프로젝트 모델 : ", getSimKeyOld(keyword, 5)) # 이전프로젝트
     elif type == 2:
-        print(getSimKey(keyword, 5))
+        print("개선 프로젝트 모델 : ", getSimKey(keyword, 5)) # 스킵
+    elif type == 3:
+        print("OS 모델 : ", getSimKeyPath(keyword, 5, os_path)) # os
 
     else:
         print("put 0 or 1 in type")
@@ -44,7 +46,9 @@ def printTokenizedOld(data):
     return print(tokenized_data)
 
 # ================================================TEST CALL======================================================#
-
-text = "복수전공"
-for i in range (0,3):
-    printSim(text,i)
+texts = ["학점", "공모전", "취업", "채용", "등록금", "개학", "전과", "예비군"]
+for text in texts:
+    print("[", text, "] 에 대한 유사단어 5개 추출")
+    for i in range (1,4):
+        printSim(text,i)
+    print("")

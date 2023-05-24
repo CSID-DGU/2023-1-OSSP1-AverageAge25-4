@@ -2,7 +2,7 @@ import re
 from gensim.models import Word2Vec
 from konlpy.tag import Kkma
 
-path = 'Backend/dgunotice/ko_combined.bin'
+path = 'Backend/dgunotice/ko_modified.bin'
 
 def cleanText(data):
     first_process = re.sub(r"[^\uAC00-\uD7A30-9a-zA-Z\s]", "", data) # 특수문자 제거
