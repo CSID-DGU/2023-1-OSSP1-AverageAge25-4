@@ -7,41 +7,36 @@
     <div class="up">
 
         <div class="up-left">
-         <img  src="{% static 'images/logo.png' %}" />
+            <img  src="{% static 'images/logo.png' %}" />
         </div>
 
-          <div class="up-right">
-           <form class="searchbar" action="/search/" method="get">
-             <input type="text" name="keyword" placeholder="검색어를 입력하세요" style="display:flex;flex-shrink:0.4;;width:550px;height:35px;margin-left:0px">
-             <button class="search" type="submit">검색</button>
-           </form>
-         </div>
+            <div class="up-right">
+                <form class="searchbar" action="/search/" method="get">
+                    <input type="text" name="keyword" placeholder="검색어를 입력하세요" style="display:flex;flex-shrink:0.4;;width:550px;height:35px;margin-left:0px">
+                    <button class="search" type="submit">검색</button>
+                </form>
+            </div>
 
     </div>
 
     <div class="middle">
-       <p2>
-          <button id="openModalButton" class="order" type="submit" >공지사항 순서 변경</button>
+        <p2>
+            <button id="openModalButton" class="order" type="submit" >공지사항 순서 변경</button>
 
-           <div id="myModal" class="modal">
+            <div id="myModal" class="modal">
                 <div class="modal-content">
                 <span class="close">&times;</span>
                 <h2>공지사항 순서 변경</h2>
                     <details>
-                 <summary>공지사항 목록</summary>
+                    <summary>공지사항 목록</summary>
+                        <p><div>
+                            {% for category in allcategory %}
+                                <li>{{ category.Cid }} : {{ category.Cname }}</li>
+                            {% endfor %}
+                            원하는 카테고리 6개를 순서대로 입력해주세요.
+                        </div></p>
+                    </details>
 
-
-                    <p><div>
-                        {% for category in allcategory %}
-                            <li>{{category.Cid}} : {{category.Cname}}</li>
-                        {% endfor %}
-                        원하는 카테고리 6개를 순서대로 입력해주세요.<br><br>
-                    </div></p>
-                        </details>
-
-                    <!-- action 보낼 주소 : /mainPage/reorder/
-                         input1 ~ 6 : 각각 첫 번째부터 여섯 번째 순서
-                    -->
                     <form class="input-wrapper" method="post" action="/mainPage/reorder/">
                         {% csrf_token %}
                         <div class="order_input" style="margin:7px">
@@ -107,7 +102,7 @@
                 {% regroup keywords by key as grouped_keywords %}
 
                 {% for grouped_keyword in grouped_keywords %}
-                <li class="keylist" style="list-style-type: none; margin-left: 0px; margin-top: 15px; display:inline-block">
+                <li class="keylist" style="list-style-type: none; margin-left: 0px; margin-top: 15px; display:inline-block; font-size: 15px; display: flex;">
                     {{ grouped_keyword.grouper }} -
                     {% for keyword in grouped_keyword.list %}
                         {{ keyword.Cid.Cname }}
@@ -116,20 +111,18 @@
 
                     <input class="hidden" type="hidden" name="grouped_keyword_grouper" value="{{ grouped_keyword.grouper }}" style="display:inline-block" />
                     <input class="hidden" type="hidden" name="keyword_cid_cname" value="{{ keyword.Cid.Cname }}"style="display:inline-block"  />
-                    <!-- 요청 : /mainPage/del_keyword/
-                        del_keyword
-                    -->
+
                     <form method="post" action="/mainPage/del_keyword/">
                         {% csrf_token %}
                         <input type="hidden" name="del_keyword" value="{{ grouped_keyword.grouper }}">
-                        <button type="submit" class="delete-key-btn" style="font-size: 14px;">-</button>
+                        <button type="submit" class="delete-key-btn" style="font-size: 14px; margin-left: 7px;">-</button>
                     </form>
                 </li>
                 {% endfor %}
 
             </ul>
             <div style=" display:flex;justify-content: center;">
-                <button id="openModalButton2" style="font-size: 16px; width : 50px; height:23px; ">+</button>
+                <button id="openModalButton2" style="font-size: 16px; width: 40px; margin: 5px; ">+</button>
 
                     <div id="myModal2" class="modal">
                         <div class="modal-content">
@@ -140,14 +133,14 @@
                                 <input name="keyword_name" type="text" placeholder="추가할 키워드를 입력해주세요.">
                                 <label>카테고리를 골라주세요.</label>
 
-                                     <div class="cat-container" style="width: 170px; height: 80px; overflow: auto; background:Gainsboro;">
-                                         {% for category in allcategory %}
-                                         <label class= "cat-item">
-                                             <input name="category_list" type="checkbox" style="width: 12px; height: 12px;" value="{{ category.Cid }}">
-                                             <span style="font-size: 12px;">{{ category.Cname }}</span>
-                                         </label>
-                                         {% endfor %}
-                                     </div>
+                                    <div class="cat-container" style="width: 170px; height: 80px; overflow: auto; background:Gainsboro;">
+                                        {% for category in allcategory %}
+                                        <label class= "cat-item">
+                                            <input name="category_list" type="checkbox" style="width: 12px; height: 12px;" value="{{ category.Cid }}">
+                                            <span style="font-size: 12px;">{{ category.Cname }}</span>
+                                        </label>
+                                        {% endfor %}
+                                    </div>
 
                                 <button type="submit">추가</button>
                             </form>
@@ -155,7 +148,7 @@
                     </div>
 
 
-                <button id="openModalButton1" class="order" type="submit" >edit</button>
+                <button id="openModalButton1" class="order" type="submit" style="margin: 5px">edit</button>
 
                     <div id="myModal1" class="modal">
                         <div class="modal-content">
@@ -165,7 +158,8 @@
                             <form style="display:flex; justify-content:center;" action="/mainPage/edit_keyword/" method="post">
                                 {% csrf_token %}
                                 <div class="edit">
-                                    <select name="now_keyword">
+                                    <select id='target_select' name="now_keyword" onchange="changePlaceholder()">
+                                        <option value="" disabled selected style="display: none;">키워드 선택</option>
                                     {% for grouped_keyword in grouped_keywords %}
                                         <option value="{{ grouped_keyword.grouper }}">{{ grouped_keyword.grouper }}</option>
                                     {% endfor %}
@@ -173,7 +167,7 @@
 
                                     <div class="edit1" style="display:flex; align-items: center;">
                                     <label style="width:68px; ">키워드를</label>
-                                    <input name='edit_keyword' type="text" placeholder="키워드 입력" style="width:120px; ">
+                                    <input id='edit_input' name='edit_keyword' type="text" placeholder="변경할 키워드" style="width:120px; ">
 
                                     <label style="width:120px; margin-left:5px;margin-right:0px;">로,&nbsp;&nbsp;카테고리를</label>
 
@@ -183,7 +177,7 @@
                                                 <input name="edit_category" type="checkbox" style="width: 12px; height: 12px;" value="{{ category.Cid }}">
                                                 <span style="font-size: 12px;">{{ category.Cname }}</span>
                                             </label>
-                                             {% endfor %}
+                                            {% endfor %}
                                         </div>
 
                                         <label style="margin-left:5px" >로</label>
@@ -219,29 +213,19 @@
 <script>
 
     // 공지사항 순서 변경 모달
-    // Get the modal element
     var modal = document.getElementById("myModal");
-
-    // Get the button that opens the modal
     var btn = document.getElementById("openModalButton");
-
-    // Get the close button
     var closeBtn = document.getElementsByClassName("close")[0];
 
-    // Function to open the modal
     function openModal() {
     modal.style.display = "block";
     }
 
-    // Function to close the modal
     function closeModal() {
     modal.style.display = "none";
     }
 
-    // Event listener for button click to open the modal
     btn.addEventListener("click", openModal);
-
-    // Event listener for close button click to close the modal
     closeBtn.addEventListener("click", closeModal);
 
 
@@ -260,6 +244,20 @@
     btn1.addEventListener("click", openModal1);
     closeBtn1.addEventListener("click", closeModal1);
 
+    // 키워드 수정시 option에 따라서 기존 키워드 정보 출력
+    function changePlaceholder() {
+        var select = document.getElementById("target_select");
+        var input = document.getElementById("edit_input");
+        var checkboxes = document.querySelectorAll(".cat-container input[type='checkbox']");
+        var selectedOption = select.options[select.selectedIndex].value;
+
+        input.value = selectedOption;
+
+        checkboxes.forEach(function (checkbox) {
+        checkbox.checked = checkbox.value === selectedOption ? true : false;
+    });
+    }
+
 
     // 키워드 추가 관련 모달
     var modal2 = document.getElementById("myModal2");
@@ -275,5 +273,4 @@
 
     btn2.addEventListener("click", openModal2);
     closeBtn2.addEventListener("click", closeModal2);
-
 </script>
