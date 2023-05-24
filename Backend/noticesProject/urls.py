@@ -27,5 +27,8 @@ urlpatterns = [
     path('signup/', SignupView.as_view(), name='signup'),
     path('mainPage/', MainPageView.as_view(), name='main_page'),
     path('mainPage/reorder/', MainPageView.as_view(), name='main_page_reorder'),
+    path('mainPage/add_keyword/', MainPageView.as_view(), name='main_page_add_keyword'),
+    path('mainPage/edit_keyword/', MainPageView.as_view(), name='main_page_edit_keyword'),
+    path('mainPage/del_keyword/', MainPageView.as_view(), name='main_page_del_keyword'),
     path('search/', SearchView.as_view(), name='search'),
 ]
