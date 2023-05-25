@@ -122,7 +122,7 @@ def buildModel():
 
     print("성공")
 
-def buildModelInitial():
+def buildModelInitial(size, window, path):
     data_set = []
     title_list = getDB()
 
@@ -130,8 +130,8 @@ def buildModelInitial():
         preprocessed = tokenized(title)
         data_set.append(preprocessed)
 
-    model = Word2Vec(data_set, size=200, window=10, min_count=1, workers=4, sg = 1)
-    model.save(modified_path)
+    model = Word2Vec(data_set, size=size, window=window, min_count=1, workers=4, sg = 1)
+    model.save(path)
 
 
 
@@ -239,3 +239,9 @@ def getSimKeyOld(keyword, num):
         print(f"{keyword} is not in vocabulary")
 
         return []
+
+
+
+
+
+

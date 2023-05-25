@@ -1,5 +1,5 @@
 from konlpy.tag import Kkma
-from similar import getSimKey, getSimKeyPath, getSimKeyOld, tokenizedKey
+from similar import getSimKey, getSimKeyPath, getSimKeyOld, buildModelInitial
 from smtp import sendAll
 
 os_path = 'model/ko.bin'
@@ -27,6 +27,21 @@ def printSim(keyword, type):
     else:
         print("put 0 or 1 in type")
 
+def printTest():
+    paths = ['model/window1.bin', 'model/window2.bin', 'model/window3.bin', 'model/window4.bin', 'model/window5.bin',
+             'model/window6.bin', 'model/window7.bin', 'model/window8.bin', 'model/window9.bin', 'model/window10.bin', 'model/window11.bin', 'model/window12.bin', 'model/window13.bin', 'model/window14.bin', 'model/window15.bin', 'model/window16.bin', 'model/window17.bin', 'model/window18.bin', 'model/window19.bin', 'model/window20.bin']
+
+    texts = ["학점", "공모전", "취업", "채용", "등록금", "개학", "전과",
+             "예비군", "박람회", "중앙도서관", "반납", "취득", "동아리",
+             "복수전공", "휴학", "아코", "축제", "방학", "신청", "계절학기"]
+
+    for text in texts:
+        i = 1
+        for path in paths:
+            print("window = [", i, "], keyword = [", text, "]")
+            print(getSimKeyPath(text, 5, path))
+            i += 1
+        print("")
 
 
 def sendTest():
@@ -50,13 +65,6 @@ def printTokenizedOld(data):
     return print(tokenized_data)
 
 # ================================================TEST CALL======================================================#
-texts = ["학점", "공모전", "취업", "채용", "등록금", "개학", "전과",
-         "예비군", "박람회", "중앙도서관", "반납", "취득", "동아리",
-         "복수전공", "휴학", "아코", "축제", "방학", "신청", "계절학기"]
 
-for text in texts:
-    print("[", text, "] 에 대한 유사단어 5개 추출")
-    for i in range (1,4):
-        printSim(text,i)
-    print("")
 
+# printTest()
