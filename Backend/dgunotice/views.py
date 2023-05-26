@@ -282,6 +282,7 @@ class MainPageView(View):
         # 모든 Category를 가져옴
         allcategory = Category.objects.all()
 
+        #
         context = {
             'keywords': keywords,
             'categories': categories,
@@ -352,7 +353,18 @@ class MainPageView(View):
             #삭제
             self.del_keyword(user_id, keyword)
 
+        if 'show_similar' in request.path:
+            keyword = request.POST.get('keyword_name')
+            keywords_similar = getSimKeyPath(keyword, 5, path)
+
+            context = {
+                'keywords_simimlar' : keywords_similar,
+            }
+            return render(request, 'mainPageTest.html', context)
+
         return HttpResponseRedirect(reverse('main_page'))
+
+
 
     #keyword 삭제
     def del_keyword(self, uid, keyword):
