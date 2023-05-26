@@ -41,7 +41,7 @@
                         {% csrf_token %}
                         <div class="order_input" style="margin:7px">
                             <label>공지사항1 :</label>
-                            <select name="input1" style="height:20px; width: 90px;">
+                            <select class='option' name="input1" style="height:20px; width: 90px;">
                                 <option value="" disabled selected style="display: none;">공지사항1</option>
                                 {% for category in allcategory %}
                                 <option value="{{category.Cname}}">{{category.Cname}}</option>
@@ -50,16 +50,16 @@
                         </div>
                         <div class="order_input" style="margin:7px">
                             <label>공지사항2 :</label>
-                            <select name="input2" style="height:20px; width: 90px;">
+                            <select class='option' name="input2" style="height:20px; width: 90px;">
                                 <option value="" disabled selected style="display: none;">공지사항2</option>
                                 {% for category in allcategory %}
                                 <option value="{{category.Cname}}">{{category.Cname}}</option>
                                 {% endfor %}
                             </select>
                         </div>
-                        <div class="order_input"style="margin:7px">
+                        <div class="order_input" style="margin:7px">
                             <label>공지사항3 :</label>
-                            <select name="input3" style="height:20px; width: 90px;">
+                            <select class='option' name="input3" style="height:20px; width: 90px;">
                                 <option value="" disabled selected style="display: none;">공지사항3</option>
                                 {% for category in allcategory %}
                                 <option value="{{category.Cname}}">{{category.Cname}}</option>
@@ -68,7 +68,7 @@
                         </div>
                         <div class="order_input" style="margin:7px">
                             <label>공지사항4 :</label>
-                            <select name="input4" style="height:20px; width: 90px;">
+                            <select class='option' name="input4" style="height:20px; width: 90px;">
                                 <option value="" disabled selected style="display: none;">공지사항4</option>
                                 {% for category in allcategory %}
                                 <option value="{{category.Cname}}">{{category.Cname}}</option>
@@ -77,7 +77,7 @@
                         </div>
                         <div class="order_input" style="margin:7px">
                             <label>공지사항5 :</label>
-                            <select name="input5" style="height:20px; width: 90px;">
+                            <select class='option' name="input5" style="height:20px; width: 90px;">
                                 <option value="" disabled selected style="display: none;">공지사항5</option>
                                 {% for category in allcategory %}
                                 <option value="{{category.Cname}}">{{category.Cname}}</option>
@@ -86,7 +86,7 @@
                         </div>
                         <div class="order_input" style="margin:7px">
                             <label>공지사항6 : </label>
-                            <select name="input6" style="height:20px; width: 90px;">
+                            <select class='option' name="input6" style="height:20px; width: 90px;">
                                 <option value="" disabled selected style="display: none;">공지사항6</option>
                                 {% for category in allcategory %}
                                 <option value="{{category.Cname}}">{{category.Cname}}</option>
@@ -125,19 +125,6 @@
                 </li>
                 {% endfor %}
             </ul>
-
-            <!--<label class= "test" style="margin-bottom: 30px;">
-                <input name="edit_category" type="checkbox" style="width: 12px; height: 12px;" value="공모">
-                <span style="font-size: 12px;">공모</span>
-                <input name="edit_category" type="checkbox" style="width: 12px; height: 12px;" value="공모">
-                <span style="font-size: 12px;">정책</span>
-                <input name="edit_category" type="checkbox" style="width: 12px; height: 12px;" value="공모">
-                <span style="font-size: 12px;">아이디어</span>
-                <input name="edit_category" type="checkbox" style="width: 12px; height: 12px;" value="공모">
-                <span style="font-size: 12px;">공모전개최</span>
-                <input name="edit_category" type="checkbox" style="width: 12px; height: 12px;" value="공모">
-                <span style="font-size: 12px;">개최안내</span>
-            </label>-->
 
             <div style=" display:flex;justify-content: center;">
                 <button id="openModalButton2" style="font-size: 16px; width: 40px; margin: 5px; ">+</button>
@@ -298,4 +285,24 @@
 
     btn2.addEventListener("click", openModal2);
     closeBtn2.addEventListener("click", closeModal2);
+
+    // 중복 선택 방지를 위한 이벤트 핸들러
+    function handleOptionSelection() {
+        const selectedOptions = Array.from(document.querySelectorAll('.option')).map(select => select.value);
+        const uniqueOptions = new Set(selectedOptions);
+
+    // 중복된 옵션을 비활성화
+    Array.from(document.querySelectorAll('.option option')).forEach(option => {
+        if (uniqueOptions.has(option.value)) {
+            option.disabled = true;
+        } else {
+            option.disabled = false;
+        }
+    });
+    }
+
+    // 모든 select 태그에 이벤트 핸들러 추가
+    Array.from(document.querySelectorAll('.option')).forEach(select => {
+        select.addEventListener('change', handleOptionSelection);
+    });
 </script>
