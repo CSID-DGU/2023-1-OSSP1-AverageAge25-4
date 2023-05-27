@@ -1,9 +1,13 @@
+{% load static %}
+
 {% block content %}
   <h2>회원가입</h2>
 
   {% if error_message %}
     <p>{{ error_message }}</p>
   {% endif %}
+
+<link rel="stylesheet" href="{% static 'css/signup.css' %}?after">
 
   <!-- 회원가입 폼 -->
   <form method="post" action="{% url 'signup' %}">
