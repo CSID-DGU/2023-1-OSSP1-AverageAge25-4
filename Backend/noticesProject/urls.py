@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, re_path
 from django.views.generic import TemplateView
 from dgunotice import views
-from dgunotice.views import LoginView, SignupView, MainPageView, SearchView
+from dgunotice.views import LoginView, SignupView, MainPageView, SearchView, KeywordProcessView, KeywordAddView
 
 urlpatterns = [
     path('', views.testPage, name="test"),
@@ -27,8 +27,7 @@ urlpatterns = [
     path('signup/', SignupView.as_view(), name='signup'),
     path('mainPage/', MainPageView.as_view(), name='main_page'),
     path('mainPage/reorder/', MainPageView.as_view(), name='main_page_reorder'),
-    path('mainPage/add_keyword/', MainPageView.as_view(), name='main_page_add_keyword'),
-    path('mainPage/edit_keyword/', MainPageView.as_view(), name='main_page_edit_keyword'),
-    path('mainPage/del_keyword/', MainPageView.as_view(), name='main_page_del_keyword'),
+    path('mainPage/add/', KeywordAddView.as_view(), name='add_keyword'),
+    path('mainPage/<str:keyword>/', KeywordProcessView.as_view(), name='keyword_process'),
     path('search/', SearchView.as_view(), name='search'),
 ]

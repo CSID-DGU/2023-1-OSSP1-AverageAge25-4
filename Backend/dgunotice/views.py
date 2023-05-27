@@ -317,41 +317,6 @@ class MainPageView(View):
             user.notice_order=NewOrder
             user.save()
 
-        #키워드 변경
-        if 'edit_keyword' in request.path:
-
-            #정보 가져오기
-            user_id = self.request.session.get('user_id')
-            now_keyword = request.POST.get('now_keyword')
-            edit_keyword = request.POST.get('edit_keyword')
-            edit_catagory = request.POST.getlist('edit_category')
-
-            #기존 정보 삭제
-            self.del_keyword(user_id, now_keyword)
-
-            #추가
-            self.add_keyword(user_id, edit_keyword, edit_catagory)
-
-        #키워드 추가
-        if 'add_keyword' in request.path:
-
-            #정보 가져오기
-            user_id = self.request.session.get('user_id')
-            add_keyword = request.POST.get('keyword_name')
-            add_category = request.POST.getlist('category_list')
-
-            #추가
-            self.add_keyword(user_id, add_keyword, add_category)
-
-        #키워드 삭제
-        if 'del_keyword' in request.path:
-
-            #정보 가져오기
-            user_id = user_id = self.request.session.get('user_id')
-            keyword = request.POST.get('del_keyword')
-
-            #삭제
-            self.del_keyword(user_id, keyword)
 
         if 'show_similar' in request.path:
             keyword = request.POST.get('keyword_name')
@@ -364,24 +329,72 @@ class MainPageView(View):
 
         return HttpResponseRedirect(reverse('main_page'))
 
+class KeywordProcessView(View):
 
+    def get(self, request, keyword):
+        #정보 가져오기
+        user_id = user_id = self.request.session.get('user_id')
 
-    #keyword 삭제
-    def del_keyword(self, uid, keyword):
-        keywords = Keyword.objects.filter(Uid=uid, key=keyword)
-        for keyword in keywords:
-            keyword.delete()
-            
-    #keyword 추가
-    def add_keyword(self, uid, keyword, categorys):
-    
-        for i in categorys:
+        #삭제
+        self.del_keyword(user_id,keyword)
+
+        return redirect('main_page')
+
+    def post(self, request, keyword):
+        #정보 가져오기
+        user_id = self.request.session.get('user_id')
+        keyword = request.POST.get('now_keyword')
+        edit_keyword = request.POST.get('edit_keyword')
+        edit_catagory = request.POST.getlist('edit_category')
+
+        # 기존 정보 삭제
+        self.del_keyword(user_id, keyword)
+
+        # 추가
+        self.add_keyword(user_id, edit_keyword, edit_catagory)
+        return redirect('main_page')
+
+    # keyword 추가
+    def add_keyword(self, uid, keyword, categories):
+
+        for i in categories:
             new_keyword = Keyword(
                 key=keyword,
                 Cid_id=i,
                 Uid_id=uid,
             )
             new_keyword.save()
+
+    def del_keyword(self, uid, keyword):
+        keywords = Keyword.objects.filter(Uid=uid, key=keyword)
+
+        for keyword in keywords:
+            keyword.delete()
+
+
+class KeywordAddView(View):
+    def get(self, request):
+        #정보 가져오기
+        user_id = self.request.session.get('user_id')
+        keyword = request.GET.get('keyword_add')
+        categories = request.GET.getlist('category_list')
+
+        #추가
+        self.add_keyword(user_id, keyword, categories)
+
+
+        return redirect('main_page')
+
+    def add_keyword(self, uid, keyword, categories):
+
+        for i in categories:
+            new_keyword = Keyword(
+                key=keyword,
+                Cid_id=i,
+                Uid_id=uid,
+            )
+            new_keyword.save()
+
 
 class SearchView(View):
 

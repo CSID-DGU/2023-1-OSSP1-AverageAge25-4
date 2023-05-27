@@ -120,9 +120,9 @@
                     <input class="hiddenBtn" type="hidden" name="grouped_keyword_grouper" value="{{ grouped_keyword.grouper }}" />
                     <input class="hiddenBtn" type="hidden" name="keyword_cid_cname" value="{{ keyword.Cid.Cname }}"  />
 
-                    <form method="post" action="/mainPage/del_keyword/">
+                    <form method="get" action="/mainPage/{{ grouped_keyword.grouper }}/">
                         {% csrf_token %}
-                        <input type="hidden" name="del_keyword" value="{{ grouped_keyword.grouper }}">
+                        <input type="hidden" name="keyword_del" value="{{ grouped_keyword.grouper }}">
                         <button type="submit" class="delete-key-btn" >-</button>
                     </form>
                 </li>
@@ -136,10 +136,10 @@
                         <div class="modal-content">
                             <span class="close2">&times;</span>
                             <h3>키워드 추가</h3>
-                            <form class="keyinput-form"method="post" action="/mainPage/add_keyword/" >
+                            <form class="keyinput-form"method="get" action="/mainPage/add/" >
                                 {% csrf_token %}
                                 <label>키워드를 입력해주세요.</label>
-                                <input class="keyinputBtn"name="keyword_name" type="text" placeholder="추가할 키워드를 입력해주세요.">
+                                <input class="keyinputBtn"name="keyword_add" type="text" placeholder="추가할 키워드를 입력해주세요.">
                                 <div style="display: flex; align-items: center;">
                                     <label>카테고리를 골라주세요.</label>
                                     <div class="cat-container1" >
@@ -167,42 +167,43 @@
                             <span class="close1">&times;</span>
                             <h3 style="text-align:center">키워드 수정</h3>
 
-                            <form action="/mainPage/edit_keyword/" method="post">
-                                <div style="display:flex; justify-content:center;">
-                                    <label >수정할 키워드를 선택해주세요.</label>
-                                    {% csrf_token %}
-                                    <select id='target_select' name="now_keyword" onchange="changePlaceholder()" >
-                                            <option value="" disabled selected style="display: none;">키워드 선택</option>
-                                        {% for grouped_keyword in grouped_keywords %}
-                                            <option value="{{ grouped_keyword.grouper }}">{{ grouped_keyword.grouper }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
+<form action="/mainPage/'{{ grouped_keyword.grouper|urlencode }}'/" method="post">
+    {% csrf_token %}
+    <div style="display:flex; justify-content:center;">
+        <label>수정할 키워드를 선택해주세요.</label>
+        <select id='target_select' name="now_keyword" onchange="changePlaceholder()">
+            <option value="" disabled selected style="display: none;">키워드 선택</option>
+            {% for grouped_keyword in grouped_keywords %}
+                <option value="{{ grouped_keyword.grouper }}">{{ grouped_keyword.grouper }}</option>
+            {% endfor %}
+        </select>
+    </div>
 
-                                <div class="edit-container">
-                                    <div class="edit" >
-                                    <label style="width:68px; ">키워드를</label>
-                                    <input id='edit_input' name='edit_keyword' type="text" placeholder="변경할 키워드" >
+    <div class="edit-container">
+        <div class="edit">
+            <label style="width:68px;">키워드를</label>
+            <input id='edit_input' name='edit_keyword' type="text" placeholder="변경할 키워드">
 
-                                    <label class="edit-label" >로,&nbsp;&nbsp;카테고리를</label>
+            <label class="edit-label">로,&nbsp;&nbsp;카테고리를</label>
 
-                                        <div class="cat-container2" >
-                                            {% for category in allcategory %}
-                                            <label class= "cat-item">
-                                                <input name="edit_category" type="checkbox"  value="{{ category.Cid }}">
-                                                <span style="font-size: 12px;">{{ category.Cname }}</span>
-                                            </label>
-                                            {% endfor %}
-                                        </div>
+            <div class="cat-container2">
+                {% for category in allcategory %}
+                    <label class="cat-item">
+                        <input name="edit_category" type="checkbox" value="{{ category.Cid }}">
+                        <span style="font-size: 12px;">{{ category.Cname }}</span>
+                    </label>
+                {% endfor %}
+            </div>
 
-                                        <label style="margin-left:5px" >로</label>
-                                    </div>
+            <label style="margin-left:5px">로</label>
+        </div>
 
-                                    <div style="display:flex; justify-content: center;">
-                                        <button class="editBtn2" type="submit" >수정</button>
-                                    </div>
-                                </div>
-                            </form>
+        <div style="display:flex; justify-content: center;">
+            <button class="editBtn2" type="submit">수정</button>
+        </div>
+    </div>
+</form>
+
                         </div>
                     </div>
            </div>
