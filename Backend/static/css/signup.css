@@ -1,0 +1,70 @@
+@font-face {
+    font-family: 'DU';
+    src:
+    url('../css/DU.ttf'),
+    url('../css/DU.woff');
+}
+
+body {
+    background: #F4F3EA;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+h2 {
+    font-family: 'DU';
+    font-size: 30px;
+    text-align: center;
+    margin-bottom: 20px;
+    order: -1; /* Move the 회원가입 heading to the top */
+    color: #FF8C00; /* Set the color to a lighter shade of orange */
+}
+
+p {
+    font-family: 'DU';
+    font-size: 30px;
+    color: #FF8C00; /* Set the color to a lighter shade of orange */
+    text-align: center;
+    margin-top: 20px; /* Add margin at the top of the 로그인 페이지로 이동 text */
+}
+
+form {
+    width: 300px;
+    background-color: #FFFFFF;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+}
+
+div {
+    font-family: 'DU';
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+input, button {
+    font-family: 'DU';
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 3px;
+    border: 1px solid #CCCCCC;
+}
+
+button {
+    background-color: #FF8C00; /* Set the background color to a lighter shade of orange */
+    color: #FFFFFF; /* Set the text color to white */
+    cursor: pointer;
+}
+
+a {
+    font-family: 'DU';
+    text-decoration: none;
+    color: black;
+    display: block;
+    text-align: center;
+    order: 2; /* Move the 로그인 페이지로 이동 link to the bottom */
+}
