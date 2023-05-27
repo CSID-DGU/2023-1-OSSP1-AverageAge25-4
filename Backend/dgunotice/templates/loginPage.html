@@ -6,8 +6,13 @@
 
 <link rel="stylesheet" href="{% static 'css/LoginPage.css' %}?after">
 <html>
-<p className='notice'>Dongguk Notice</p>
 <body>
+<div class="container">
+<div class="up">
+<img  src="{% static 'images/logo.png' %}" />
+</div>
+
+<div class="down">
     <form method="POST" action="{% url 'Login' %}" >
     {% csrf_token %}
         <div>
@@ -23,8 +28,10 @@
         <div>
             <input type="submit" value="Submit">
         </div>
-        
+
     </form>
+</div>
+</div>
 </body>
 </html>
 </link>

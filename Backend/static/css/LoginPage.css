@@ -1,12 +1,45 @@
 @font-face {
     font-family: 'DU';
-    src: 
+    src:
     url('../css/DU.ttf'),
     url('../css/DU.woff');
-} 
+}
 
 body {
     background: #F4F3EA;
+
+}
+.container{
+    display:flex;
+    flex-direction:column;
+    justify-content: center;
+    align-items: center;
+     width: 100vw;
+    height: 100vh;
+    margin-top: -40px;
+}
+
+.up{
+     display:flex;
+     flex-direction:row;
+     align-item:center;
+     width:360px;
+     height:100px;
+     margin-down: 0px;
+
+}
+
+.down{
+width:400px;
+height:300px;
+margin-top:0px;
+}
+
+img{
+width:360px;
+height:100px;
+margin-down:0px;
+margin-left:10px;
 }
 
 p {
@@ -24,6 +57,7 @@ form {
 div {
     font-family: 'DU';
     width : 200px;
+
     margin: 15px;
     margin-left: auto;
     margin-right: auto;
@@ -32,5 +66,6 @@ div {
 input {
     font-family: 'DU';
     width : 200px;
-    margin : 0 auto;
+    height:23px;
+    margin : 2 auto;
 }
