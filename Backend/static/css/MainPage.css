@@ -375,13 +375,17 @@ li{
 }
 
 /* Style the button to open the modal */
-#openModalButton {
+#openModalButton, #Logout {
   background-color: #4caf50;
   color: white;
   padding: 10px 20px;
   border: none;
   cursor: pointer;
+  margin:5px;
+  font-family: 'DU';
+  width: 160px;
 }
+
 
 /* Style the modal container */
 .modal {

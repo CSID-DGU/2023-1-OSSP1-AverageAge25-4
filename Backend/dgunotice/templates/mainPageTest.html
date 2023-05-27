@@ -23,6 +23,10 @@
         <p2>
             <button id="openModalButton" class="order" type="submit" >공지사항 순서 변경</button>
 
+            <form  method="POST" action="{% url 'Login' %}" >
+             <button id="Logout" type="submit">로그아웃</button>
+             </form>
+
             <div id="myModal" class="modal">
                 <div class="modal-content">
                 <span class="close">&times;</span>

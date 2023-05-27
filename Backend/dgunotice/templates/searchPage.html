@@ -12,9 +12,14 @@
     <div class="down-container">
 
     <div class="down">
+        <div class="btn-group">
+             <form class="Logout" method="POST" action="{% url 'Login' %}" >
+             <button type="submit">로그아웃</button>
+             </form>
              <a class="ToMain" href="http://127.0.0.1:8000/mainPage/">
              <button type="button">메인페이지로 이동</button>
              </a>
+        </div>
     <h3>
         연관 검색어 :
         {% for keyword_similar in keywords_similar %}

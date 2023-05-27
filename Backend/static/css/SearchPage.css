@@ -58,17 +58,25 @@ a{
     color: black;
     font-size: 0.9em;
 }
-.ToMain {
+
+
+
+.ToMain,.Logout {
     display : flex;
     justify-content: right;
     text-decoration: none;
     color: black;
+    margin:5px;
 }
 
-.ToMain button {
+.ToMain button,.Logout button {
   background: #4caf50;
   color: white;
-  padding: 10px 20px;
+  padding: 10px 10px;
   border: none;
   cursor: pointer;
+  width: 130px;
+  height: 32px;
+  border-radius:5px;
+  font-size: 0.8rem;
 }
