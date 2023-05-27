@@ -12,7 +12,7 @@
 
             <div class="up-right">
                 <form class="searchbar" action="/search/" method="get">
-                    <input type="text" name="keyword" placeholder="검색어를 입력하세요" style="display:flex;flex-shrink:0.4;;width:550px;height:35px;margin-left:0px">
+                    <input type="text" name="keyword" placeholder="검색어를 입력하세요" >
                     <button class="search" type="submit">검색</button>
                 </form>
             </div>
@@ -37,63 +37,62 @@
                         </div></p>
                     </details>
 
-                    <form class="input-wrapper" method="post" action="/mainPage/reorder/">
+
+                     <form class="input-wrapper" method="post" action="/mainPage/reorder/">
                         {% csrf_token %}
-                        <div class="order_input" style="margin:7px">
+                         <div class="input-wrapper-up">
+                        <div class="order_input" >
                             <label>공지사항1 :</label>
-                            <select class='option' name="input1" style="height:20px; width: 90px;">
-                                <option value="" disabled selected style="display: none;">공지사항1</option>
+                            <select name="input1" class="input1">
                                 {% for category in allcategory %}
                                 <option value="{{category.Cname}}">{{category.Cname}}</option>
                                 {% endfor %}
                             </select>
                         </div>
-                        <div class="order_input" style="margin:7px">
+                        <div class="order_input" >
                             <label>공지사항2 :</label>
-                            <select class='option' name="input2" style="height:20px; width: 90px;">
-                                <option value="" disabled selected style="display: none;">공지사항2</option>
+                            <select name="input2" class="input2">
                                 {% for category in allcategory %}
                                 <option value="{{category.Cname}}">{{category.Cname}}</option>
                                 {% endfor %}
                             </select>
                         </div>
-                        <div class="order_input" style="margin:7px">
+                        <div class="order_input">
                             <label>공지사항3 :</label>
-                            <select class='option' name="input3" style="height:20px; width: 90px;">
-                                <option value="" disabled selected style="display: none;">공지사항3</option>
+                            <select name="input3" class="input3">
                                 {% for category in allcategory %}
                                 <option value="{{category.Cname}}">{{category.Cname}}</option>
                                 {% endfor %}
                             </select>
                         </div>
-                        <div class="order_input" style="margin:7px">
+                        <div class="order_input" >
                             <label>공지사항4 :</label>
-                            <select class='option' name="input4" style="height:20px; width: 90px;">
-                                <option value="" disabled selected style="display: none;">공지사항4</option>
+                            <select name="input4" class="input4">
                                 {% for category in allcategory %}
                                 <option value="{{category.Cname}}">{{category.Cname}}</option>
                                 {% endfor %}
                             </select>
                         </div>
-                        <div class="order_input" style="margin:7px">
+                        <div class="order_input">
                             <label>공지사항5 :</label>
-                            <select class='option' name="input5" style="height:20px; width: 90px;">
-                                <option value="" disabled selected style="display: none;">공지사항5</option>
+                            <select name="input5" class="input5">
                                 {% for category in allcategory %}
                                 <option value="{{category.Cname}}">{{category.Cname}}</option>
                                 {% endfor %}
                             </select>
-                        </div>
-                        <div class="order_input" style="margin:7px">
+                         </div>
+                         <div class="order_input">
                             <label>공지사항6 : </label>
-                            <select class='option' name="input6" style="height:20px; width: 90px;">
-                                <option value="" disabled selected style="display: none;">공지사항6</option>
+                            <select name="input6" class="input6">
                                 {% for category in allcategory %}
                                 <option value="{{category.Cname}}">{{category.Cname}}</option>
                                 {% endfor %}
                             </select>
-                        </div>
-                        <button type="submit" style="height:25px; width:60px; margin:8px;">수정</button>
+                          </div>
+                         </div>
+                         <div id="input-wrapper-down">
+                        <button class="editBtn1" type="submit" >수정</button>
+                         </div>
                     </form>
                 </div>
             </div>
@@ -107,39 +106,39 @@
                 {% regroup keywords by key as grouped_keywords %}
 
                 {% for grouped_keyword in grouped_keywords %}
-                <li class="keylist" style="list-style-type: none; margin-left: 0px; margin-top: 15px; display:inline-block; font-size: 15px; display: flex;">
+                <li class="keylist" >
                     {{ grouped_keyword.grouper }} -
                     {% for keyword in grouped_keyword.list %}
                         {{ keyword.Cid.Cname }}
                         {% if not forloop.last %}, {% endif %}
                     {% endfor %}
 
-                    <input class="hidden" type="hidden" name="grouped_keyword_grouper" value="{{ grouped_keyword.grouper }}" style="display:inline-block" />
-                    <input class="hidden" type="hidden" name="keyword_cid_cname" value="{{ keyword.Cid.Cname }}"style="display:inline-block"  />
+                    <input class="hiddenBtn" type="hidden" name="grouped_keyword_grouper" value="{{ grouped_keyword.grouper }}" />
+                    <input class="hiddenBtn" type="hidden" name="keyword_cid_cname" value="{{ keyword.Cid.Cname }}"  />
 
                     <form method="post" action="/mainPage/del_keyword/">
                         {% csrf_token %}
                         <input type="hidden" name="del_keyword" value="{{ grouped_keyword.grouper }}">
-                        <button type="submit" class="delete-key-btn" style="font-size: 14px; margin-left: 7px;">-</button>
+                        <button type="submit" class="delete-key-btn" >-</button>
                     </form>
                 </li>
                 {% endfor %}
             </ul>
 
             <div style=" display:flex;justify-content: center;">
-                <button id="openModalButton2" style="font-size: 16px; width: 40px; margin: 5px; ">+</button>
+                <button id="openModalButton2" >+</button>
 
                     <div id="myModal2" class="modal">
                         <div class="modal-content">
                             <span class="close2">&times;</span>
                             <h3>키워드 추가</h3>
-                            <form method="post" action="/mainPage/add_keyword/" style="align-items: center;">
+                            <form class="keyinput-form"method="post" action="/mainPage/add_keyword/" >
                                 {% csrf_token %}
                                 <label>키워드를 입력해주세요.</label>
-                                <input name="keyword_name" type="text" placeholder="추가할 키워드를 입력해주세요." style="margin-left: 16px; width: 250px;">
+                                <input class="keyinputBtn"name="keyword_name" type="text" placeholder="추가할 키워드를 입력해주세요.">
                                 <div style="display: flex; align-items: center;">
                                     <label>카테고리를 골라주세요.</label>
-                                    <div class="cat-container" style="margin-left: 20px; width: 250px; height: 100px; overflow: auto; background:Gainsboro;">
+                                    <div class="cat-container1" >
                                         {% for category in allcategory %}
                                         <label class= "cat-item">
                                             <input name="category_list" type="checkbox" style="width: 12px; height: 12px;" value="{{ category.Cid }}">
@@ -150,14 +149,14 @@
                                 </div>
 
                                 <div style="display:flex; justify-content: center;">
-                                    <button type="submit" style="margin: 20px; width:50px; font-size:0.95em; font-family: 'DU';">추가</button>
+                                    <button class="addBtn" type="submit" >추가</button>
                                 </div>
                             </form>
                         </div>
                     </div>
 
 
-                <button id="openModalButton1" class="order" type="submit" style="margin: 5px">edit</button>
+                <button id="openModalButton1" class="order" type="submit" >edit</button>
 
                     <div id="myModal1" class="modal">
                         <div class="modal-content">
@@ -168,7 +167,7 @@
                                 <div style="display:flex; justify-content:center;">
                                     <label >수정할 키워드를 선택해주세요.</label>
                                     {% csrf_token %}
-                                    <select id='target_select' name="now_keyword" onchange="changePlaceholder()" style="width: 200px; margin-bottom: 15px; margin-left: 15px;">
+                                    <select id='target_select' name="now_keyword" onchange="changePlaceholder()" >
                                             <option value="" disabled selected style="display: none;">키워드 선택</option>
                                         {% for grouped_keyword in grouped_keywords %}
                                             <option value="{{ grouped_keyword.grouper }}">{{ grouped_keyword.grouper }}</option>
@@ -176,17 +175,17 @@
                                     </select>
                                 </div>
 
-                                <div class="edit">
-                                    <div class="edit1" style="display:flex; align-items: center;">
+                                <div class="edit-container">
+                                    <div class="edit" >
                                     <label style="width:68px; ">키워드를</label>
-                                    <input id='edit_input' name='edit_keyword' type="text" placeholder="변경할 키워드" style="width:120px; ">
+                                    <input id='edit_input' name='edit_keyword' type="text" placeholder="변경할 키워드" >
 
-                                    <label style="width:120px; margin-left:5px;margin-right:0px;">로,&nbsp;&nbsp;카테고리를</label>
+                                    <label class="edit-label" >로,&nbsp;&nbsp;카테고리를</label>
 
-                                        <div class="cat-container" style="width: 170px; height: 80px; overflow: auto; background:Gainsboro;">
+                                        <div class="cat-container2" >
                                             {% for category in allcategory %}
                                             <label class= "cat-item">
-                                                <input name="edit_category" type="checkbox" style="width: 12px; height: 12px;" value="{{ category.Cid }}">
+                                                <input name="edit_category" type="checkbox"  value="{{ category.Cid }}">
                                                 <span style="font-size: 12px;">{{ category.Cname }}</span>
                                             </label>
                                             {% endfor %}
@@ -196,7 +195,7 @@
                                     </div>
 
                                     <div style="display:flex; justify-content: center;">
-                                        <button type="submit" style="width:50px; font-size:0.95em; font-family: 'DU';">수정</button>
+                                        <button class="editBtn2" type="submit" >수정</button>
                                     </div>
                                 </div>
                             </form>
