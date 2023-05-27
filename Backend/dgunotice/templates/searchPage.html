@@ -2,13 +2,19 @@
 
 <body>
     <link rel="stylesheet" href="{% static 'css/SearchPage.css' %}?after">
+    <div class="up">
+      <form action="/search/" method="get">
+         <input type="text" name="keyword" placeholder="검색어를 입력하세요">
+         <button class="search" type="submit">검색</button>
+      </form>
+    </div>
 
-    <form action="/search/" method="get">
-        <input type="text" name="keyword" placeholder="검색어를 입력하세요">
-        <button class="search" type="submit">검색</button>
-    </form>
     <div class="down-container">
+
     <div class="down">
+             <a class="ToMain" href="http://127.0.0.1:8000/mainPage/">
+             <button type="button">메인페이지로 이동</button>
+             </a>
     <h3>
         연관 검색어 :
         {% for keyword_similar in keywords_similar %}
