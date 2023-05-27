@@ -3,10 +3,11 @@
     src:
     url('../css/DU.ttf'),
     url('../css/DU.woff');
-} 
+}
 body {
     font-family: 'DU';
     background: #F4F3EA;
+
 }
 
 form {
@@ -29,15 +30,33 @@ input {
     margin : 5px;
 }
 
-div {
+.down-container{
+    display:flex;
+    justify-content:center;
+
+}
+
+.notice-container {
+
+    width: 900px;
+    height:500px;
     padding: 8px;
-    border-style: solid;
-    border-width: 3px;
-    border-color: orange;
-    background-color: #F3E2A9;
-    margin: 5px;
+
+    background: #F3E2A9;
+    margin: 0px;
+
+    border-radius: 9px;
+    overflow: auto;
 }
 
 li{
     margin: 10px;
+    list-style:none;
 }
+
+a{
+    text-decoration:none;
+    color: black;
+    font-size: 0.9em;
+}
+

@@ -30,6 +30,15 @@
         </div>
 
     </form>
+
+   <form method="POST" action="{% url 'Login' %}" >
+    {% csrf_token %}
+       <div >
+            <input class="logout" type="submit" value="Logout" >
+        </div>
+
+    </form>
+
 </div>
 </div>
 </body>

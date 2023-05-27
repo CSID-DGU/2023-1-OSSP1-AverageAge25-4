@@ -50,10 +50,6 @@ p {
     text-align: center;
 }
 
-form {
-    margin: 0 auto ;
-}
-
 div {
     font-family: 'DU';
     width : 200px;
@@ -68,4 +64,7 @@ input {
     width : 200px;
     height:23px;
     margin : 2 auto;
+}
+.logout{
+    margin-top:-3px;
 }
