@@ -3,7 +3,6 @@
 <link rel="stylesheet" href="{% static 'css/MainPage.css' %}?after">
     <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<script src="{% static 'js/mainPage.js' %}"></script>
 </head>
 
 <div class="container">
@@ -20,22 +19,13 @@
                     <button class="search" type="submit">검색</button>
                 </form>
             </div>
-           <div class="up-right">
-                <button  id="openModalButton" class="order" type="submit" >공지사항 순서 변경</button>
+            <div class="up-right">
+               <button  id="openModalButton" class="order">공지사항 순서 변경</button>
 
-               <form  method="POST" action="{% url 'Login' %}" >
-                <button  id="Logout" type="submit">로그아웃</button>
-                </form>
-           </div>
-
-    </div>
-
-    <div >
-        <p2>
-            <div id="myModal" class="modal">
-                <div class="modal-content">
-                <span class="close">&times;</span>
-                <h2>공지사항 순서 변경</h2>
+                <div id="myModal_order" class="modal">
+                    <div class="modal-content">
+                    <span class="close_order">&times;</span>
+                    <h2>공지사항 순서 변경</h2>
                     <details>
                     <summary>공지사항 목록</summary>
                         <p><div>
@@ -45,7 +35,6 @@
                             원하는 카테고리 6개를 순서대로 입력해주세요.
                         </div></p>
                     </details>
-
 
                      <form class="input-wrapper" method="post" action="/mainPage/reorder/">
                         {% csrf_token %}
@@ -106,12 +95,16 @@
                           </div>
                          </div>
                          <div id="input-wrapper-down">
-                        <button class="editBtn1" type="submit" >수정</button>
+                            <button class="editBtn1" type="submit" >수정</button>
                          </div>
                     </form>
                 </div>
             </div>
-       </p2>
+
+               <form  method="POST" action="{% url 'Login' %}" >
+                    <button  id="Logout" type="submit">로그아웃</button>
+               </form>
+           </div>
     </div>
 
     <div class="down">
@@ -136,6 +129,41 @@
                         <input type="hidden" name="keyword_del" value="{{ grouped_keyword.grouper }}">
                         <button type="submit" class="delete-key-btn" >-</button>
                     </form>
+
+                    <button class="openModals">Edit</button>
+
+                    <div id="myModals{{ forloop.counter }}" class="modal">
+                        <div class="modal-content">
+                            <span class="close">&times;</span>
+                            <h3 style="text-align:center">키워드 수정</h3>
+                            <form action="/mainPage/'{{ grouped_keyword.grouper|urlencode }}'/" method="post">
+                                {% csrf_token %}
+                                <div class="edit">
+                                    <input type="hidden" name="now_keyword" value="{{ grouped_keyword.grouper }}">
+
+                                    <label style="width:68px;">키워드를</label>
+                                    <input id='' name='edit_keyword' type="text" placeholder="변경할 키워드">
+
+                                    <label class="edit-label">로,&nbsp;&nbsp;카테고리를</label>
+
+                                    <div class="cat-container2">
+                                        {% for category in allcategory %}
+                                        <label class="cat-item">
+                                            <input name="edit_category" type="checkbox" value="{{ category.Cid }}">
+                                            <span style="font-size: 12px;">{{ category.Cname }}</span>
+                                        </label>
+                                        {% endfor %}
+                                    </div>
+
+                                    <label style="margin-left:5px">로</label>
+
+                                     <div style="display:flex; justify-content: center;">
+                                            <button class="editBtn2" type="submit">수정</button>
+                                     </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </li>
                 {% endfor %}
             </ul>
@@ -147,10 +175,10 @@
                         <div class="modal-content">
                             <span class="close2">&times;</span>
                             <h3>키워드 추가</h3>
-                            <form class="keyinput-form"method="get" action="/mainPage/add/" >
+                            <form class="keyinput-form" method="get" action="/mainPage/add/" >
                                 {% csrf_token %}
                                 <label>키워드를 입력해주세요.</label>
-                                <input class="keyinputBtn"name="keyword_add" type="text" placeholder="추가할 키워드를 입력해주세요.">
+                                <input class="keyinputBtn" name="keyword_add" type="text" placeholder="추가할 키워드를 입력해주세요.">
                                 <div style="display: flex; align-items: center;">
                                     <label>카테고리를 골라주세요.</label>
                                     <div class="cat-container1" >
@@ -165,53 +193,6 @@
 
                                 <div style="display:flex; justify-content: center;">
                                     <button class="addBtn" type="submit" >추가</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-
-
-                <button id="openModalButton1" class="order" type="submit" >edit</button>
-
-                    <div id="myModal1" class="modal">
-                        <div class="modal-content">
-                            <span class="close1">&times;</span>
-                            <h3 style="text-align:center">키워드 수정</h3>
-
-                            <form action="/mainPage/'{{ grouped_keyword.grouper|urlencode }}'/" method="post">
-                                {% csrf_token %}
-                                <div style="display:flex; justify-content:center;">
-                                    <label>수정할 키워드를 선택해주세요.</label>
-                                    <select id='target_select' name="now_keyword" onchange="changePlaceholder()">
-                                        <option value="" disabled selected style="display: none;">키워드 선택</option>
-                                        {% for grouped_keyword in grouped_keywords %}
-                                            <option value="{{ grouped_keyword.grouper }}">{{ grouped_keyword.grouper }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-
-                                <div class="edit-container">
-                                    <div class="edit">
-                                        <label style="width:68px;">키워드를</label>
-                                        <input id='edit_input' name='edit_keyword' type="text" placeholder="변경할 키워드">
-
-                                        <label class="edit-label">로,&nbsp;&nbsp;카테고리를</label>
-
-                                        <div class="cat-container2">
-                                            {% for category in allcategory %}
-                                                <label class="cat-item">
-                                                    <input name="edit_category" type="checkbox" value="{{ category.Cid }}">
-                                                    <span style="font-size: 12px;">{{ category.Cname }}</span>
-                                                </label>
-                                            {% endfor %}
-                                        </div>
-
-                                        <label style="margin-left:5px">로</label>
-                                    </div>
-
-                                    <div style="display:flex; justify-content: center;">
-                                        <button class="editBtn2" type="submit">수정</button>
-                                    </div>
                                 </div>
                             </form>
                         </div>
@@ -237,38 +218,22 @@
 </div>
 
 <script>
-
     // 공지사항 순서 변경 모달
-    var modal = document.getElementById("myModal");
-    var btn = document.getElementById("openModalButton");
-    var closeBtn = document.getElementsByClassName("close")[0];
+    var modal3 = document.getElementById("myModal_order");
+    var btn3 = document.getElementById("openModalButton");
+    var closeBtn3 = document.getElementsByClassName("close_order")[0];
 
-    function openModal() {
-    modal.style.display = "block";
+    function openModal3() {
+    modal3.style.display = "block";
     }
 
-    function closeModal() {
-    modal.style.display = "none";
+    function closeModal3() {
+    modal3.style.display = "none";
     }
 
-    btn.addEventListener("click", openModal);
-    closeBtn.addEventListener("click", closeModal);
+    btn3.addEventListener("click", openModal3);
+    closeBtn3.addEventListener("click", closeModal3);
 
-
-    // 키워드 수정 관련 모달
-    var modal1 = document.getElementById("myModal1");
-    var btn1 = document.getElementById("openModalButton1");
-    var closeBtn1 = document.getElementsByClassName("close1")[0];
-
-    function openModal1() {
-    modal1.style.display = "block";
-    }
-    function closeModal1() {
-    modal1.style.display = "none";
-    }
-
-    btn1.addEventListener("click", openModal1);
-    closeBtn1.addEventListener("click", closeModal1);
 
     // 키워드 수정시 option에 따라서 기존 키워드 정보 출력
     function changePlaceholder() {
@@ -300,6 +265,7 @@
     btn2.addEventListener("click", openModal2);
     closeBtn2.addEventListener("click", closeModal2);
 
+
     // 중복 선택 방지를 위한 이벤트 핸들러
     function handleOptionSelection() {
         const selectedOptions = Array.from(document.querySelectorAll('.option')).map(select => select.value);
@@ -319,4 +285,29 @@
     Array.from(document.querySelectorAll('.option')).forEach(select => {
         select.addEventListener('change', handleOptionSelection);
     });
+
+
+    // 각 키워드당 수정 모달창
+    var buttons = document.getElementsByClassName("openModals");
+
+        function openModal(modalId) {
+            var modal = document.getElementById(modalId);
+            var closeBtn = modal.getElementsByClassName("close")[0];
+
+            function openModalFn() {
+                modal.style.display = "block";
+            }
+
+            function closeModalFn() {
+                modal.style.display = "none";
+            }
+
+            buttons[i].addEventListener("click", openModalFn);
+            closeBtn.addEventListener("click", closeModalFn);
+        }
+
+        for (var i = 0; i < buttons.length; i++) {
+            var modalId = "myModals" + (i + 1);
+            openModal(modalId);
+        }
 </script>
