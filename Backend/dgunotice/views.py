@@ -3,10 +3,11 @@ from django.shortcuts import redirect, render
 from django.contrib.auth.hashers import make_password, check_password
 from django.views import View
 from django.urls import reverse
-from .models import Pagetype, Category, User, Keyword, Notice
-from .similar2 import tokenizedKey, getSimKeyPath
+from .models import Pagetype, Category, User, Keyword, Notice, Verify
+from .similar2 import tokenizedKey, getSimKeyPath, generate_token, getSimKey
 
 path = '../Background/model/ko_modified.bin'
+
 
 def testPage(request):
     return render(request, 'test.html')
@@ -215,8 +216,13 @@ class SignupView(View):
         uid = request.POST.get('uid')
         password = request.POST.get('password')
         pwcheck = request.POST.get('pwcheck')
+        email_consent = request.POST.get('email_consent')
 
         error_message = None
+        print(email_consent)
+        # 이메일 수신 동의 확인
+        if not email_consent:
+            error_message = "이메일 수신 비 동의시 서비스 회원가입이 제한됩니다"
 
         # 이메일 중복 및 패스워드 확인
         if User.objects.filter(Uid=uid).exists():
@@ -237,12 +243,16 @@ class SignupView(View):
 
         print(hashed_password)
         print(password)
-        user = User(
-            Uid=uid,
-            password=hashed_password
+
+        verify = Verify(
+            temp_id=uid,
+            temp_password=hashed_password,
+            token=generate_token(15)
         )
 
-        user.save()
+        verify.save()
+
+
 
         return redirect('Login')
 
@@ -400,7 +410,7 @@ class SearchView(View):
 
     def get(self, request):
         keyword = request.GET.get('keyword')
-        keywords_similar = getSimKeyPath(keyword, 5, path)
+        keywords_similar = getSimKey(keyword, 5)
 
         # 제목 필드에서 검색어를 포함하는 공지사항 검색
         notices = Notice.objects.filter(title__icontains=keyword)
@@ -412,8 +422,5 @@ class SearchView(View):
         }
 
         return render(request, 'searchPage.html', context)
-
-
-
 
 

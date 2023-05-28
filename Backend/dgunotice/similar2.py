@@ -1,8 +1,10 @@
 import re
+import secrets
+
 from gensim.models import Word2Vec
 from konlpy.tag import Kkma
 
-path = 'Backend/dgunotice/ko_modified.bin'
+path = '../Background/model/ko_modified.bin'
 
 def cleanText(data):
     first_process = re.sub(r"[^\uAC00-\uD7A30-9a-zA-Z\s]", "", data) # 특수문자 제거
@@ -16,6 +18,11 @@ def tokenizedKey(data):
     preprocessed = data.split(" ")
 
     return preprocessed
+
+
+def generate_token(length=15):
+    token = secrets.token_urlsafe(length)
+    return token
 
 
 def getSimKeyBasePath(keyword, num, path):
@@ -41,3 +48,24 @@ def getSimKeyPath(keyword, num, path):
 
         return keywords_similar
 
+def getSimKeyBase(keyword, num):
+    try:
+        model = Word2Vec.load(path)
+        similar_words = model.wv.most_similar(keyword, topn=num)
+        similar_words = [word for word, score in similar_words if score >= 0]
+        return similar_words
+
+    except KeyError:
+        print(f"{keyword} is not in vocabulary")
+
+        return []
+
+def getSimKey(keyword, num):
+    keywords_tokenized = tokenizedKey(keyword)  # 키워드 토큰화
+
+    keywords_similar = []
+
+    for keyword_tokenized in keywords_tokenized:
+        keywords_similar += getSimKeyBase(keyword_tokenized, num)
+
+        return keywords_similar

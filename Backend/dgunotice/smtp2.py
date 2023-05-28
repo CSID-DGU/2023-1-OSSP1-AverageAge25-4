@@ -9,8 +9,8 @@ import os
 
 from django.template.defaultfilters import length
 
-from similar import getSimKey
-from similar import tokenizedKey
+from similar2 import getSimKey
+from similar2 import tokenizedKey
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -32,7 +32,7 @@ env = environ.Env(
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 environ.Env.read_env(
-    env_file=os.path.join(BASE_DIR, 'Backend', '.env')
+    env_file=os.path.join(BASE_DIR, '.env')
 )
 
 

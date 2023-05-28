@@ -49,8 +49,8 @@ class User(models.Model):
 
 class Verify(models.Model):
     token = models.CharField(max_length=30, primary_key=True)
-    Uid = models.CharField(max_length=100)
-    password = models.CharField(max_length=100)
+    temp_id = models.CharField(max_length=100)
+    temp_password = models.CharField(max_length=100)
 
     class Meta:
         managed = True
