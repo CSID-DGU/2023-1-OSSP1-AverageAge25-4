@@ -10,22 +10,25 @@
             <img  src="{% static 'images/logo.png' %}" />
         </div>
 
-            <div class="up-right">
+            <div class="up-middle">
                 <form class="searchbar" action="/search/" method="get">
                     <input type="text" name="keyword" placeholder="검색어를 입력하세요" >
                     <button class="search" type="submit">검색</button>
                 </form>
             </div>
+           <div class="up-right">
+                <button  id="openModalButton" class="order" type="submit" >공지사항 순서 변경</button>
+
+               <form  method="POST" action="{% url 'Login' %}" >
+                <button  id="Logout" type="submit">로그아웃</button>
+                </form>
+           </div>
 
     </div>
 
     <div class="middle">
         <p2>
-            <button id="openModalButton" class="order" type="submit" >공지사항 순서 변경</button>
 
-            <form  method="POST" action="{% url 'Login' %}" >
-             <button id="Logout" type="submit">로그아웃</button>
-             </form>
 
             <div id="myModal" class="modal">
                 <div class="modal-content">

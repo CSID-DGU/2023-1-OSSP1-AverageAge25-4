@@ -25,11 +25,7 @@ display: flex;
     height: 100px;
     justify-content: center;
     margin-right:100px;
-}
-
-.middle{
-    display : flex;
-    justify-content: right;
+    margin-left: 100px;
 }
 
 .down{
@@ -43,13 +39,21 @@ display: flex;
 .up-left{
     display : flex;
     height: 85px;
-
+    margin-left:50px;
     margin-top:10px;
-
+    margin-right: 30px;
+}
+.up-middle{
+    display : flex;
+    justify-content: right;
+    margin-right:60px;
+    margin-top:5px;
 }
 .up-right{
-    display : flex;
-    justify-content: center;
+    display: flex;
+    margin-right:-30px;
+    flex-direction: column;
+    margin-top: 30px;
 }
 
 .menubar{
@@ -161,6 +165,8 @@ flex-shrink:0.1;
    margin-bottom: 15px;
    margin-left: 15px;
 }
+
+/*-----------------------------버튼 모음-----------------------------*/
 .btn{
       width: 50px;
       margin-top: 5px;
@@ -188,6 +194,18 @@ flex-shrink:0.1;
 .hiddenBtn{
     display:inline-block;
 }
+#openModalButton, #Logout {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  cursor: pointer;
+  margin:5px;
+  font-family: 'DU';
+  width: 150px;
+  height: 35px;
+}
+
 #openModalButton1{
      margin: 5px;
 }
@@ -394,16 +412,6 @@ li{
 }
 
 /* Style the button to open the modal */
-#openModalButton, #Logout {
-  background-color: #4caf50;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  cursor: pointer;
-  margin:5px;
-  font-family: 'DU';
-  width: 160px;
-}
 
 
 /* Style the modal container */
