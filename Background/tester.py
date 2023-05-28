@@ -1,3 +1,7 @@
+import string
+from random import random
+
+from django.contrib.auth.tokens import default_token_generator
 from konlpy.tag import Kkma
 from similar import getSimKey, getSimKeyPath, getSimKeyOld, buildModelInitial
 from smtp import sendAll
@@ -64,7 +68,12 @@ def printTokenizedOld(data):
 
     return print(tokenized_data)
 
+import secrets
+
+def generate_token(length=15):
+    token = secrets.token_urlsafe(length)
+    return token
 # ================================================TEST CALL======================================================#
 
 
-# printTest()
+print(generate_token())

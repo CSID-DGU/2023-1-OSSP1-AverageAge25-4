@@ -2,24 +2,35 @@
 
 <body>
     <link rel="stylesheet" href="{% static 'css/SearchPage.css' %}?after">
-    <div class="up">
-      <form action="/search/" method="get">
-         <input type="text" name="keyword" placeholder="검색어를 입력하세요">
-         <button class="search" type="submit">검색</button>
-      </form>
-    </div>
+        <div class="up">
+
+          <div class="up-left">
+            <img  src="{% static 'images/logo.png' %}" />
+          </div>
+
+            <div class="up-middle">
+                <form class="searchbar" action="/search/" method="get">
+                    <input type="text" name="keyword" placeholder="검색어를 입력하세요" >
+                    <button class="search" type="submit">검색</button>
+                </form>
+            </div>
+
+           <div class="up-right">
+             <form class="Logout" method="POST" action="{% url 'Login' %}" >
+             <button type="submit">로그아웃</button>
+             </form>
+              <a class="ToMain" href="http://127.0.0.1:8000/mainPage/">
+              <button type="button">메인페이지로 이동</button>
+            </a>
+           </div>
+        </div>
+
+
 
     <div class="down-container">
 
     <div class="down">
-        <div class="btn-group">
-             <form class="Logout" method="POST" action="{% url 'Login' %}" >
-             <button type="submit">로그아웃</button>
-             </form>
-             <a class="ToMain" href="http://127.0.0.1:8000/mainPage/">
-             <button type="button">메인페이지로 이동</button>
-             </a>
-        </div>
+
     <h3>
         연관 검색어 :
         {% for keyword_similar in keywords_similar %}
@@ -36,7 +47,7 @@
                 <a href="{{ notice.link }}">[{{ notice.Cid.Cname }}] {{ notice.title }}</a> - {{ notice.time }}<br>
             </li>
                 {% endfor %}
-          </div>
+        </div>
 
     {% else %}
         <p>검색 결과가 없습니다.</p>
@@ -45,5 +56,4 @@
      </div>
     </div>
 </body>
-
 

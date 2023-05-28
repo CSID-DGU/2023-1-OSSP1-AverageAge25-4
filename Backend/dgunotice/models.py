@@ -38,10 +38,6 @@ class Category(models.Model):
 class User(models.Model):
     Uid = models.CharField(max_length=100, primary_key=True)
     password = models.CharField(max_length=100)
-    college = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name='college')
-    department = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name='department')
-    sub_college = models.ForeignKey(Category,  on_delete=models.SET_NULL, null=True, related_name='sub_college')
-    sub_department = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name='sub_department')
     notice_order = models.CharField(max_length=30, default="1/2/3/4/5/6")
 
     class Meta:
@@ -50,6 +46,18 @@ class User(models.Model):
 
     def __str__(self):
         return self.Uid
+
+class Verify(models.Model):
+    token = models.CharField(max_length=30, primary_key=True)
+    Uid = models.CharField(max_length=100)
+    password = models.CharField(max_length=100)
+
+    class Meta:
+        managed = True
+        db_table = 'verify'
+
+    def __str__(self):
+        return self.token
 
 class Keyword(models.Model):
     Uid = models.ForeignKey(User, on_delete=models.CASCADE)
