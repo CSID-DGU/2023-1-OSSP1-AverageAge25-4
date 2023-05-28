@@ -173,23 +173,15 @@ def generate_token(length=15):
 
 
 def verify_email_token(email, token):
-    try:
-        # Retrieve the user from the database based on the email
+    if Verify.objects.filter(temp_id=email).exists():
         verify = Verify.objects.get(temp_id=email)
-
-        # Verify if the token matches the user's token in the database
         if verify.token == token:
-            # Update the user's email verification status
             verify.delete()
-
-            # Return True to indicate successful verification
             return True
 
-    except verify.DoesNotExist:
-        pass
-
-    # Return False for any other case (invalid email, token mismatch, etc.)
     return False
+
+
 
 def generate_verification_link(email, token):
     base_url = 'http://127.0.0.1:8000'

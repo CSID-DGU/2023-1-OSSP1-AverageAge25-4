@@ -281,8 +281,9 @@ class verifyEmailView(View):
         token = request.GET.get('token')
 
         # DB에서 비밀번호 구하기
-        verify = Verify.objects.get(temp_id=email)
-        password = verify.temp_password
+        if Verify.objects.filter(temp_id=email).exists():
+            verify = Verify.objects.get(temp_id=email)
+            password = verify.temp_password
 
         # 인증 링크에서 받은 이메일, 토큰 매치되는지 확인
         verification_success = verify_email_token(email, token)
