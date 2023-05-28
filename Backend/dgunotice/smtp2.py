@@ -8,9 +8,11 @@ import environ
 import os
 
 from django.template.defaultfilters import length
+from django.urls import reverse
 
-from similar2 import getSimKey
-from similar2 import tokenizedKey
+from .models import Verify
+from .similar2 import getSimKey
+from .similar2 import tokenizedKey
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -130,23 +132,14 @@ def sendAll():
         print('An error occurred:', str(e))
 
 
-def sendEmail(send_list, title, link, type):
+def sendEmail(recipient, title, link):
     # 수신자
 
-    recipients = send_list
     message = MIMEMultipart()
 
-    if type == 0:
-        text0 = "[키워드 공지]"
-
-    else:
-        text0 = "[유사 키워드 공지]"
-
-    title_merged = text0 + "" + title
-
-    message['Subject'] = title_merged
+    message['Subject'] = title
     message['From'] = env('NAVER_ADDRESS')
-    message['To'] = ",".join(recipients)
+    message['To'] = ",".join(recipient)
 
     text1 = title
     text2 = link
@@ -170,7 +163,7 @@ def sendEmail(send_list, title, link, type):
     server.ehlo()
     server.starttls()
     server.login(email_id, email_pw)
-    server.sendmail(message['From'], recipients, message.as_string())
+    server.sendmail(message['From'], recipient, message.as_string())
     server.quit()
 
 
@@ -178,3 +171,28 @@ def generate_token(length=15):
     token = secrets.token_urlsafe(length)
     return token
 
+
+def verify_email_token(email, token):
+    try:
+        # Retrieve the user from the database based on the email
+        verify = Verify.objects.get(temp_id=email)
+
+        # Verify if the token matches the user's token in the database
+        if verify.token == token:
+            # Update the user's email verification status
+            verify.delete()
+
+            # Return True to indicate successful verification
+            return True
+
+    except verify.DoesNotExist:
+        pass
+
+    # Return False for any other case (invalid email, token mismatch, etc.)
+    return False
+
+def generate_verification_link(email, token):
+    base_url = 'http://127.0.0.1:8000'
+    url = reverse('verify_email')
+    link = f"{base_url}{url}?email={email}&token={token}"
+    return link
