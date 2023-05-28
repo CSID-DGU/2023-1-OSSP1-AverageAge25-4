@@ -115,7 +115,23 @@
     </div>
 
     <div class="down">
-        <div class="menubar">
+
+        <div class="component-wrapper">
+
+           {% for category in categories %}
+            <div class="row{{ forloop.counter }}">
+                <h5 style="margin-left:10px">{{ category.Cname }}</h5>
+                <ul>
+                {% for notice in category.notice_set.all %}
+                    <li class="noticelink"><a href="{{ notice.link }}" title="{{notice.title}}" style="text-decoration:none; color: black;">{{ notice.title }}</a> - {{ notice.time }}</li>
+                {% endfor %}
+                </ul>
+            </div>
+            {% endfor %}
+
+        </div>
+
+      <div class="menubar">
             <h5 style="text-align: center; ">KEYWORDS</h5>
             <ul id="keyword-list" style="margin-top: 0px;">
                 {% regroup keywords by key as grouped_keywords %}
@@ -219,23 +235,8 @@
             </div>
         </div>
 
-        <div class="component-wrapper">
-
-           {% for category in categories %}
-            <div class="row{{ forloop.counter }}">
-                <h5 style="margin-left:10px">{{ category.Cname }}</h5>
-                <ul>
-                {% for notice in category.notice_set.all %}
-                    <li class="noticelink"><a href="{{ notice.link }}" title="{{notice.title}}" style="text-decoration:none; color: black;">{{ notice.title }}</a> - {{ notice.time }}</li>
-                {% endfor %}
-                </ul>
-            </div>
-            {% endfor %}
-
-        </div>
     </div>
 </div>
-
 <script>
 
     // 공지사항 순서 변경 모달
