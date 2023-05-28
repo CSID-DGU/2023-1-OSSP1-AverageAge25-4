@@ -1,7 +1,13 @@
+import string
 from pathlib import Path
+from random import random
+
 import MySQLdb
 import environ
 import os
+
+from django.template.defaultfilters import length
+
 from similar import getSimKey
 from similar import tokenizedKey
 import smtplib
@@ -165,3 +171,9 @@ def sendEmail(send_list, title, link, type):
     server.login(email_id, email_pw)
     server.sendmail(message['From'], recipients, message.as_string())
     server.quit()
+
+
+def createToken():
+    characters = string.ascii_letters + string.digits
+    token = ''.join(random.choice(characters) for _ in range(length))
+    return token
