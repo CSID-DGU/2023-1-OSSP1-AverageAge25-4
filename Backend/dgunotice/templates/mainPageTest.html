@@ -50,17 +50,19 @@
                      <form class="input-wrapper" method="post" action="/mainPage/reorder/">
                         {% csrf_token %}
                          <div class="input-wrapper-up">
-                        <div class="order_input" >
-                            <label>공지사항1 :</label>
-                            <select name="input1" class="input1">
+                         <div class="order_input" >
+                             <label>공지사항1 :</label>
+                             <select name="input1" class="option">
+                                 <option value="" disabled selected style="display: none;">공지사항 1</option>
                                 {% for category in allcategory %}
                                 <option value="{{category.Cname}}">{{category.Cname}}</option>
                                 {% endfor %}
-                            </select>
-                        </div>
+                                </select>
+                         </div>
                         <div class="order_input" >
                             <label>공지사항2 :</label>
-                            <select name="input2" class="input2">
+                            <select name="input2" class="option">
+                                <option value="" disabled selected style="display: none;">공지사항 2</option>
                                 {% for category in allcategory %}
                                 <option value="{{category.Cname}}">{{category.Cname}}</option>
                                 {% endfor %}
@@ -68,7 +70,8 @@
                         </div>
                         <div class="order_input">
                             <label>공지사항3 :</label>
-                            <select name="input3" class="input3">
+                            <select name="input3" class="option">
+                                <option value="" disabled selected style="display: none;">공지사항 3</option>
                                 {% for category in allcategory %}
                                 <option value="{{category.Cname}}">{{category.Cname}}</option>
                                 {% endfor %}
@@ -76,7 +79,8 @@
                         </div>
                         <div class="order_input" >
                             <label>공지사항4 :</label>
-                            <select name="input4" class="input4">
+                            <select name="input4" class="option">
+                                <option value="" disabled selected style="display: none;">공지사항 4</option>
                                 {% for category in allcategory %}
                                 <option value="{{category.Cname}}">{{category.Cname}}</option>
                                 {% endfor %}
@@ -84,7 +88,8 @@
                         </div>
                         <div class="order_input">
                             <label>공지사항5 :</label>
-                            <select name="input5" class="input5">
+                            <select name="input5" class="option">
+                                <option value="" disabled selected style="display: none;">공지사항 5</option>
                                 {% for category in allcategory %}
                                 <option value="{{category.Cname}}">{{category.Cname}}</option>
                                 {% endfor %}
@@ -92,7 +97,8 @@
                          </div>
                          <div class="order_input">
                             <label>공지사항6 : </label>
-                            <select name="input6" class="input6">
+                            <select name="input6" class="option">
+                                <option value="" disabled selected style="display: none;">공지사항 6</option>
                                 {% for category in allcategory %}
                                 <option value="{{category.Cname}}">{{category.Cname}}</option>
                                 {% endfor %}
