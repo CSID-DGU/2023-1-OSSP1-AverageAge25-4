@@ -4,8 +4,8 @@ from django.contrib.auth.hashers import make_password, check_password
 from django.views import View
 from django.urls import reverse
 from .models import Pagetype, Category, User, Keyword, Notice, Verify
-from .similar2 import tokenizedKey, getSimKeyPath, generate_token, getSimKey
-
+from .similar2 import tokenizedKey, getSimKeyPath, getSimKey
+from .smtp2 import verify_email_token, generate_token, sendEmail, generate_verification_link
 path = '../Background/model/ko_modified.bin'
 
 
@@ -244,17 +244,61 @@ class SignupView(View):
         print(hashed_password)
         print(password)
 
+        # 중복 테스트 ( 이메일은 같은데 토큰이 여러개 생기면 안되기때문 )
+        record = Verify.objects.filter(temp_id=uid).first()
+
+        # 중복이면 삭제
+        if record:
+            record.delete()
+
+        # 토큰 생성
+        tok = generate_token(15)
+
+        # Verify 레코드 생성
         verify = Verify(
             temp_id=uid,
             temp_password=hashed_password,
-            token=generate_token(15)
+            token=tok
         )
 
         verify.save()
 
+        # 인증 링크 생성
+        link = generate_verification_link(uid, tok)
 
+        # 인증 링크 메일로 보냄
+        sendEmail(uid, "메일 인증", link)
 
         return redirect('Login')
+
+
+
+class verifyEmailView(View):
+
+    def get(self, request):
+        # 인증 링크에서 이메일 토큰 GET
+        email = request.GET.get('email')
+        token = request.GET.get('token')
+
+        # DB에서 비밀번호 구하기
+        verify = Verify.objects.get(temp_id=email)
+        password = verify.temp_password
+
+        # 인증 링크에서 받은 이메일, 토큰 매치되는지 확인
+        verification_success = verify_email_token(email, token)
+
+        # 매칭되면 유저 생성
+        if verification_success:
+            user = User(
+                Uid=email,
+                password=password,
+            )
+            user.save()
+
+        # 회원가입 성공했다는 html로 이동
+        return render(request, 'verificationResult.html', {'verification_success': verification_success})
+
+
 
 class LoginView(View):
     def post(self, request):
