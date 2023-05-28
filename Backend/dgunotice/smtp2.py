@@ -139,7 +139,7 @@ def sendEmail(recipient, title, link):
 
     message['Subject'] = title
     message['From'] = env('NAVER_ADDRESS')
-    message['To'] = ",".join(recipient)
+    message['To'] = recipient
 
     text1 = title
     text2 = link
