@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, re_path
 from django.views.generic import TemplateView
 from dgunotice import views
-from dgunotice.views import LoginView, SignupView, MainPageView, SearchView, KeywordProcessView, KeywordAddView
+from dgunotice.views import LoginView, SignupView, MainPageView, SearchView, KeywordProcessView, KeywordAddView, verifyEmailView
 
 urlpatterns = [
     path('', views.testPage, name="test"),
@@ -30,4 +30,6 @@ urlpatterns = [
     path('mainPage/add/', KeywordAddView.as_view(), name='add_keyword'),
     path('mainPage/<str:keyword>/', KeywordProcessView.as_view(), name='keyword_process'),
     path('search/', SearchView.as_view(), name='search'),
+    path('verify/', verifyEmailView.as_view(), name='verify_email'),
+
 ]
