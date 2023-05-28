@@ -215,15 +215,7 @@
 
         <div class="component-wrapper">
 
-           <!-- 키워드 전용 공지 -->
-           <div class="key_notice">
-               <h5 style="margin-left:10px">키워드 공지</h5>
-               <ul>
-
-               </ul>
-           </div>
-
-            {% for category in categories %}
+           {% for category in categories %}
             <div class="row{{ forloop.counter }}">
                 <h5 style="margin-left:10px">{{ category.Cname }}</h5>
                 <ul>
