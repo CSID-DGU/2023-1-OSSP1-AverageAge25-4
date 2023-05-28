@@ -124,7 +124,7 @@
 
         </div>
 
-      <div class="menubar">
+        <div class="menubar">
             <h5 style="text-align: center; ">KEYWORDS</h5>
             <ul id="keyword-list" style="margin-top: 0px;">
                 {% regroup keywords by key as grouped_keywords %}
@@ -191,7 +191,7 @@
                         <div class="modal-content">
                             <span class="close2">&times;</span>
                             <h3>키워드 추가</h3>
-                            <form class="keyinput-form" method="get" action="/mainPage/add/" >
+                            <form class="keyinput-form" method="get" action="/mainPage/add/">
                                 {% csrf_token %}
                                 <label>키워드를 입력해주세요.</label>
                                 <input class="keyinputBtn" name="keyword_add" type="text" placeholder="추가할 키워드를 입력해주세요.">
@@ -211,11 +211,27 @@
                                     <button class="addBtn" type="submit" >추가</button>
                                 </div>
                             </form>
+
+                            <form id="key_sim" method="post" action="/mainPage/show_similar/">
+                                {% csrf_token %}
+                                <input id="key_sim_input" name="keyword_name" type="hidden">
+
+                                <h6>test1</h6>
+                                {% for key_sim in keywords_similar %}
+                                <h6>{{ key_sim }}</h6>
+                                {% endfor %}
+
+                                <button type="submit">유사단어 추출</button>
+                            </form>
+
+                            <h6>test2</h6>
+                            {% for key_sim in keywords_similar %}
+                            <h6>{{ key_sim }}</h6>
+                            {% endfor %}
                         </div>
                     </div>
             </div>
         </div>
-
     </div>
 </div>
 <script>
@@ -311,4 +327,14 @@
             var modalId = "myModals" + (i + 1);
             openModal(modalId);
         }
+
+    function submitForm() {
+        var keyword = document.getElementById("keyword_input").value; // keyword_add input의 값 가져오기
+
+        // 다른 form 태그의 input에 값을 설정
+        document.getElementById("key_sim_input").value = keyword;
+
+        // 다른 form 태그의 submit 호출
+        document.getElementById("key_sim").submit();
+  }
 </script>

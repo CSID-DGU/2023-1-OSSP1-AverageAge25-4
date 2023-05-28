@@ -28,6 +28,7 @@ urlpatterns = [
     path('mainPage/', MainPageView.as_view(), name='main_page'),
     path('mainPage/reorder/', MainPageView.as_view(), name='main_page_reorder'),
     path('mainPage/add/', KeywordAddView.as_view(), name='add_keyword'),
+    path('mainPage/show_similar', MainPageView.as_view(), name='show_similar'),
     path('mainPage/<str:keyword>/', KeywordProcessView.as_view(), name='keyword_process'),
     path('search/', SearchView.as_view(), name='search'),
     path('verify/', verifyEmailView.as_view(), name='verify_email'),
