@@ -167,51 +167,58 @@
                             <span class="close1">&times;</span>
                             <h3 style="text-align:center">키워드 수정</h3>
 
-<form action="/mainPage/'{{ grouped_keyword.grouper|urlencode }}'/" method="post">
-    {% csrf_token %}
-    <div style="display:flex; justify-content:center;">
-        <label>수정할 키워드를 선택해주세요.</label>
-        <select id='target_select' name="now_keyword" onchange="changePlaceholder()">
-            <option value="" disabled selected style="display: none;">키워드 선택</option>
-            {% for grouped_keyword in grouped_keywords %}
-                <option value="{{ grouped_keyword.grouper }}">{{ grouped_keyword.grouper }}</option>
-            {% endfor %}
-        </select>
-    </div>
+                            <form action="/mainPage/'{{ grouped_keyword.grouper|urlencode }}'/" method="post">
+                                {% csrf_token %}
+                                <div style="display:flex; justify-content:center;">
+                                    <label>수정할 키워드를 선택해주세요.</label>
+                                    <select id='target_select' name="now_keyword" onchange="changePlaceholder()">
+                                        <option value="" disabled selected style="display: none;">키워드 선택</option>
+                                        {% for grouped_keyword in grouped_keywords %}
+                                            <option value="{{ grouped_keyword.grouper }}">{{ grouped_keyword.grouper }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
 
-    <div class="edit-container">
-        <div class="edit">
-            <label style="width:68px;">키워드를</label>
-            <input id='edit_input' name='edit_keyword' type="text" placeholder="변경할 키워드">
+                                <div class="edit-container">
+                                    <div class="edit">
+                                        <label style="width:68px;">키워드를</label>
+                                        <input id='edit_input' name='edit_keyword' type="text" placeholder="변경할 키워드">
 
-            <label class="edit-label">로,&nbsp;&nbsp;카테고리를</label>
+                                        <label class="edit-label">로,&nbsp;&nbsp;카테고리를</label>
 
-            <div class="cat-container2">
-                {% for category in allcategory %}
-                    <label class="cat-item">
-                        <input name="edit_category" type="checkbox" value="{{ category.Cid }}">
-                        <span style="font-size: 12px;">{{ category.Cname }}</span>
-                    </label>
-                {% endfor %}
-            </div>
+                                        <div class="cat-container2">
+                                            {% for category in allcategory %}
+                                                <label class="cat-item">
+                                                    <input name="edit_category" type="checkbox" value="{{ category.Cid }}">
+                                                    <span style="font-size: 12px;">{{ category.Cname }}</span>
+                                                </label>
+                                            {% endfor %}
+                                        </div>
 
-            <label style="margin-left:5px">로</label>
-        </div>
+                                        <label style="margin-left:5px">로</label>
+                                    </div>
 
-        <div style="display:flex; justify-content: center;">
-            <button class="editBtn2" type="submit">수정</button>
-        </div>
-    </div>
-</form>
-
+                                    <div style="display:flex; justify-content: center;">
+                                        <button class="editBtn2" type="submit">수정</button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
-           </div>
+            </div>
         </div>
 
-       <div class="component-wrapper">
+        <div class="component-wrapper">
 
-        {% for category in categories %}
+           <!-- 키워드 전용 공지 -->
+           <div class="key_notice">
+               <h5 style="margin-left:10px">키워드 공지</h5>
+               <ul>
+
+               </ul>
+           </div>
+
+            {% for category in categories %}
             <div class="row{{ forloop.counter }}">
                 <h5 style="margin-left:10px">{{ category.Cname }}</h5>
                 <ul>
@@ -220,7 +227,7 @@
                 {% endfor %}
                 </ul>
             </div>
-        {% endfor %}
+            {% endfor %}
 
         </div>
     </div>

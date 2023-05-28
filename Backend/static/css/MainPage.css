@@ -323,9 +323,8 @@ display: inline-block;
   margin-right: 30px; margin-left: 30px;
 }
 
-
-.row1, .row2, .row3, .row4, .row5, .row6 {
-   width: 250px;
+.key_notice{
+    width: 625px;
     height:250px;
     padding: 8px;
 
@@ -341,6 +340,24 @@ display: inline-block;
     overflow: auto;
 }
 
+.row1, .row2, .row3, .row4, .row5, .row6 {
+    width: 250px;
+    height:250px;
+    padding: 8px;
+
+    background-color: #F3E2A9;
+    margin: 20px;
+    height: 300px;
+    flex-grow:0.3;
+    flex-shrink:0.4;
+
+    border-radius: 9px;
+
+    max-height:250px;
+    overflow: auto;
+}
+
+.key_notice::-webkit-scrollbar,
 .row1::-webkit-scrollbar,
 .row2::-webkit-scrollbar,
 .row3::-webkit-scrollbar,
@@ -350,6 +367,7 @@ display: inline-block;
   width: 14px;
 }
 
+.key_notice::-webkit-scrollbar-thumb,
 .row1::-webkit-scrollbar-thumb,
 .row2::-webkit-scrollbar-thumb,
 .row3::-webkit-scrollbar-thumb,
@@ -360,6 +378,7 @@ display: inline-block;
   border-radius: 10px;
 }
 
+.key_notice::-webkit-scrollbar-track,
 .row1::-webkit-scrollbar-track,
 .row2::-webkit-scrollbar-track,
 .row3::-webkit-scrollbar-track,
