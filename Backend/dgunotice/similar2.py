@@ -19,7 +19,7 @@ def tokenizedKey(data):
 
     return preprocessed
 
-
+# 옵트인 토큰
 def generate_token(length=15):
     token = secrets.token_urlsafe(length)
     return token
@@ -46,7 +46,7 @@ def getSimKeyPath(keyword, num, path):
     for keyword_tokenized in keywords_tokenized:
         keywords_similar += getSimKeyBasePath(keyword_tokenized, num, path)
 
-        return keywords_similar
+    return keywords_similar
 
 def getSimKeyBase(keyword, num):
     try:
@@ -68,4 +68,4 @@ def getSimKey(keyword, num):
     for keyword_tokenized in keywords_tokenized:
         keywords_similar += getSimKeyBase(keyword_tokenized, num)
 
-        return keywords_similar
+    return keywords_similar
