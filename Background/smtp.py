@@ -174,7 +174,3 @@ def sendEmail(send_list, title, link, type):
     server.quit()
 
 
-def generate_token(length=15):
-    token = secrets.token_urlsafe(length)
-    return token
-

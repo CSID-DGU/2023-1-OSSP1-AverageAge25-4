@@ -32,5 +32,6 @@ urlpatterns = [
     path('mainPage/<str:keyword>/', KeywordProcessView.as_view(), name='keyword_process'),
     path('search/', SearchView.as_view(), name='search'),
     path('verify/', verifyEmailView.as_view(), name='verify_email'),
+    #path('mainPage/show_similar/', MainPageView.as_view(), name='similar')
 
 ]

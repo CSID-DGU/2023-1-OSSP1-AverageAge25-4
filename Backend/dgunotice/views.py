@@ -372,17 +372,8 @@ class MainPageView(View):
             user.notice_order=NewOrder
             user.save()
 
-
-        if 'show_similar' in request.path:
-            keyword = request.POST.get('keyword_name')
-            keywords_similar = getSimKeyPath(keyword, 5, path)
-
-            context = {
-                'keywords_simimlar' : keywords_similar,
-            }
-            return render(request, 'mainPageTest.html', context)
-
         return HttpResponseRedirect(reverse('main_page'))
+
 
 class KeywordProcessView(View):
 
@@ -401,22 +392,25 @@ class KeywordProcessView(View):
         keyword = request.POST.get('now_keyword')
         edit_keyword = request.POST.get('edit_keyword')
         edit_catagory = request.POST.getlist('edit_category')
+        similar_on = request.POST.get('similar_on')
 
         # 기존 정보 삭제
         self.del_keyword(user_id, keyword)
 
         # 추가
-        self.add_keyword(user_id, edit_keyword, edit_catagory)
+        self.add_keyword(user_id, edit_keyword, edit_catagory, similar_on)
         return redirect('main_page')
 
     # keyword 추가
-    def add_keyword(self, uid, keyword, categories):
+    def add_keyword(self, uid, keyword, categories, similar):
 
         for i in categories:
             new_keyword = Keyword(
                 key=keyword,
                 Cid_id=i,
                 Uid_id=uid,
+                similar_on=similar
+
             )
             new_keyword.save()
 
@@ -433,20 +427,22 @@ class KeywordAddView(View):
         user_id = self.request.session.get('user_id')
         keyword = request.GET.get('keyword_add')
         categories = request.GET.getlist('category_list')
-
+        similar_on = request.GET.get('similar_on')
+        print(keyword)
         #추가
-        self.add_keyword(user_id, keyword, categories)
+        self.add_keyword(user_id, keyword, categories, similar_on)
 
 
         return redirect('main_page')
 
-    def add_keyword(self, uid, keyword, categories):
+    def add_keyword(self, uid, keyword, categories, similar):
 
         for i in categories:
             new_keyword = Keyword(
                 key=keyword,
                 Cid_id=i,
                 Uid_id=uid,
+                similar_on=similar,
             )
             new_keyword.save()
 

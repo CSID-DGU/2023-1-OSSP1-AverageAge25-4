@@ -212,22 +212,7 @@
                                 </div>
                             </form>
 
-                            <form id="key_sim" method="post" action="/mainPage/show_similar/">
-                                {% csrf_token %}
-                                <input id="key_sim_input" name="keyword_name" type="hidden">
 
-                                <h6>test1</h6>
-                                {% for key_sim in keywords_similar %}
-                                <h6>{{ key_sim }}</h6>
-                                {% endfor %}
-
-                                <button type="submit">유사단어 추출</button>
-                            </form>
-
-                            <h6>test2</h6>
-                            {% for key_sim in keywords_similar %}
-                            <h6>{{ key_sim }}</h6>
-                            {% endfor %}
                         </div>
                     </div>
             </div>
