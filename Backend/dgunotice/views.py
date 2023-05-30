@@ -394,6 +394,9 @@ class KeywordProcessView(View):
         edit_catagory = request.POST.getlist('edit_category')
         similar_on = request.POST.get('similar_on')
 
+        if not similar_on:
+            similar_on = 'False'
+
         # 기존 정보 삭제
         self.del_keyword(user_id, keyword)
 
@@ -428,7 +431,10 @@ class KeywordAddView(View):
         keyword = request.GET.get('keyword_add')
         categories = request.GET.getlist('category_list')
         similar_on = request.GET.get('similar_on')
-        print(keyword)
+
+        if not similar_on:
+            similar_on = 'False'
+
         #추가
         self.add_keyword(user_id, keyword, categories, similar_on)
 
