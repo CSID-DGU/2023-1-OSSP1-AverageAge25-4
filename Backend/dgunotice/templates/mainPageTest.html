@@ -20,7 +20,7 @@
                 </form>
             </div>
             <div class="up-right">
-               <button  id="openModalButton" class="order">공지사항 순서 변경</button>
+               <button  id="openModalButton" class="btn_order">공지사항 순서 변경</button>
 
                 <div id="myModal_order" class="modal">
                     <div class="modal-content">
@@ -102,7 +102,7 @@
             </div>
 
                <form  method="POST" action="{% url 'Login' %}" >
-                    <button  id="Logout" type="submit">로그아웃</button>
+                    <button  id="Logout" type="submit" class="btn_logout">로그아웃</button>
                </form>
            </div>
     </div>
@@ -126,6 +126,7 @@
 
         <div class="menubar">
             <h5 style="text-align: center; ">KEYWORDS</h5>
+            <li style="list-style-type: none; font-size: 13px;text-align:right;margin:0px;margin-right:5px;">유사단어 허용여부: V,X</li>
             <ul id="keyword-list" style="margin-top: 0px;">
                 {% regroup keywords by key as grouped_keywords %}
 
@@ -133,7 +134,7 @@
                 <li class="keylist" >
                     {{ grouped_keyword.grouper }} -
                     {% for keyword in grouped_keyword.list %}
-                        {{ keyword.Cid.Cname }} - <div id="show_sim">유사단어 {{ keyword.similar_on }}</div>
+                        {{ keyword.Cid.Cname }} - <div id="show_sim"> {% if keyword.similar_on %}V{% else %}X{% endif %}</div>
                         {% if not forloop.last %}, {% endif %}
                     {% endfor %}
 
@@ -143,10 +144,10 @@
                     <form method="get" action="/mainPage/{{ grouped_keyword.grouper }}/">
                         {% csrf_token %}
                         <input type="hidden" name="keyword_del" value="{{ grouped_keyword.grouper }}">
-                        <button type="submit" class="delete-key-btn" >-</button>
+                        <button type="submit" class="btn_keyDel" >-</button>
                     </form>
 
-                    <button class="openModals">Edit</button>
+                    <button class="openModals" id="btn_edit">Edit</button>
 
                     <div id="myModals{{ forloop.counter }}" class="modal">
                         <div class="modal-content">
@@ -189,7 +190,7 @@
             </ul>
 
             <div style=" display:flex;justify-content: center;">
-                <button id="openModalButton2">+</button>
+                <button id="openModalButton2" class="btn_keyAdd">+</button>
 
                     <div id="myModal2" class="modal">
                         <div class="modal-content">
@@ -210,7 +211,7 @@
                                         {% endfor %}
                                     </div>
                                 </div>
-                                
+
                                 <div style="display: flex; align-items: center; justify-content: center;">
                                     <span>키워드 유사단어 등록</span>
                                     <input name="similar_on" type="checkbox" style="width: 25px;" value="True">
@@ -329,4 +330,12 @@
         // 다른 form 태그의 submit 호출
         document.getElementById("key_sim").submit();
     }
+
+    //유사단어허용여부:X,V로 변경
+    var showSimElement = document.getElementById("show_sim");
+             if (keyword.similar_on) {
+    showSimElement.textContent = "V";
+        } else {
+    showSimElement.textContent = "X";
+     }
 </script>

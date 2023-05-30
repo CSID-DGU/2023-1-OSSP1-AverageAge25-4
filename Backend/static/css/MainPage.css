@@ -62,8 +62,8 @@ display: flex;
 .menubar{
 display:flex;
 flex-direction: column;
-width: 170px;
-height: 300px;
+width: 280px;
+height: 350px;
 
 margin-right:70px;
 margin-top:25px;
@@ -74,12 +74,13 @@ flex-shrink:0.2;
 overflow: auto;
 
 }
+
 .keylist{
    list-style-type: none;
    margin-left: 0px;
-   margin-top: 17px;
+   margin-top: 12px;
    display:inline-block;
-   font-size: 15px;
+   font-size: 14px;
    display: flex;
 }
 
@@ -169,7 +170,7 @@ margin-left: 150px;
    margin-left: 15px;
 }
 
-/*-----------------------------버튼 모음-----------------------------*/
+/*----------------버튼 모음------------------*/
 .btn{
       width: 50px;
       margin-top: 5px;
@@ -178,16 +179,20 @@ margin-left: 150px;
 .btn-group{
    float: right;
 }
+
+/*공지사항순서변경 모달 내부 수정버튼*/
 .editBtn1{
     height:25px;
     width:60px;
     margin:8px;"
 }
+/*키워드 수정 모달 내부 수정 버튼*/
 .editBtn2{
   width:50px;
   font-size:0.95em;
    font-family: 'DU';
 }
+/*키워드 추가 모달 내부 추가 버튼*/
 .addBtn{
    margin: 20px;
    width:50px;
@@ -197,7 +202,8 @@ margin-left: 150px;
 .hiddenBtn{
     display:inline-block;
 }
-#openModalButton, #Logout {
+/*여기부터 순서변경 버튼, 로그아웃 버튼, 키워드 삭제버튼, 키워드 수정버튼, 키워드추가버튼*/
+.btn_order, .btn_logout {
   background-color: #4caf50;
   color: white;
   padding: 10px 15px;
@@ -208,19 +214,22 @@ margin-left: 150px;
   width: 150px;
   height: 35px;
 }
-
-#openModalButton1{
-     margin: 5px;
+.btn_keyDel{
+   font-size: 14px;
+   margin-left: 7px;
 }
-#openModalButton2{
+#btn_edit{
+   font-size:12px;
+   width:35px;
+   height:22px;
+}
+.btn_keyAdd{
    font-size: 16px;
    width: 40px;
    margin: 5px;
 }
-.delete-key-btn{
-   font-size: 14px;
-   margin-left: 7px;
-}
+
+
 .keyinputBtn{
      margin-left: 16px;
       width: 250px;
@@ -252,6 +261,7 @@ ul {
     padding: 8px;
     background: LightGrey;
     border-radius: 5%;
+
 }
 
 input {
@@ -523,14 +533,15 @@ li{
 .menubar{
     display:flex;
    flex-direction: column;
-   background: LightGrey;
+   background: black;
     border-radius: 5%;
-    width:  70%;
+    width: 200px;
     margin-left:60px;
-    height:250px;
+    height:500px;
     padding: 8px;
     flex-grow:0.3;
     flex-shrink:0.4;
+
 
 }
 .searchbar {
