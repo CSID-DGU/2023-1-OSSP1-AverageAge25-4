@@ -573,3 +573,7 @@ display: inline-block;
    margin:5px;
     font-size: 0.9em;
 }
+
+.add_similar {
+    margin-left: 35px;
+}

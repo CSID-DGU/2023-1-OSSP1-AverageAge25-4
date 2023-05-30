@@ -174,8 +174,11 @@
 
                                     <div style="display: flex; align-items: center;">
                                         <span>키워드 유사단어 등록여부</span>
-                                        <input name="similar_on" type="checkbox" style="width: 25px;" value="True">
-                                        <input name="similar_on" type="hidden" style="width: 25px;" value="False">
+                                        <select name="similar_on">
+                                            <option value="" disabled selected style="display: none;">등록 여부 선택</option>
+                                            <option value="True">등록 O</option>
+                                            <option value="False">등록 X</option>
+                                        </select>
                                     </div>
 
                                     <div style="display:flex; justify-content: center;">
@@ -190,7 +193,7 @@
             </ul>
 
             <div style=" display:flex;justify-content: center;">
-                <button id="openModalButton2" >+</button>
+                <button id="openModalButton2">+</button>
 
                     <div id="myModal2" class="modal">
                         <div class="modal-content">
@@ -202,7 +205,7 @@
                                 <input class="keyinputBtn" name="keyword_add" type="text" placeholder="추가할 키워드를 입력해주세요.">
                                 <div style="display: flex; align-items: center;">
                                     <label>카테고리를 골라주세요.</label>
-                                    <div class="cat-container1" >
+                                    <div class="cat-container1">
                                         {% for category in allcategory %}
                                         <label class= "cat-item">
                                             <input name="category_list" type="checkbox" style="width: 12px; height: 12px;" value="{{ category.Cid }}">
@@ -212,17 +215,18 @@
                                     </div>
                                 </div>
                                 <div style="display: flex; align-items: center;">
-                                    <span>키워드 유사단어 등록여부</span>
-                                    <input name="similar_on" type="checkbox" style="width: 25px;" value="True">
-                                    <input name="similar_on" type="hidden" style="width: 25px;" value="False">
+                                    <span>키워드 유사단어 등록 </span>
+                                    <select name="similar_on" class="add_similar">
+                                        <option value="" disabled selected style="display: none;">등록 여부 선택</option>
+                                        <option value="True">등록 O</option>
+                                        <option value="False">등록 X</option>
+                                    </select>
                                 </div>
 
                                 <div style="display:flex; justify-content: center;">
                                     <button class="addBtn" type="submit" >추가</button>
                                 </div>
                             </form>
-
-
                         </div>
                     </div>
             </div>
