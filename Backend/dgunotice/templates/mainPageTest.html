@@ -171,19 +171,19 @@
                                         {% endfor %}
                                     </div>
                                     <label style="margin-left:5px">로</label>
+                                </div>
 
-                                    <div style="display: flex; align-items: center;">
-                                        <span>키워드 유사단어 등록여부</span>
-                                        <select name="similar_on">
-                                            <option value="" disabled selected style="display: none;">등록 여부 선택</option>
-                                            <option value="True">등록 O</option>
-                                            <option value="False">등록 X</option>
-                                        </select>
-                                    </div>
+                                <div style="display: flex; align-items: center; justify-content: center;">
+                                    <span>키워드 유사단어 등록</span>
+                                    <select name="similar_on" class="edit_similar">
+                                        <option value="" disabled selected style="display: none;">등록 여부 선택</option>
+                                        <option value="True">등록 O</option>
+                                        <option value="False">등록 X</option>
+                                    </select>
+                                </div>
 
-                                    <div style="display:flex; justify-content: center;">
+                                <div style="display:flex; justify-content: center;">
                                         <button class="editBtn2" type="submit">수정</button>
-                                    </div>
                                 </div>
                             </form>
                         </div>
