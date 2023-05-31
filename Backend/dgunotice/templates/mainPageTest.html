@@ -39,61 +39,20 @@
                      <form class="input-wrapper" method="post" action="/mainPage/reorder/">
                         {% csrf_token %}
                          <div class="input-wrapper-up">
-                         <div class="order_input" >
-                             <label>공지사항1 :</label>
-                             <select name="input1" class="option">
-                                 <option value="" disabled selected style="display: none;">공지사항 1</option>
-                                {% for category in allcategory %}
-                                <option value="{{category.Cname}}">{{category.Cname}}</option>
-                                {% endfor %}
-                                </select>
+
+                             {% for cate_order in categories %}
+                             <div class="order_input">
+                                <label>공지사항{{ forloop.counter }}</label>
+                                 <select name="input{{ forloop.counter }}" class="option">
+                                     <option value="{{ cate_order.Cname }}" selected style="display: none;">{{ cate_order.Cname }}</option>
+                                     {% for category in allcategory %}
+                                     <option value="{{category.Cname}}">{{category.Cname}}</option>
+                                     {% endfor %}
+                                 </select>
+                            </div>
+                             {% endfor %}
                          </div>
-                        <div class="order_input" >
-                            <label>공지사항2 :</label>
-                            <select name="input2" class="option">
-                                <option value="" disabled selected style="display: none;">공지사항 2</option>
-                                {% for category in allcategory %}
-                                <option value="{{category.Cname}}">{{category.Cname}}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div class="order_input">
-                            <label>공지사항3 :</label>
-                            <select name="input3" class="option">
-                                <option value="" disabled selected style="display: none;">공지사항 3</option>
-                                {% for category in allcategory %}
-                                <option value="{{category.Cname}}">{{category.Cname}}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div class="order_input" >
-                            <label>공지사항4 :</label>
-                            <select name="input4" class="option">
-                                <option value="" disabled selected style="display: none;">공지사항 4</option>
-                                {% for category in allcategory %}
-                                <option value="{{category.Cname}}">{{category.Cname}}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div class="order_input">
-                            <label>공지사항5 :</label>
-                            <select name="input5" class="option">
-                                <option value="" disabled selected style="display: none;">공지사항 5</option>
-                                {% for category in allcategory %}
-                                <option value="{{category.Cname}}">{{category.Cname}}</option>
-                                {% endfor %}
-                            </select>
-                         </div>
-                         <div class="order_input">
-                            <label>공지사항6 : </label>
-                            <select name="input6" class="option">
-                                <option value="" disabled selected style="display: none;">공지사항 6</option>
-                                {% for category in allcategory %}
-                                <option value="{{category.Cname}}">{{category.Cname}}</option>
-                                {% endfor %}
-                            </select>
-                          </div>
-                         </div>
+                         
                          <div id="input-wrapper-down">
                             <button class="editBtn1" type="submit" >수정</button>
                          </div>
