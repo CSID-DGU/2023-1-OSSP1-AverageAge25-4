@@ -126,21 +126,26 @@
 
         <div class="menubar">
             <h5 style="text-align: center; ">KEYWORDS</h5>
-            <li style="list-style-type: none; font-size: 13px;text-align:right;margin:0px;margin-right:5px;">유사단어 허용여부: V,X</li>
+            <li style="list-style-type: none; font-size: 13px;text-align:right;margin-top:0px;margin-bottom:3px;margin-bottm:3px;margin-right:5px;">유사단어 허용여부: O,X</li>
             <ul id="keyword-list" style="margin-top: 0px;">
                 {% regroup keywords by key as grouped_keywords %}
 
                 {% for grouped_keyword in grouped_keywords %}
-                <li class="keylist" >
-                    {{ grouped_keyword.grouper }} -
+                <li class="keylist" style="margin:5px">
+                    <div class="keytextline" style="width:200px; display:flex; flex-direction:row;
+                     overflow:hidden; white-space: nowrap; text-overflow: ellipsis; padding-right:10px;">
+
+                        {{ grouped_keyword.grouper }} :
                     {% for keyword in grouped_keyword.list %}
-                        {{ keyword.Cid.Cname }} - <div id="show_sim"> {% if keyword.similar_on %}V{% else %}X{% endif %}</div>
+                        {{ keyword.Cid.Cname }}   <div id="show_sim" > {% if keyword.similar_on %}(O){% else %}(X){% endif %}</div>
                         {% if not forloop.last %}, {% endif %}
                     {% endfor %}
 
+                    </div>
                     <input class="hiddenBtn" type="hidden" name="grouped_keyword_grouper" value="{{ grouped_keyword.grouper }}" />
                     <input class="hiddenBtn" type="hidden" name="keyword_cid_cname" value="{{ keyword.Cid.Cname }}"  />
 
+                   <div class="btn_group" style="display:flex; flex-direction:row;">
                     <form method="get" action="/mainPage/{{ grouped_keyword.grouper }}/">
                         {% csrf_token %}
                         <input type="hidden" name="keyword_del" value="{{ grouped_keyword.grouper }}">
@@ -185,6 +190,7 @@
                             </form>
                         </div>
                     </div>
+                       </div>
                 </li>
                 {% endfor %}
             </ul>

@@ -79,9 +79,11 @@ overflow: auto;
    list-style-type: none;
    margin-left: 0px;
    margin-top: 12px;
-   display:inline-block;
+   /*display:inline-block;*/
    font-size: 14px;
    display: flex;
+    justify-content: space-between;
+
 }
 
 .delete-form{
