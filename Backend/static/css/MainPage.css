@@ -324,23 +324,39 @@ input {
     width: 250px;
     height: 100px;
     overflow: auto;
-    background:Gainsboro;"
-}
-.cat-container1::-webkit-scrollbar-thumb {
-    background-color: gray;
+    background:#E6E6E6;
+
+    border-radius:5px;
+
 }
 
-.cat-container1::-webkit-scrollbar-track {
+.cat-container1::-webkit-scrollbar,
+.cat-container2::-webkit-scrollbar
+ {
+  width: 10px;
+}
+
+.cat-container1::-webkit-scrollbar-thumb,
+.cat-container2::-webkit-scrollbar-thumb {
+    background-color: gray;
+    border-radius: 10px;
+}
+
+.cat-container1::-webkit-scrollbar-track ,
+.cat-container2::-webkit-scrollbar-track{
     background-color: lightgray;
 }
+
+
 .cat-container2{
-   width: 170px;
-   height: 80px;
+   width: 250px;
+    height: 100px;
    overflow: auto;
-   background:Gainsboro;
+   background:#E6E6E6;
    margin-top:-10px;
    margin-right:10px;
    margin-left:-10px;
+
 }
 
 .cat-item input{

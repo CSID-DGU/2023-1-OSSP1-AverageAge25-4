@@ -125,7 +125,7 @@
                                     <div style="display:flex;flex-direction:column;">
                                     <div style="display:flex; flex-direction:row;height:50px;margin-bottom:0px;">
                                     <div style="width:68px;margin-right:17px;margin-left:5px;">키워드:</div>
-                                    <input id='' name='edit_keyword' type="text" value="{{ grouped_keyword.grouper }}" style="width:100px;margin-top:-10px;">
+                                    <input id='' name='edit_keyword' type="text" value="{{ grouped_keyword.grouper }}" style="width:250px;margin-top:-10px;">
                                      </div>
 
                                     <div style="display:flex; flex-direction:row;">
@@ -169,10 +169,10 @@
 
                             <form class="keyinput-form" method="get" action="/mainPage/add/">
                                 {% csrf_token %}
-                                <div style="display:flex;flex-direction:column;align-items:center;font-size:0.9em;">
+                                <div style="display:flex;flex-direction:column;align-items:center;font-size:0.9em;margin-left:5px;">
 
                                     <div>
-                                     <label style="margin-right:8px;margin-left:0px;">키워드:</label>
+                                     <label style="margin-right:13px;margin-left:10px;">키워드:</label>
                                      <input class="keyinputBtn" name="keyword_add" type="text" placeholder="추가할 키워드를 입력해주세요.">
                                     </div>
 
