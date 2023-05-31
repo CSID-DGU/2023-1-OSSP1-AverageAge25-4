@@ -157,18 +157,18 @@
                     <div id="myModals{{ forloop.counter }}" class="modal">
                         <div class="modal-content">
                             <span class="close">&times;</span>
-                            <h3 style="text-align:center">키워드 수정</h3>
+                            <h3 style="text-align:center;margin-bottom:23px; ">키워드 수정</h3>
                             <form action="/mainPage/'{{ grouped_keyword.grouper|urlencode }}'/" method="post">
                                 {% csrf_token %}
                                 <div class="edit">
                                     <input type="hidden" name="now_keyword" value="{{ grouped_keyword.grouper }}">
 
                                     <label style="width:68px;">키워드를</label>
-                                    <input id='' name='edit_keyword' type="text" value="{{ grouped_keyword.grouper }}">
+                                    <input id='' name='edit_keyword' type="text" value="{{ grouped_keyword.grouper }}" style="width:100px;margin-top:-10px;">
 
                                     <label class="edit-label">로,&nbsp;&nbsp;카테고리를</label>
 
-                                    <div class="cat-container2">
+                                    <div class="cat-container2" >
                                         {% for category in allcategory %}
                                         <label class="cat-item">
                                             <input name="edit_category" type="checkbox" value="{{ category.Cid }}">

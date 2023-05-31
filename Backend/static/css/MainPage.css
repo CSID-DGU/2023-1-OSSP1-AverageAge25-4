@@ -105,6 +105,7 @@ align-items: center;
 
 .edit{
 display:flex;
+ justify-content:center;
 }
 #edit_input{
   width:120px;
@@ -170,6 +171,9 @@ margin-left: 150px;
    width: 200px;
    margin-bottom: 15px;
    margin-left: 15px;
+}
+.option{
+width:90px;
 }
 
 /*----------------버튼 모음------------------*/
@@ -327,6 +331,9 @@ input {
    height: 80px;
    overflow: auto;
    background:Gainsboro;
+   margin-top:-10px;
+   margin-right:10px;
+   margin-left:-10px;
 }
 
 .cat-item input{
