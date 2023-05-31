@@ -73,6 +73,14 @@ flex-grow:0.1;
 flex-shrink:0.2;
 overflow: auto;
 
+
+}
+.menubar::-webkit-scrollbar {
+  width: 12px;
+}
+.menubar::-webkit-scrollbar-thumb {
+  background-color:#A2A2A2;
+  border-radius: 7px;
 }
 
 .keylist{
@@ -172,9 +180,6 @@ margin-left: 150px;
    margin-bottom: 15px;
    margin-left: 15px;
 }
-.option{
-width:90px;
-}
 
 /*----------------버튼 모음------------------*/
 .btn{
@@ -222,6 +227,7 @@ width:90px;
 }
 .btn_keyDel{
     margin-right:3px;
+
     background: #E2E2E2;
  border: 2.3px solid DimGray;
   border-radius: 5px;
@@ -268,6 +274,7 @@ align-items: center;
   display: flex;
 justify-content: center;
 align-items: center;
+margin-bottom: 10px;
 }
 
 
@@ -392,10 +399,11 @@ display: inline-block;
   margin: 7px;
 }
 
-.input1, .input2, .input3, .input4, .input5, .input6 {
+.option{
   height:20px;
-  width: 70px;
-  margin-right: 30px; margin-left: 30px;
+  width: 90px;
+  margin-right: 20px;
+   margin-left: 20px;
 }
 
 .key_notice{
@@ -432,6 +440,7 @@ display: inline-block;
     overflow: auto;
     overflow-x:hidden;
 }
+
 
 .key_notice::-webkit-scrollbar,
 .row1::-webkit-scrollbar,
@@ -586,9 +595,17 @@ li{
     padding: 8px;
     flex-grow:0.3;
     flex-shrink:0.4;
-
+    padding: 10px;
 
 }
+.menubar::-webkit-scrollbar {
+  width: 14px;
+}
+.row6::-webkit-scrollbar-thumb {
+  background-color: grey;
+  border-radius: 10px;
+}
+
 .searchbar {
 margin-left:0px;
 margin-top: 20px;

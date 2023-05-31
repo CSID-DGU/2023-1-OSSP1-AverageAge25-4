@@ -126,14 +126,14 @@
 
         <div class="menubar">
             <h5 style="text-align: center; ">KEYWORDS</h5>
-            <li style="list-style-type: none; font-size: 13px;text-align:right;margin-top:0px;margin-bottom:3px;margin-bottm:3px;margin-right:5px;">유사단어 허용여부: O,X</li>
+            <li style="list-style-type: none; font-size: 13px;text-align:right;margin-top:0px;margin-bottom:3px;margin-right:7px;">유사단어 허용여부: O,X</li>
             <ul id="keyword-list" style="margin-top: 0px;">
                 {% regroup keywords by key as grouped_keywords %}
 
                 {% for grouped_keyword in grouped_keywords %}
                 <li class="keylist" style="margin:5px">
                     <div class="keytextline" style="width:200px; display:flex; flex-direction:row;
-                     overflow:hidden; white-space: nowrap; text-overflow: ellipsis; padding-right:10px;">
+                     overflow:hidden; white-space: nowrap; text-overflow: ellipsis; padding-right:10px;margin-right:8px;">
 
                         {{ grouped_keyword.grouper }} :
                     {% for keyword in grouped_keyword.list %}
