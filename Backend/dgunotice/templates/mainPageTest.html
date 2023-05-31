@@ -122,20 +122,25 @@
                                 <div class="edit">
                                     <input type="hidden" name="now_keyword" value="{{ grouped_keyword.grouper }}">
 
-                                    <label style="width:68px;">키워드를</label>
+                                    <div style="display:flex;flex-direction:column;">
+                                    <div style="display:flex; flex-direction:row;height:50px;margin-bottom:0px;">
+                                    <div style="width:68px;margin-right:17px;margin-left:5px;">키워드:</div>
                                     <input id='' name='edit_keyword' type="text" value="{{ grouped_keyword.grouper }}" style="width:100px;margin-top:-10px;">
+                                     </div>
 
-                                    <label class="edit-label">로,&nbsp;&nbsp;카테고리를</label>
+                                    <div style="display:flex; flex-direction:row;">
+                                    <div class="edit-label" style="margin-right:-20px;">카테고리:</div>
 
-                                    <div class="cat-container2" >
+                                       <div class="cat-container2"  >
                                         {% for category in allcategory %}
                                         <label class="cat-item">
                                             <input name="edit_category" type="checkbox" value="{{ category.Cid }}">
                                             <span style="font-size: 12px;">{{ category.Cname }}</span>
                                         </label>
                                         {% endfor %}
-                                    </div>
-                                    <label style="margin-left:5px">로</label>
+                                       </div>
+                                     </div>
+                                     </div>
                                 </div>
 
                                 <div style="display: flex; align-items: center; justify-content: center;">
@@ -158,15 +163,21 @@
                 <button id="openModalButton2" class="btn_keyAdd">+</button>
 
                     <div id="myModal2" class="modal">
-                        <div class="modal-content">
+                        <div class="modal-content" >
                             <span class="close2">&times;</span>
-                            <h3>키워드 추가</h3>
+                            <h3 style="text-align:center;margin-bottom:23px; ">키워드 추가</h3>
+
                             <form class="keyinput-form" method="get" action="/mainPage/add/">
                                 {% csrf_token %}
-                                <label>키워드를 입력해주세요.</label>
-                                <input class="keyinputBtn" name="keyword_add" type="text" placeholder="추가할 키워드를 입력해주세요.">
-                                <div style="display: flex; align-items: center;">
-                                    <label>카테고리를 골라주세요.</label>
+                                <div style="display:flex;flex-direction:column;align-items:center;font-size:0.9em;">
+
+                                    <div>
+                                     <label style="margin-right:8px;margin-left:0px;">키워드:</label>
+                                     <input class="keyinputBtn" name="keyword_add" type="text" placeholder="추가할 키워드를 입력해주세요.">
+                                    </div>
+
+                                    <div style="display:flex;flex-direction:row; margin-top:10px;margin-left:4px;">
+                                    <label>카테고리:</label>
                                     <div class="cat-container1">
                                         {% for category in allcategory %}
                                         <label class= "cat-item">
@@ -181,7 +192,7 @@
                                     <span>키워드 유사단어 등록</span>
                                     <input name="similar_on" type="checkbox" style="width: 25px;" value="True">
                                 </div>
-
+                               </div>
                                 <div style="display:flex; justify-content: center;">
                                     <button class="addBtn" type="submit" >추가</button>
                                 </div>
