@@ -145,7 +145,7 @@
                     <input class="hiddenBtn" type="hidden" name="grouped_keyword_grouper" value="{{ grouped_keyword.grouper }}" />
                     <input class="hiddenBtn" type="hidden" name="keyword_cid_cname" value="{{ keyword.Cid.Cname }}"  />
 
-                   <div class="btn_group" style="display:flex; flex-direction:row;">
+                   <div class="btn_group" style="display:flex; flex-direction:row; ">
                     <form method="get" action="/mainPage/{{ grouped_keyword.grouper }}/">
                         {% csrf_token %}
                         <input type="hidden" name="keyword_del" value="{{ grouped_keyword.grouper }}">

@@ -186,7 +186,7 @@ margin-left: 150px;
 .editBtn1{
     height:25px;
     width:60px;
-    margin:8px;"
+    margin:8px;
 }
 /*키워드 수정 모달 내부 수정 버튼*/
 .editBtn2{
@@ -217,18 +217,53 @@ margin-left: 150px;
   height: 35px;
 }
 .btn_keyDel{
-   font-size: 14px;
-   margin-left: 7px;
+    margin-right:3px;
+    background: #E2E2E2;
+ border: 2.3px solid DimGray;
+  border-radius: 5px;
+  color: DimGray;
+  width: 20px;
+  height:22px;
+  font-size: 0.9em;
+  font-weight: bold;
+  position: relative;
+  text-transform: uppercase;
+  display: flex;
+justify-content: center;
+align-items: center;
+
 }
 #btn_edit{
-   font-size:12px;
    width:35px;
    height:22px;
+   background: #E2E2E2;
+  /*border: 2.3px solid #fff;*/
+  border: 2.3px solid DimGray;
+  border-radius: 5px;
+  color: DimGray;
+  font-size: 0.8em;
+  font-weight: bold;
+  position: relative;
+  text-transform: uppercase;
+  display: flex;
+justify-content: center;
+align-items: center;
 }
 .btn_keyAdd{
-   font-size: 16px;
-   width: 40px;
-   margin: 5px;
+   width:38px;
+   height:24px;
+   background: #E2E2E2;
+  /*border: 2.3px solid #fff;*/
+  border: 2.3px solid DimGray;
+  border-radius: 5px;
+  color: DimGray;
+  font-size: 0.8em;
+  font-weight: bold;
+  position: relative;
+  text-transform: uppercase;
+  display: flex;
+justify-content: center;
+align-items: center;
 }
 
 
@@ -329,7 +364,7 @@ display: inline-block;
    white-space: nowrap;
   overflow: hidden;
    text-overflow: ellipsis;
-   width:260px;
+   width:350px;
    margin:5px;
 
     font-size: 0.9em;
@@ -388,6 +423,7 @@ display: inline-block;
 
     max-height:250px;
     overflow: auto;
+    overflow-x:hidden;
 }
 
 .key_notice::-webkit-scrollbar,
