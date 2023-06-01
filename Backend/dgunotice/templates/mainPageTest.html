@@ -136,8 +136,16 @@
                                        <div class="cat-container2"  >
                                         {% for category in allcategory %}
                                         <label class="cat-item">
-                                            <input name="edit_category" type="checkbox" value="{{ category.Cid }}">
-                                            <span style="font-size: 12px;">{{ category.Cname }}</span>
+                                            {% for keyword in grouped_keyword.list %}
+                                            {% if keyword.key == grouped_keyword.grouper %}
+                                                {% if keyword.Cid.Cid == category.Cid %}
+                                                <input name="edit_category" type="checkbox" value="{{ category.Cid }}" checked>
+                                                {% else %}
+                                                <input name="edit_category" type="checkbox" value="{{ category.Cid }}">
+                                                {% endif %}
+                                                <span style="font-size: 12px;">{{ category.Cname }}</span>
+                                            {% endif %}
+                                            {% endfor %}
                                         </label>
                                         {% endfor %}
                                        </div>
