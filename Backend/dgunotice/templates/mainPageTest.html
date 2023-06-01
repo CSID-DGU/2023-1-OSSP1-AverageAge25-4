@@ -108,7 +108,7 @@
                     <input class="hiddenBtn" type="hidden" name="grouped_keyword_grouper" value="{{ grouped_keyword.grouper }}" />
                     <input class="hiddenBtn" type="hidden" name="keyword_cid_cname" value="{{ keyword.Cid.Cname }}"  />
 
-                   <div class="btn_group" style="display:flex; flex-direction:row; ">
+                    <div class="btn_group" style="display:flex; flex-direction:row;">
                     <form method="get" action="/mainPage/{{ grouped_keyword.grouper }}/">
                         {% csrf_token %}
                         <input type="hidden" name="keyword_del" value="{{ grouped_keyword.grouper }}">
@@ -127,24 +127,24 @@
                                     <input type="hidden" name="now_keyword" value="{{ grouped_keyword.grouper }}">
 
                                     <div style="display:flex;flex-direction:column;">
-                                    <div style="display:flex; flex-direction:row;height:50px;margin-bottom:0px;">
-                                    <div style="width:68px;margin-right:17px;margin-left:5px;">키워드:</div>
-                                    <input id='' name='edit_keyword' type="text" value="{{ grouped_keyword.grouper }}" style="width:250px;margin-top:-10px;">
-                                     </div>
+                                        <div style="display:flex; flex-direction:row;height:50px;margin-bottom:0px;">
+                                            <div style="width:68px;margin-right:17px;margin-left:5px;">키워드:</div>
+                                            <input id='edit_word' name='edit_keyword' type="text" value="{{ grouped_keyword.grouper }}" style="width:250px;margin-top:-10px;">
+                                        </div>
 
-                                    <div style="display:flex; flex-direction:row;">
-                                    <div class="edit-label" style="margin-right:-20px;">카테고리:</div>
+                                        <div style="display:flex; flex-direction:row;">
+                                            <div class="edit-label" style="margin-right:-20px;">카테고리:</div>
 
-                                       <div class="cat-container2"  >
-                                        {% for category in allcategory %}
-                                        <label class="cat-item">
-                                            <input name="edit_category" type="checkbox" value="{{ category.Cid }}">
-                                            <span style="font-size: 12px;">{{ category.Cname }}</span>
-                                        </label>
-                                        {% endfor %}
-                                       </div>
-                                     </div>
-                                     </div>
+                                            <div class="cat-container2"  >
+                                            {% for category in allcategory %}
+                                            <label class="cat-item">
+                                                <input id="checkbox{{ forloop.counter }}" name="edit_category" type="checkbox" value="{{ category.Cid }}">
+                                                <span style="font-size: 12px;">{{ category.Cname }}</span>
+                                            </label>
+                                            {% endfor %}
+                                           </div>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div style="display: flex; align-items: center; justify-content: center;">
@@ -153,8 +153,9 @@
                                 </div>
 
                                 <div style="display:flex; justify-content: center;">
-                                        <button class="editBtn2" type="submit">수정</button>
+                                    <button class="editBtn2" type="submit">수정</button>
                                 </div>
+
                             </form>
                         </div>
                     </div>
@@ -319,7 +320,27 @@
         document.getElementById("key_sim").submit();
     }
 
+    var key_checking = document.getElementById("edit_word");
+    var CidList = [
+            {% regroup keywords by key as grouped_keywords %}
+                {% for grouped_keyword in grouped_keywords %}
+                    [ "{{ grouped_keyword.grouper }}",
+                    {% for keyword in grouped_keyword.list %}
+                        "{{ keyword.Cid.Cid }}",
+                    {% endfor %}
+                    ],
+                {% endfor %}
+        ];
 
-
-
+        for (let i = 0; i < CidList.length; i++) {
+            var row = CidList[i];
+            if (row[0] == key_checking.value) {
+                for (let j = 1; j <= {{ allcategory|length }}; j++) {
+                    var checkbox = document.getElementById("checkbox" + j);
+                    if (row.includes(checkbox.value)) {
+                        checkbox.checked = true;
+                    }
+                }
+            }
+        }
 </script>
