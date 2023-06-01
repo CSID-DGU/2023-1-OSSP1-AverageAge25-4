@@ -143,13 +143,19 @@
                                      </div>
                                 </div>
 
+                                {% for keyword in grouped_keyword.list %}
                                 <div style="display: flex; align-items: center; justify-content: center;">
                                     <span>키워드 유사단어 등록</span>
+                                    {% if keyword.similar_on %}
+                                    <input name="similar_on" type="checkbox" style="width: 25px;" value="True" checked>
+                                    {% else %}
                                     <input name="similar_on" type="checkbox" style="width: 25px;" value="True">
+                                    {% endif %}
                                 </div>
+                                {% endfor %}
 
                                 <div style="display:flex; justify-content: center;">
-                                        <button class="editBtn2" type="submit">수정</button>
+                                    <button class="editBtn2" type="submit">수정</button>
                                 </div>
                             </form>
                         </div>
@@ -188,11 +194,11 @@
                                     </div>
                                 </div>
 
-                                <div style="display: flex; align-items: center; justify-content: center;">
-                                    <span>키워드 유사단어 등록</span>
-                                    <input name="similar_on" type="checkbox" style="width: 25px;" value="True">
+                                    <div style="display: flex; align-items: center; justify-content: center;">
+                                        <span>키워드 유사단어 등록</span>
+                                        <input name="similar_on" type="checkbox" style="width: 25px;" value="True">
+                                    </div>
                                 </div>
-                               </div>
                                 <div style="display:flex; justify-content: center;">
                                     <button class="addBtn" type="submit" >추가</button>
                                 </div>
