@@ -442,7 +442,8 @@ display: inline-block;
 .row1, .row2, .row3, .row4, .row5, .row6 {
     width: 340px;
     height:250px;
-    padding: 8px;
+
+    padding: 0px;
 
     background-color: #F3E2A9;
     margin: 20px;
@@ -544,7 +545,18 @@ li{
 }
 
 
-
+.sticky-header {
+     position: sticky;
+     height:25px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    margin:0px;
+   background-color: #F3E2A9;
+    padding: 10px;
+box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    z-index: 9999;
+}
 
 
 /*------------- 모바일 버전-------------*/
@@ -649,10 +661,7 @@ width-max: 400px;
 .key_notice{
 width:60%;
 }
-.row1, .row2, .row3, .row4, .row5, .row6 {
-    width: 60%;
 
-}
 .noticelink{
 display: inline-block;
    white-space: nowrap;

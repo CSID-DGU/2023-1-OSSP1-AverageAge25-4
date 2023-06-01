@@ -52,7 +52,7 @@
                             </div>
                              {% endfor %}
                          </div>
-                         
+
                          <div id="input-wrapper-down">
                             <button class="editBtn1" type="submit" >수정</button>
                          </div>
@@ -71,9 +71,11 @@
         <div class="component-wrapper">
 
            {% for category in categories %}
-            <div class="row{{ forloop.counter }}">
-                <h5 style="margin-left:10px">{{ category.Cname }}</h5>
-                <ul>
+            <div class="row{{ forloop.counter }}" >
+                <div class="sticky-header">
+                  <h5 >{{ category.Cname }}</h5>
+                </div>
+                <ul >
                 {% for notice in category.notice_set.all %}
                     <li class="noticelink"><a href="{{ notice.link }}" title="{{notice.title}}" style="text-decoration:none; color: black;">{{ notice.title }}</a> - {{ notice.time }}</li>
                 {% endfor %}
@@ -143,19 +145,13 @@
                                      </div>
                                 </div>
 
-                                {% for keyword in grouped_keyword.list %}
                                 <div style="display: flex; align-items: center; justify-content: center;">
                                     <span>키워드 유사단어 등록</span>
-                                    {% if keyword.similar_on %}
-                                    <input name="similar_on" type="checkbox" style="width: 25px;" value="True" checked>
-                                    {% else %}
                                     <input name="similar_on" type="checkbox" style="width: 25px;" value="True">
-                                    {% endif %}
                                 </div>
-                                {% endfor %}
 
                                 <div style="display:flex; justify-content: center;">
-                                    <button class="editBtn2" type="submit">수정</button>
+                                        <button class="editBtn2" type="submit">수정</button>
                                 </div>
                             </form>
                         </div>
@@ -194,11 +190,11 @@
                                     </div>
                                 </div>
 
-                                    <div style="display: flex; align-items: center; justify-content: center;">
-                                        <span>키워드 유사단어 등록</span>
-                                        <input name="similar_on" type="checkbox" style="width: 25px;" value="True">
-                                    </div>
+                                <div style="display: flex; align-items: center; justify-content: center;">
+                                    <span>키워드 유사단어 등록</span>
+                                    <input name="similar_on" type="checkbox" style="width: 25px;" value="True">
                                 </div>
+                               </div>
                                 <div style="display:flex; justify-content: center;">
                                     <button class="addBtn" type="submit" >추가</button>
                                 </div>
@@ -216,11 +212,28 @@
     var closeBtn3 = document.getElementsByClassName("close_order")[0];
 
     function openModal3() {
-    modal3.style.display = "block";
+      modal3.style.display = "block";
+     var stickyHeaders = document.querySelectorAll(".sticky-header");
+      stickyHeaders.forEach(function(header) {
+
+        header.style.zIndex = -1;
+       });
+
+      var h5Elements = document.querySelectorAll(".sticky-header h5");
+        h5Elements.forEach(function(h5) {
+
+        h5.style.zIndex = 1;
+    });
+
     }
 
     function closeModal3() {
     modal3.style.display = "none";
+     var stickyHeaders = document.querySelectorAll(".sticky-header");
+    stickyHeaders.forEach(function(header) {
+        header.style.zIndex = 9999;
+    });
+
     }
 
     btn3.addEventListener("click", openModal3);
@@ -249,9 +262,24 @@
 
     function openModal2() {
     modal2.style.display = "block";
+     var stickyHeaders = document.querySelectorAll(".sticky-header");
+    stickyHeaders.forEach(function(header) {
+        header.style.zIndex = -1;
+    });
+    var h5Elements = document.querySelectorAll(".sticky-header h5");
+    h5Elements.forEach(function(h5) {
+
+        h5.style.zIndex = 1;
+    });
     }
+
     function closeModal2() {
     modal2.style.display = "none";
+     var stickyHeaders = document.querySelectorAll(".sticky-header");
+    stickyHeaders.forEach(function(header) {
+        header.style.zIndex = 9999;
+    });
+
     }
 
     btn2.addEventListener("click", openModal2);
@@ -288,10 +316,23 @@
 
             function openModalFn() {
                 modal.style.display = "block";
+                 var stickyHeaders = document.querySelectorAll(".sticky-header");
+                  stickyHeaders.forEach(function(header) {
+                       header.style.zIndex = -1;
+                   });
+                   var h5Elements = document.querySelectorAll(".sticky-header h5");
+    h5Elements.forEach(function(h5) {
+
+        h5.style.zIndex = 1;
+    });
             }
 
             function closeModalFn() {
                 modal.style.display = "none";
+                 var stickyHeaders = document.querySelectorAll(".sticky-header");
+                     stickyHeaders.forEach(function(header) {
+                   header.style.zIndex = 9999;
+                  });
             }
 
             buttons[i].addEventListener("click", openModalFn);
@@ -313,11 +354,7 @@
         document.getElementById("key_sim").submit();
     }
 
-    //유사단어허용여부:X,V로 변경
-    var showSimElement = document.getElementById("show_sim");
-             if (keyword.similar_on) {
-    showSimElement.textContent = "V";
-        } else {
-    showSimElement.textContent = "X";
-     }
+
+
+
 </script>
