@@ -1,41 +1,28 @@
 {% load static %}
 <head>
-<link rel="stylesheet" href="{% static 'css/MainPage.css' %}?after">
+    <link rel="stylesheet" href="{% static 'css/MainPage.css' %}?after">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-
 </head>
 
 <div class="container">
 
     <div class="up">
-
         <div class="up-left">
             <img  src="{% static 'images/logo.png' %}" />
         </div>
-
-            <div class="up-middle">
+        <div class="up-middle">
                 <form class="searchbar" action="/search/" method="get">
                     <input type="text" name="keyword" placeholder="검색어를 입력하세요" >
                     <button class="search" type="submit">검색</button>
                 </form>
             </div>
-            <div class="up-right">
+        <div class="up-right">
                <button  id="openModalButton" class="btn_order">공지사항 순서 변경</button>
 
                 <div id="myModal_order" class="modal">
                     <div class="modal-content">
                     <span class="close_order">&times;</span>
                     <h2>공지사항 순서 변경</h2>
-                    <details>
-                    <summary>공지사항 목록</summary>
-                        <p><div>
-                            {% for category in allcategory %}
-                                <li>{{ category.Cid }} : {{ category.Cname }}</li>
-                            {% endfor %}
-                            원하는 카테고리 6개를 순서대로 입력해주세요.
-                        </div></p>
-                    </details>
-
                      <form class="input-wrapper" method="post" action="/mainPage/reorder/">
                         {% csrf_token %}
                          <div class="input-wrapper-up">
@@ -67,48 +54,45 @@
     </div>
 
     <div class="down">
-
         <div class="component-wrapper">
-
            {% for category in categories %}
             <div class="row{{ forloop.counter }}"  >
                 <div class="sticky-header">
                   <h5 >{{ category.Cname }}</h5>
                 </div>
 
-                <ul >
+                <ul>
                 {% for notice in category.notice_set.all %}
-                    <li class="noticelink"><a href="{{ notice.link }}" title="{{notice.title}}" style="text-decoration:none; color: black;">{{ notice.title }}</a> - {{ notice.time }}</li>
+                    <li class="noticelink"><a href="{{ notice.link }}" title="{{notice.title}}">{{ notice.title }}</a> - {{ notice.time }}</li>
                 {% endfor %}
                 </ul>
 
             </div>
             {% endfor %}
-
         </div>
 
         <div class="menubar">
-            <h5 style="text-align: center; ">KEYWORDS</h5>
-            <li style="list-style-type: none; font-size: 13px;text-align:right;margin-top:0px;margin-bottom:3px;margin-right:7px;">유사단어 허용여부: O,X</li>
-            <ul id="keyword-list" style="margin-top: 0px;">
+            <h5>KEYWORDS</h5>
+            <li>유사단어 허용여부: O,X</li>
+            <ul id="keyword-list">
                 {% regroup keywords by key as grouped_keywords %}
 
                 {% for grouped_keyword in grouped_keywords %}
                 <li class="keylist" style="margin:5px">
-                    <div class="keytextline" style="width:200px; display:flex; flex-direction:row;
-                     overflow:hidden; white-space: nowrap; text-overflow: ellipsis; padding-right:10px;margin-right:8px;">
-
+                    <div class="keytextline">
                         {{ grouped_keyword.grouper }} :
-                    {% for keyword in grouped_keyword.list %}
-                        {{ keyword.Cid.Cname }}   <div id="show_sim" > {% if keyword.similar_on %}(O){% else %}(X){% endif %}</div>
-                        {% if not forloop.last %}, {% endif %}
-                    {% endfor %}
-
+                        {% for keyword in grouped_keyword.list %}
+                            {{ keyword.Cid.Cname }}
+                            {% if not forloop.last %},
+                            {% else %}
+                                <div id="show_sim" > {% if keyword.similar_on %}(O){% else %}(X){% endif %} </div>
+                            {% endif %}
+                        {% endfor %}
                     </div>
                     <input class="hiddenBtn" type="hidden" name="grouped_keyword_grouper" value="{{ grouped_keyword.grouper }}" />
                     <input class="hiddenBtn" type="hidden" name="keyword_cid_cname" value="{{ keyword.Cid.Cname }}"  />
 
-                    <div class="btn_group" style="display:flex; flex-direction:row;">
+                    <div class="btn_group">
                     <form method="get" action="/mainPage/{{ grouped_keyword.grouper }}/">
                         {% csrf_token %}
                         <input type="hidden" name="keyword_del" value="{{ grouped_keyword.grouper }}">
@@ -120,30 +104,26 @@
                     <div id="myModals{{ forloop.counter }}" class="modal">
                         <div class="modal-content">
                             <span class="close">&times;</span>
-                            <h3 style="text-align:center;margin-bottom:23px; ">키워드 수정</h3>
+                            <h3>키워드 수정</h3>
                             <form action="/mainPage/'{{ grouped_keyword.grouper|urlencode }}'/" method="post">
                                 {% csrf_token %}
                                 <div class="edit">
-                                    <input type="hidden" name="now_keyword" value="{{ grouped_keyword.grouper }}">
+                                    <div class="keyword_input_box">
+                                        <label>키워드:</label>
+                                        <input id='edit_word' name='edit_keyword' type="text" value="{{ grouped_keyword.grouper }}" style="width:250px;margin-top:-10px;">
+                                    </div>
 
-                                    <div style="display:flex;flex-direction:column;">
-                                        <div style="display:flex; flex-direction:row;height:50px;margin-bottom:0px;">
-                                            <div style="width:68px;margin-right:17px;margin-left:5px;">키워드:</div>
-                                            <input id='edit_word' name='edit_keyword' type="text" value="{{ grouped_keyword.grouper }}" style="width:250px;margin-top:-10px;">
-                                        </div>
+                                    <div class="category_input_box">
+                                        <label>카테고리:</label>
 
-                                        <div style="display:flex; flex-direction:row;">
-                                            <div class="edit-label" style="margin-right:-20px;">카테고리:</div>
-
-                                            <div class="cat-container2"  >
+                                        <div class="cat-container1">
                                             {% for category in allcategory %}
                                             <label class="cat-item">
                                                 <input id="checkbox{{ forloop.counter }}" name="edit_category" type="checkbox" value="{{ category.Cid }}">
-                                                <span style="font-size: 12px;">{{ category.Cname }}</span>
+                                                <span>{{ category.Cname }}</span>
                                             </label>
                                             {% endfor %}
-                                           </div>
-                                        </div>
+                                       </div>
                                     </div>
                                 </div>
 
@@ -159,7 +139,7 @@
                             </form>
                         </div>
                     </div>
-                       </div>
+                   </div>
                 </li>
                 {% endfor %}
             </ul>
