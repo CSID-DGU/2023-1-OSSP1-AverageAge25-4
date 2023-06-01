@@ -1,4 +1,4 @@
-@font-face {
+   @font-face {
     font-family: 'DU';
     src:
     url('../css/DU.ttf'),
@@ -441,8 +441,7 @@ display: inline-block;
 
 .row1, .row2, .row3, .row4, .row5, .row6 {
     width: 340px;
-    height:250px;
-
+    height:280px;
     padding: 0px;
 
     background-color: #F3E2A9;
@@ -454,45 +453,70 @@ display: inline-block;
     border-radius: 9px;
 
     max-height:250px;
-    overflow: auto;
     overflow-x:hidden;
+    overflow-y:auto;
 }
 
+/*
+.noticebox{
+background:white;
+margin:0px;
+padding:0px;
+ overflow: auto;
+height:210px;
+ overflow-x:hidden;
+}*/
 
-.key_notice::-webkit-scrollbar,
+
 .row1::-webkit-scrollbar,
 .row2::-webkit-scrollbar,
 .row3::-webkit-scrollbar,
 .row4::-webkit-scrollbar,
 .row5::-webkit-scrollbar,
-.row6::-webkit-scrollbar {
-  width: 14px;
+.row6::-webkit-scrollbar
+ {
+  width: 12px;
 }
 
-.key_notice::-webkit-scrollbar-thumb,
+
 .row1::-webkit-scrollbar-thumb,
 .row2::-webkit-scrollbar-thumb,
 .row3::-webkit-scrollbar-thumb,
 .row4::-webkit-scrollbar-thumb,
 .row5::-webkit-scrollbar-thumb,
-.row6::-webkit-scrollbar-thumb {
+.row6::-webkit-scrollbar-thumb
+ {
   background-color: SandyBrown;
   border-radius: 10px;
 }
 
-.key_notice::-webkit-scrollbar-track,
+
 .row1::-webkit-scrollbar-track,
 .row2::-webkit-scrollbar-track,
 .row3::-webkit-scrollbar-track,
 .row4::-webkit-scrollbar-track,
 .row5::-webkit-scrollbar-track,
-.row6::-webkit-scrollbar-track {
+.row6::-webkit-scrollbar-track
+ {
   background-color: white;
   background-color: #F3E2A9;
 }
 
 li{
     margin:10px;
+}
+.sticky-header {
+     position: sticky;
+     height:25px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    margin:0px;
+
+   background-color: #F3E2A9;
+    padding: 10px;
+   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    /*z-index: 9999;*/
 }
 
 /* Style the button to open the modal */
@@ -545,18 +569,7 @@ li{
 }
 
 
-.sticky-header {
-     position: sticky;
-     height:25px;
-    top: 0;
-    left: 0;
-    width: 100%;
-    margin:0px;
-   background-color: #F3E2A9;
-    padding: 10px;
-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    z-index: 9999;
-}
+
 
 
 /*------------- 모바일 버전-------------*/
@@ -671,7 +684,6 @@ display: inline-block;
    margin:5px;
     font-size: 0.9em;
 }
-
 .add_similar {
     margin-left: 35px;
 }

@@ -71,15 +71,17 @@
         <div class="component-wrapper">
 
            {% for category in categories %}
-            <div class="row{{ forloop.counter }}" >
+            <div class="row{{ forloop.counter }}"  >
                 <div class="sticky-header">
                   <h5 >{{ category.Cname }}</h5>
                 </div>
+
                 <ul >
                 {% for notice in category.notice_set.all %}
                     <li class="noticelink"><a href="{{ notice.link }}" title="{{notice.title}}" style="text-decoration:none; color: black;">{{ notice.title }}</a> - {{ notice.time }}</li>
                 {% endfor %}
                 </ul>
+
             </div>
             {% endfor %}
 
@@ -136,16 +138,8 @@
                                        <div class="cat-container2"  >
                                         {% for category in allcategory %}
                                         <label class="cat-item">
-                                            {% for keyword in grouped_keyword.list %}
-                                            {% if keyword.key == grouped_keyword.grouper %}
-                                                {% if keyword.Cid.Cid == category.Cid %}
-                                                <input name="edit_category" type="checkbox" value="{{ category.Cid }}" checked>
-                                                {% else %}
-                                                <input name="edit_category" type="checkbox" value="{{ category.Cid }}">
-                                                {% endif %}
-                                                <span style="font-size: 12px;">{{ category.Cname }}</span>
-                                            {% endif %}
-                                            {% endfor %}
+                                            <input name="edit_category" type="checkbox" value="{{ category.Cid }}">
+                                            <span style="font-size: 12px;">{{ category.Cname }}</span>
                                         </label>
                                         {% endfor %}
                                        </div>
@@ -222,25 +216,12 @@
     function openModal3() {
       modal3.style.display = "block";
      var stickyHeaders = document.querySelectorAll(".sticky-header");
-      stickyHeaders.forEach(function(header) {
 
-        header.style.zIndex = -1;
-       });
-
-      var h5Elements = document.querySelectorAll(".sticky-header h5");
-        h5Elements.forEach(function(h5) {
-
-        h5.style.zIndex = 1;
-    });
 
     }
 
     function closeModal3() {
     modal3.style.display = "none";
-     var stickyHeaders = document.querySelectorAll(".sticky-header");
-    stickyHeaders.forEach(function(header) {
-        header.style.zIndex = 9999;
-    });
 
     }
 
@@ -270,23 +251,12 @@
 
     function openModal2() {
     modal2.style.display = "block";
-     var stickyHeaders = document.querySelectorAll(".sticky-header");
-    stickyHeaders.forEach(function(header) {
-        header.style.zIndex = -1;
-    });
-    var h5Elements = document.querySelectorAll(".sticky-header h5");
-    h5Elements.forEach(function(h5) {
 
-        h5.style.zIndex = 1;
-    });
     }
 
     function closeModal2() {
     modal2.style.display = "none";
-     var stickyHeaders = document.querySelectorAll(".sticky-header");
-    stickyHeaders.forEach(function(header) {
-        header.style.zIndex = 9999;
-    });
+
 
     }
 
@@ -324,23 +294,10 @@
 
             function openModalFn() {
                 modal.style.display = "block";
-                 var stickyHeaders = document.querySelectorAll(".sticky-header");
-                  stickyHeaders.forEach(function(header) {
-                       header.style.zIndex = -1;
-                   });
-                   var h5Elements = document.querySelectorAll(".sticky-header h5");
-    h5Elements.forEach(function(h5) {
-
-        h5.style.zIndex = 1;
-    });
             }
 
             function closeModalFn() {
                 modal.style.display = "none";
-                 var stickyHeaders = document.querySelectorAll(".sticky-header");
-                     stickyHeaders.forEach(function(header) {
-                   header.style.zIndex = 9999;
-                  });
             }
 
             buttons[i].addEventListener("click", openModalFn);
