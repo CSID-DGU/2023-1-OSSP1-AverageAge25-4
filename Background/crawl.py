@@ -116,7 +116,7 @@ def crawlInitial(category_index=0, page_index=0):
             page_type = category[5]
 
             category_index += 1
-            page_index += 1  #페이지
+            page_index = 1
 
             while True:
                 isNext = True
