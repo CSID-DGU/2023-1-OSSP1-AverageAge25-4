@@ -19,6 +19,8 @@ body {
     width: 100vw;
     height: 100vh;
 }
+
+/*상단 부분*/
 .up{
       display: flex;
       height: 100px;
@@ -26,13 +28,16 @@ body {
       margin: 0 100px;
 }
 
+/*로고*/
 .up-left{
     display : flex;
     height: 85px;
     margin: 10px 10px 0 -130px;
 
 }
+/*로고*/
 
+/*검색바*/
 .up-middle{
     display : flex;
     justify-content: right;
@@ -40,6 +45,23 @@ body {
     margin-top:5px;
 }
 
+.searchbar {
+margin-left:0px;
+margin-top: 20px;
+width: 200px;
+}
+
+.searchbar input{
+   display:flex;
+   flex-shrink:0.4;
+}
+
+.search{
+margin-top:10px;
+}
+/*검색바*/
+
+/*상단 오른쪽 부분*/
 .up-right{
     display: flex;
     margin-right:-30px;
@@ -47,6 +69,19 @@ body {
     margin-top: 30px;
 }
 
+.btn_order, .btn_logout {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  cursor: pointer;
+  margin:5px;
+  font-family: 'DU';
+  width: 150px;
+  height: 35px;
+}
+/*상단 오른쪽 부분*/
+/*상단 부분*/
 
 .down{
     display : flex;
@@ -133,6 +168,14 @@ body {
     align-items: center;
 }
 
+.keyinput-form > div {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    font-size:0.9em;
+    margin-left:5px;
+}
+
 .edit-container{
 display: flex;
 flex-direction: column;
@@ -140,7 +183,8 @@ align-items: center;
 
 }
 
-.edit{
+/*키워드 수정 모달창*/
+.keyword_box {
     display:flex;
     justify-content:center;
     flex-direction:column;
@@ -164,6 +208,21 @@ align-items: center;
     margin-right:13px;
 }
 
+.similar_input_box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.similar_input_box > input {
+    width: 25px;
+}
+
+.submit_input_box {
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
 
 .cat-container1{
     margin-left: 20px;
@@ -188,6 +247,10 @@ align-items: center;
 .cat-container1::-webkit-scrollbar-track{
     background-color: lightgray;
 }
+
+/*키워드 수정 모달창*/
+
+
 
 
 .cat-item input{
@@ -300,17 +363,7 @@ margin-left: 150px;
     display:inline-block;
 }
 /*여기부터 순서변경 버튼, 로그아웃 버튼, 키워드 삭제버튼, 키워드 수정버튼, 키워드추가버튼*/
-.btn_order, .btn_logout {
-  background-color: #4caf50;
-  color: white;
-  padding: 10px 15px;
-  border: none;
-  cursor: pointer;
-  margin:5px;
-  font-family: 'DU';
-  width: 150px;
-  height: 35px;
-}
+
 .btn_keyDel{
     margin-right:3px;
 
@@ -588,7 +641,7 @@ li{
 }
 
 /* Style the close button */
-.close {
+.close, .close2 {
   color: #aaa;
   float: right;
   font-size: 28px;
@@ -597,7 +650,9 @@ li{
 }
 
 .close:hover,
-.close:focus {
+.close:focus,
+.close2:hover,
+.close2:focus{
   color: #000;
   text-decoration: none;
   cursor: pointer;
@@ -689,20 +744,7 @@ li{
   border-radius: 10px;
 }
 
-.searchbar {
-margin-left:0px;
-margin-top: 20px;
-width: 200px;
-}
-.searchbar input{
-   display:flex;
-   flex-shrink:0.4;
-}
 
-.search{
-margin-top:10px;
-
-}
 
 
 .component-wrapper{

@@ -17,7 +17,7 @@
                 </form>
             </div>
         <div class="up-right">
-               <button  id="openModalButton" class="btn_order">공지사항 순서 변경</button>
+               <button id="openModalButton" class="btn_order">공지사항 순서 변경</button>
 
                 <div id="myModal_order" class="modal">
                     <div class="modal-content">
@@ -110,7 +110,7 @@
                             <h3>키워드 수정</h3>
                             <form action="/mainPage/'{{ grouped_keyword.grouper|urlencode }}'/" method="post">
                                 {% csrf_token %}
-                                <div class="edit">
+                                <div class="keyword_box">
                                     <div class="keyword_input_box">
                                         <label>키워드:</label>
                                         <input class="edit_word" id='edit_word' name='edit_keyword' type="text" value="{{ grouped_keyword.grouper }}" style="width:250px;margin-top:-10px;">
@@ -130,12 +130,12 @@
                                     </div>
                                 </div>
 
-                                <div style="display: flex; align-items: center; justify-content: center;">
+                                <div class="similar_input_box">
                                     <span>키워드 유사단어 등록</span>
-                                    <input id="box_sim{{ grouped_keyword.grouper }}" name="similar_on" type="checkbox" style="width: 25px;" value="True">
+                                    <input id="box_sim{{ grouped_keyword.grouper }}" name="similar_on" type="checkbox" value="True">
                                 </div>
 
-                                <div style="display:flex; justify-content: center;">
+                                <div class="submit_input_box">
                                     <button class="editBtn2" type="submit">수정</button>
                                 </div>
 
@@ -153,18 +153,17 @@
                     <div id="myModal2" class="modal">
                         <div class="modal-content" >
                             <span class="close2">&times;</span>
-                            <h3 style="text-align:center;margin-bottom:23px; ">키워드 추가</h3>
+                            <h3>키워드 추가</h3>
 
                             <form class="keyinput-form" method="get" action="/mainPage/add/">
                                 {% csrf_token %}
-                                <div style="display:flex;flex-direction:column;align-items:center;font-size:0.9em;margin-left:5px;">
-
-                                    <div>
+                                <div class="keyword_box">
+                                    <div class="keyword_input_box">
                                      <label style="margin-right:13px;margin-left:10px;">키워드:</label>
                                      <input class="keyinputBtn" name="keyword_add" type="text" placeholder="추가할 키워드를 입력해주세요.">
                                     </div>
 
-                                    <div style="display:flex;flex-direction:row; margin-top:10px;margin-left:4px;">
+                                    <div class="category_input_box">
                                     <label>카테고리:</label>
                                     <div class="cat-container1">
                                         {% for category in allcategory %}
@@ -176,12 +175,12 @@
                                     </div>
                                 </div>
 
-                                <div style="display: flex; align-items: center; justify-content: center;">
+                                <div class="similar_input_box">
                                     <span>키워드 유사단어 등록</span>
-                                    <input name="similar_on" type="checkbox" style="width: 25px;" value="True">
+                                    <input name="similar_on" type="checkbox" value="True">
                                 </div>
                                </div>
-                                <div style="display:flex; justify-content: center;">
+                                <div class="submit_input_box">
                                     <button class="addBtn" type="submit" >추가</button>
                                 </div>
                             </form>
