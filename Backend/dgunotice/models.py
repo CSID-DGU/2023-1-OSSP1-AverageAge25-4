@@ -36,7 +36,7 @@ class Category(models.Model):
 
 
 class User(models.Model):
-    Uid = models.CharField(max_length=100, primary_key=True)
+    Uid = models.CharField(max_length=200, primary_key=True)
     password = models.CharField(max_length=100)
     notice_order = models.CharField(max_length=30, default="1/2/3/4/5/6")
 
@@ -48,8 +48,8 @@ class User(models.Model):
         return self.Uid
 
 class Verify(models.Model):
-    token = models.CharField(max_length=30, primary_key=True)
-    temp_id = models.CharField(max_length=100)
+    token = models.CharField(max_length=100, primary_key=True)
+    temp_id = models.CharField(max_length=200)
     temp_password = models.CharField(max_length=100)
 
     class Meta:

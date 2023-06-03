@@ -3,6 +3,8 @@ import string
 from pathlib import Path
 from random import random
 
+from .SecurityModule import Key
+
 import MySQLdb
 import environ
 import os
@@ -172,13 +174,17 @@ def generate_token(length=15):
     return token
 
 
-def verify_email_token(email, token):
-    if Verify.objects.filter(temp_id=email).exists():
-        verify = Verify.objects.get(temp_id=email)
-        if verify.token == token:
-            verify.delete()
-            return True
+def verify_email_token(email, token, key):
 
+    verify_temp_ids = list(Verify.objects.values_list('temp_id', flat=True))
+    exists_check = False
+
+    for verify_temp_id in verify_temp_ids:
+        if email == key.decrypt(verify_temp_id):
+            verify = Verify.objects.get(temp_id=verify_temp_id)
+            if verify.token == token:
+                verify.delete()
+                return True
     return False
 
 

@@ -4,8 +4,9 @@ from django.contrib.auth.hashers import make_password, check_password
 from django.views import View
 from django.urls import reverse
 from .models import Pagetype, Category, User, Keyword, Notice, Verify
-from .similar2 import tokenizedKey, getSimKeyPath, getSimKey
+from .similar2 import getSimKey
 from .smtp2 import verify_email_token, generate_token, sendEmail, generate_verification_link
+from .SecurityModule import Key
 path = '../Background/model/ko_modified.bin'
 
 
@@ -213,19 +214,33 @@ class SignupView(View):
         return render(request, self.template_name)
 
     def post(self, request):
+        key = Key()
+        print(key.key)
+
         uid = request.POST.get('uid')
+        uid_encrypt = key.encrypt(uid)
         password = request.POST.get('password')
         pwcheck = request.POST.get('pwcheck')
         email_consent = request.POST.get('email_consent')
 
         error_message = None
-        print(email_consent)
+        # print(email_consent)
         # 이메일 수신 동의 확인
         if not email_consent:
             error_message = "이메일 수신 비 동의시 서비스 회원가입이 제한됩니다"
 
         # 이메일 중복 및 패스워드 확인
-        if User.objects.filter(Uid=uid).exists():
+        user_uids = list(User.objects.values_list('Uid', flat=True))
+        duplicate_check = False
+        print(user_uids)
+
+        if user_uids:
+            for user_uid in user_uids:
+                if uid == key.decrypt(user_uid):
+                    duplicate_check = True
+                    break
+
+        if duplicate_check == True:
             error_message = "해당 이메일이 이미 존재합니다."
         elif password != pwcheck:
             error_message = "패스워드 확인이 틀렸습니다."
@@ -241,30 +256,38 @@ class SignupView(View):
 
         hashed_password = make_password(password)
 
-        print(hashed_password)
-        print(password)
+        # print(hashed_password)
+        # print(password)
 
         # 중복 테스트 ( 이메일은 같은데 토큰이 여러개 생기면 안되기때문 )
-        record = Verify.objects.filter(temp_id=uid).first()
+        verify_temp_ids = list(Verify.objects.values_list('temp_id', flat=True))
 
-        # 중복이면 삭제
-        if record:
-            record.delete()
+        if verify_temp_ids:
+            for verify_temp_id in verify_temp_ids:
+                if uid == key.decrypt(verify_temp_id):
+                    Verify.objects.filter(temp_id=verify_temp_id).first().delete()
+                    break
+
+        # record = Verify.objects.filter(temp_id=uid_encrypt).first()
+        #
+        # # 중복이면 삭제
+        # if record:
+        #     record.delete()
 
         # 토큰 생성
         tok = generate_token(15)
 
         # Verify 레코드 생성
         verify = Verify(
-            temp_id=uid,
+            temp_id=uid_encrypt,
             temp_password=hashed_password,
             token=tok
         )
-
+        print(uid_encrypt)
         verify.save()
 
         # 인증 링크 생성
-        link = generate_verification_link(uid, tok)
+        link = generate_verification_link(uid_encrypt, tok)
 
         # 인증 링크 메일로 보냄
         sendEmail(uid, "메일 인증", link)
@@ -274,24 +297,32 @@ class SignupView(View):
 
 
 class verifyEmailView(View):
-
     def get(self, request):
+        key = Key()
+
         # 인증 링크에서 이메일 토큰 GET
-        email = request.GET.get('email')
+        email_encrypt = request.GET.get('email')
+        a1 = key.encrypt('123')
+        email_decrypt = key.decrypt(email_encrypt)
         token = request.GET.get('token')
 
         # DB에서 비밀번호 구하기
-        if Verify.objects.filter(temp_id=email).exists():
-            verify = Verify.objects.get(temp_id=email)
-            password = verify.temp_password
+        verify_temp_ids = Verify.objects.values_list('temp_id', flat=True)
+        exists_check = False
+
+        for verify_temp_id in verify_temp_ids:
+            if email_decrypt == key.decrypt(verify_temp_id):
+                verify = Verify.objects.get(temp_id=verify_temp_id)
+                password = verify.temp_password
+                break
 
         # 인증 링크에서 받은 이메일, 토큰 매치되는지 확인
-        verification_success = verify_email_token(email, token)
+        verification_success = verify_email_token(email_decrypt, token, key)
 
         # 매칭되면 유저 생성
         if verification_success:
             user = User(
-                Uid=email,
+                Uid=email_encrypt,
                 password=password,
             )
             user.save()
@@ -300,16 +331,28 @@ class verifyEmailView(View):
         return render(request, 'verificationResult.html', {'verification_success': verification_success})
 
 
-
 class LoginView(View):
     def post(self, request):
         uid = request.POST.get('uid')
         password = request.POST.get('password')
+        uid_encrypt = ''
+        key = Key()
 
         # Uid를 이용해 User 찾기 (없으면 None 반환)
-        user = User.objects.filter(Uid=uid).first()
-        if user is not None and check_password(password, user.password):
-            request.session['user_id'] = uid
+
+        user_uids = list(User.objects.values_list('Uid', flat=True))
+        find_check = False
+
+        if user_uids:
+            for user_uid in user_uids:
+                if uid == key.decrypt(user_uid):
+                    find_check = True
+                    user = User.objects.get(Uid=user_uid)
+                    uid_encrypt = user_uid
+                    break
+
+        if find_check == True and check_password(password, user.password):
+            request.session['user_id'] = uid_encrypt
             return redirect('/mainPage')
         else:
             error_message = '이메일 또는 비밀번호가 잘못되었습니다.'
@@ -325,7 +368,9 @@ class LoginView(View):
 
 class MainPageView(View):
     def get(self, request):
+        key = Key()
         user_id = self.request.session.get('user_id')
+
         keywords = Keyword.objects.filter(Uid_id=user_id)
         # User.notice_order에서 Cid값을 가져옴
         notice_order = User.objects.get(Uid=user_id).notice_order

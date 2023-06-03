@@ -1,5 +1,6 @@
 import re
 from cryptography.fernet import Fernet
+import base64
 
 
 #공백 제외 숫자/문자만 남도록
@@ -15,8 +16,8 @@ def str_replace(input_str, form='[^\w]'):
 #키 관리 방식 정의 필요
 class Key:
     def __init__(self):
-        self.key = ''
-        self.load_key();
+        self.key = b''
+        self.load_key()
 
     #키 생성 (서버에 키 저장)
     def generate_key(self):
@@ -24,28 +25,28 @@ class Key:
         self.key = new_key
 
         #키 생성 경로(저장 위치 정해야함)
-        path = 'mykey.key'
-        with open(path, 'wb') as mykey:
+        path1 = 'mykey.key'
+        with open(path1, 'wb') as mykey:
             mykey.write(new_key)
 
     #저장된 키 로드
     def load_key(self):
-        path = 'mykey.key'
+        path1 = 'mykey.key'
         try:
-            with open(path, 'rb') as mykey:
+            with open(path1, 'rb') as mykey:
                 self.key = mykey.read()
         except FileNotFoundError:
             print('key 파일이 존재하지 않습니다')
 
     def encrypt(self, input):
         f = Fernet(self.key)
-        encpt_input = f.encrypt(bytes(input, 'ascii'))
-        return encpt_input
+        encpt_input = f.encrypt(input.encode('ascii'))
+        return encpt_input.decode('ascii')
 
     def decrypt(self, input):
         f = Fernet(self.key)
-        decpt_input = f.decrypt(input)
-        return decpt_input
+        decpt_input = f.decrypt(input.encode('ascii'))
+        return decpt_input.decode('ascii')
 
 
 #사용법
@@ -56,6 +57,5 @@ class Key:
 # keytest = Key() 객체 생성
 # keytest.encrypt(input) 암호화
 # keytest.decrypt(input) 복호화
-
 
 
