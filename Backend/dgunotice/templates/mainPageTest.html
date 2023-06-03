@@ -113,7 +113,7 @@
                                 <div class="edit">
                                     <div class="keyword_input_box">
                                         <label>키워드:</label>
-                                        <input id='edit_word' name='edit_keyword' type="text" value="{{ grouped_keyword.grouper }}" style="width:250px;margin-top:-10px;">
+                                        <input class="edit_word" id='edit_word' name='edit_keyword' type="text" value="{{ grouped_keyword.grouper }}" style="width:250px;margin-top:-10px;">
                                     </div>
 
                                     <div class="category_input_box">
@@ -122,7 +122,7 @@
                                         <div class="cat-container1">
                                             {% for category in allcategory %}
                                             <label class="cat-item">
-                                                <input id="checkbox{{ forloop.counter }}" name="edit_category" type="checkbox" value="{{ category.Cid }}">
+                                                <input id="checkbox{{ grouped_keyword.grouper }}{{ forloop.counter }}" name="edit_category" type="checkbox" value="{{ category.Cid }}">
                                                 <span>{{ category.Cname }}</span>
                                             </label>
                                             {% endfor %}
@@ -304,7 +304,7 @@
     }
 
     // 키워드 수정시 해당 키워드 카테고리 출력
-    var key_checking = document.getElementById("edit_word");
+    var key_checking = document.getElementsByClassName("edit_word");
     var CidList = [
             {% regroup keywords by key as grouped_keywords %}
                 {% for grouped_keyword in grouped_keywords %}
@@ -318,9 +318,11 @@
 
         for (let i = 0; i < CidList.length; i++) {
             var row = CidList[i];
-            if (row[0] == key_checking.value) {
+            var key = key_checking[i];
+
+            if (row[0] == key.value) {
                 for (let j = 1; j <= {{ allcategory|length }}; j++) {
-                    var checkbox = document.getElementById("checkbox" + j);
+                    var checkbox = document.getElementById("checkbox" + key.value + j);
                     if (row.includes(checkbox.value)) {
                         checkbox.checked = true;
                     }
@@ -342,9 +344,10 @@
 
         for (let i = 0; i < simList.length; i++) {
             var sims = simList[i];
-            var checkbox = document.getElementById("box_sim" + key_checking.value);
-            
-            if (sims[0] == key_checking.value && sims[1] == "True") {
+            var key = key_checking[i];
+            var checkbox = document.getElementById("box_sim" + key.value);
+
+            if (sims[0] == key.value && sims[1] == "True") {
                 checkbox.checked = true;
             }
         }
