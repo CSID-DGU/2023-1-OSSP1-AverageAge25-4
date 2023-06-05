@@ -215,7 +215,7 @@ def getSimKey(keyword, num):
     for keyword_tokenized in keywords_tokenized:
         keywords_similar += getSimKeyBase(keyword_tokenized, num)
 
-     return keywords_similar
+    return keywords_similar
 
 
 def getSimKeyPath(keyword, num, path):
@@ -226,7 +226,7 @@ def getSimKeyPath(keyword, num, path):
     for keyword_tokenized in keywords_tokenized:
         keywords_similar += getSimKeyBasePath(keyword_tokenized, num, path)
 
-     return keywords_similar
+    return keywords_similar
 
 def getSimKeyOld(keyword, num):
     try:
@@ -239,9 +239,4 @@ def getSimKeyOld(keyword, num):
         print(f"{keyword} is not in vocabulary")
 
         return []
-
-
-
-
-
 
