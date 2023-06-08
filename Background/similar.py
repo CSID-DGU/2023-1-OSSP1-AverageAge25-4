@@ -60,26 +60,37 @@ def getDB():
 
 # 정규표현식
 def cleanText(data):
-    first_process = re.sub(r"[^\uAC00-\uD7A30-9a-zA-Z\s]", "", data) # 특수문자 제거
-    second_process = re.sub(r"[0-9]", "", first_process) # 숫자 제거
-    cleaned_data = second_process.strip() # 좌측 우측 양측 공백 제거
-    return cleaned_data
+    try:
+        first_process = re.sub(r"[^\uAC00-\uD7A30-9a-zA-Z\s]", "", data) # 특수문자 제거
+        second_process = re.sub(r"[0-9]", "", first_process) # 숫자 제거
+        cleaned_data = second_process.strip() # 좌측 우측 양측 공백 제거
+        return cleaned_data
+    except Exception as e:
+        # 예외 처리
+        print('An error occurred:', str(e))
+        return None
 
 # 전처리
 def tokenized(data):
-    cleaned_data = cleanText(data)
+    try:
+        cleaned_data = cleanText(data)
 
-    stop_words = []
-    with open('model/stopword.txt', encoding='utf-8') as f:
-        for i in f:
-            stop_words.append(i.strip())
+        stop_words = []
+        with open('model/stopword.txt', encoding='utf-8') as f:
+            for i in f:
+                stop_words.append(i.strip())
 
-    kkma = Kkma()
+        kkma = Kkma()
 
-    tokenized_sentence = kkma.nouns(cleaned_data)
-    preprocessed = [word for word in tokenized_sentence if not word in stop_words]  # 불용어 제거
+        tokenized_sentence = kkma.nouns(cleaned_data)
+        preprocessed = [word for word in tokenized_sentence if not word in stop_words]  # 불용어 제거
 
-    return preprocessed
+        return preprocessed
+
+    except Exception as e:
+        # 예외 처리
+        print('An error occurred:', str(e))
+        return None
 
 # 불용어가 키워드일 경우 토큰화 진행시 Empty list가 생길수있어서
 # 따로 불용어를 제거한 tokenizedKey 정의
@@ -90,73 +101,82 @@ def tokenizedKey(data):
     return preprocessed
 
 def buildModel():
-    data_set = []
-    title_list = getDB()
-    count = 0
-    cnt = 0
-    is_built = False
+    try:
+        data_set = []
+        title_list = getDB()
+        count = 0
+        cnt = 0
+        is_built = False
 
-    for title in title_list:
-        preprocessed = tokenized(title)
-        data_set.append(preprocessed)
-        count += 1
+        for title in title_list:
+            preprocessed = tokenized(title)
+            data_set.append(preprocessed)
+            count += 1
 
-        # 초기 빌드 데이터
-        if count >= 50:
-            if is_built:
-                model = Word2Vec.load(own_path)
+            # 초기 빌드 데이터
+            if count >= 50:
+                if is_built:
+                    model = Word2Vec.load(own_path)
+                    model.build_vocab(data_set, update=True)
+                    model.train(data_set, total_examples=model.corpus_count, epochs=model.epochs)
+                    model.save(own_path)
+                    cnt += 50
+                    print(cnt, "개 완료")
+
+                else:
+                    model = Word2Vec(data_set, size=200, window=5, min_count=1, workers=4)
+                    model.save(own_path)
+                    is_built = True
+
+                count = 0
+                data_set = []
+
+    except Exception as e:
+        # 예외 처리
+        print('An error occurred:', str(e))
+
+
+def buildModelInitial(size, window, path):
+    try:
+        data_set = []
+        title_list = getDB()
+
+        for title in title_list:
+            preprocessed = tokenized(title)
+            data_set.append(preprocessed)
+
+        model = Word2Vec(data_set, size=size, window=window, min_count=1, workers=4, sg=1)
+        model.save(path)
+
+    except Exception as e:
+        # 예외 처리
+        print('An error occurred:', str(e))
+
+
+def trainModelSelf(load_path, saved_path):
+    try:
+        data_set = []
+        title_list = getDB()
+        count = 0
+        cnt = 0
+        for title in title_list:
+            preprocessed = tokenized(title)
+            data_set.append(preprocessed)
+            count += 1
+            if count >= 50:
+                model = Word2Vec.load(load_path)
                 model.build_vocab(data_set, update=True)
                 model.train(data_set, total_examples=model.corpus_count, epochs=model.epochs)
-                model.save(own_path)
+                model.save(saved_path)
+                count = 0
+                data_set = []
                 cnt += 50
                 print(cnt, "개 완료")
 
-            else:
-                model = Word2Vec(data_set, size=200, window=5, min_count=1, workers=4)
-                model.save(own_path)
-                is_built = True
+    except Exception as e:
+        # 예외 처리
+        print('An error occurred:', str(e))
 
-            count = 0
-            data_set = []
-
-
-    print("성공")
-
-def buildModelInitial(size, window, path):
-    data_set = []
-    title_list = getDB()
-
-    for title in title_list:
-        preprocessed = tokenized(title)
-        data_set.append(preprocessed)
-
-    model = Word2Vec(data_set, size=size, window=window, min_count=1, workers=4, sg = 1)
-    model.save(path)
-
-
-
-    print("성공")
-
-def trainModelSelf(load_path, saved_path):
-    data_set = []
-    title_list = getDB()
-    count = 0
-    cnt = 0
-    for title in title_list:
-        preprocessed = tokenized(title)
-        data_set.append(preprocessed)
-        count += 1
-        if count >= 50:
-            model = Word2Vec.load(load_path)
-            model.build_vocab(data_set, update=True)
-            model.train(data_set, total_examples=model.corpus_count, epochs=model.epochs)
-            model.save(saved_path)
-            count = 0
-            data_set = []
-            cnt += 50
-            print(cnt, "개 완료")
-
-    print("성공")
 
 def trainModel():
     data_set = []
@@ -174,8 +194,6 @@ def trainModel():
             model.save(modified_path)
             count = 0
             data_set = []
-
-    print("성공")
 
 
 # 키워드에 대한 유사단어 num개 추출
@@ -208,35 +226,35 @@ def getSimKeyBasePath(keyword, num, path):
 
 # 키워드를 토큰화하여 토큰 마다 유사단어 num개 추출
 def getSimKey(keyword, num):
-    keywords_tokenized = tokenizedKey(keyword)  # 키워드 토큰화
+    try:
+        keywords_tokenized = tokenizedKey(keyword)  # 키워드 토큰화
 
-    keywords_similar = []
+        keywords_similar = []
 
-    for keyword_tokenized in keywords_tokenized:
-        keywords_similar += getSimKeyBase(keyword_tokenized, num)
+        for keyword_tokenized in keywords_tokenized:
+            keywords_similar += getSimKeyBase(keyword_tokenized, num)
 
-    return keywords_similar
+        return keywords_similar
+
+    except Exception as e:
+        # 예외 처리
+        print('An error occurred:', str(e))
+        return None
 
 
 def getSimKeyPath(keyword, num, path):
-    keywords_tokenized = tokenizedKey(keyword)  # 키워드 토큰화
-
-    keywords_similar = []
-
-    for keyword_tokenized in keywords_tokenized:
-        keywords_similar += getSimKeyBasePath(keyword_tokenized, num, path)
-
-    return keywords_similar
-
-def getSimKeyOld(keyword, num):
     try:
-        model = gensim.models.word2vec.Word2Vec.load(old_path)
-        similar_words = model.wv.most_similar(keyword, topn=num)
-        similar_words = [word for word, score in similar_words if score >= 0]
-        return similar_words
+        keywords_tokenized = tokenizedKey(keyword)  # 키워드 토큰화
 
-    except KeyError:
-        print(f"{keyword} is not in vocabulary")
+        keywords_similar = []
 
-        return []
+        for keyword_tokenized in keywords_tokenized:
+            keywords_similar += getSimKeyBasePath(keyword_tokenized, num, path)
+
+        return keywords_similar
+
+    except Exception as e:
+        # 예외 처리
+        print('An error occurred:', str(e))
+        return None
 

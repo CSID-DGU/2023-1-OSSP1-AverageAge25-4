@@ -1,13 +1,7 @@
-import secrets
-import string
 from pathlib import Path
-from random import random
-
 import MySQLdb
 import environ
 import os
-
-from django.template.defaultfilters import length
 
 from similar import getSimKey
 from similar import tokenizedKey
@@ -16,7 +10,6 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.image import MIMEImage
 from email.mime.application import MIMEApplication
-
 
 env = environ.Env(
     DATABASE_NAME=(str, ''),
@@ -34,7 +27,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 environ.Env.read_env(
     env_file=os.path.join(BASE_DIR, 'Backend', '.env')
 )
-
 
 def sendAll():
     try:
@@ -131,46 +123,48 @@ def sendAll():
 
 
 def sendEmail(send_list, title, link, type):
-    # 수신자
+    try:
+        # 수신자
+        recipients = send_list
+        message = MIMEMultipart()
 
-    recipients = send_list
-    message = MIMEMultipart()
+        if type == 0:
+            text0 = "[키워드 공지]"
 
-    if type == 0:
-        text0 = "[키워드 공지]"
+        else:
+            text0 = "[유사 키워드 공지]"
 
-    else:
-        text0 = "[유사 키워드 공지]"
+        title_merged = text0 + "" + title
 
-    title_merged = text0 + "" + title
+        message['Subject'] = title_merged
+        message['From'] = env('NAVER_ADDRESS')
+        message['To'] = ",".join(recipients)
 
-    message['Subject'] = title_merged
-    message['From'] = env('NAVER_ADDRESS')
-    message['To'] = ",".join(recipients)
+        text1 = title
+        text2 = link
 
-    text1 = title
-    text2 = link
+        content = """
+            <html>
+            <body>
+                <h2>{}</h2>
+                <p> {} </p>
+            </body>
+            </html>
+        """.format(text1, text2)
 
-    content = """
-        <html>
-        <body>
-            <h2>{}</h2>
-            <p> {} </p>
-        </body>
-        </html>
-    """.format(text1, text2)
+        mimetext = MIMEText(content, 'html')
+        message.attach(mimetext)
 
-    mimetext = MIMEText(content, 'html')
-    message.attach(mimetext)
+        email_id = env('NAVER_ID')
+        email_pw = env('NAVER_PASSWORD')
 
-    email_id = env('NAVER_ID')
-    email_pw = env('NAVER_PASSWORD')
+        server = smtplib.SMTP('smtp.naver.com', 587)
+        server.ehlo()
+        server.starttls()
+        server.login(email_id, email_pw)
+        server.sendmail(message['From'], recipients, message.as_string())
+        server.quit()
 
-    server = smtplib.SMTP('smtp.naver.com', 587)
-    server.ehlo()
-    server.starttls()
-    server.login(email_id, email_pw)
-    server.sendmail(message['From'], recipients, message.as_string())
-    server.quit()
-
-
+    except Exception as e:
+        # 예외 처리
+        print('An error occurred:', str(e))

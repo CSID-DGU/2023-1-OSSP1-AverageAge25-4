@@ -462,12 +462,12 @@ class KeywordProcessView(View):
             )
             new_keyword.save()
 
+
     def del_keyword(self, uid, keyword):
         keywords = Keyword.objects.filter(Uid=uid, key=keyword)
 
         for keyword in keywords:
             keyword.delete()
-
 
 class KeywordAddView(View):
     def get(self, request):
