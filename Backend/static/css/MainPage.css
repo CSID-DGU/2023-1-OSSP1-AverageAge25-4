@@ -11,77 +11,110 @@ body {
     background: #F4F3EA;
 }
 
-
+/*전체*/
 .container {
     background: #F4F3EA;
     display: flex;
     flex-direction: column;
+    margin: 10px 100px;
     width: 100vw;
     height: 100vh;
 }
 
 /*상단 부분*/
 .up{
-      display: flex;
-      height: 100px;
-      justify-content: center;
-      margin: 0 100px;
+    display: flex;
+    justify-content: center;
+    height: 120px;
+    align-items: center;
 }
 
-/*로고*/
+/*상단부분 - 로고*/
 .up-left{
-    display : flex;
-    height: 85px;
-    margin: 10px 10px 0 -130px;
-
+    display: flex;
+    width : 500px;
+    height: 120px;
+    justify-content: center;
 }
-/*로고*/
 
-/*검색바*/
+.up-left-img{
+    cursor: pointer;
+}
+/*상단부분 - 로고 끝*/
+
+/*상단부분 - 검색바*/
 .up-middle{
     display : flex;
-    justify-content: right;
-    margin-right:30px;
-    margin-top:5px;
+    align-items: center;
+    justify-content: center;
+    width: 600px;
+    height: 120px;
 }
-
 .searchbar {
-margin-left:0px;
-margin-top: 20px;
-width: 200px;
-}
+    display : flex;
+    align-items: center;
+    margin: 0px;
 
+}
 .searchbar input{
-   display:flex;
-   flex-shrink:0.4;
+    width: 500px;
+    height: 60px;
 }
 
-.search{
-margin-top:10px;
+.searchbar button {
+    width: 70px;
+    height: 60px;
+    background: #8dc473;
+    cursor: pointer;
+
+    font-family: 'DU';
+    font-size: x-large;
+    color : white;
+
+    border-style: solid;
+    border-color: #8fc588;
 }
-/*검색바*/
+/*상단부분 - 검색바 끝*/
 
 /*상단 오른쪽 부분*/
 .up-right{
     display: flex;
-    margin-right:-30px;
     flex-direction: column;
-    margin-top: 30px;
+
+    height: 120px;
+    width: 200px;
+
+    justify-content: center;
+    align-content: center;
+
+}
+
+.button_right{
+    height: 32px;
+    margin: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .btn_order, .btn_logout {
-  background-color: #4caf50;
-  color: white;
-  padding: 10px 15px;
-  border: none;
-  cursor: pointer;
-  margin:5px;
-  font-family: 'DU';
-  width: 150px;
-  height: 35px;
+    background-color: #8dc473;
+    cursor: pointer;
+    margin: 0px;
+
+    color: white;
+    font-family: 'DU';
+
+    border-style: solid;
+    border-color: #8fc588;
+
+    width: 150px;
+    height: 28px;
 }
 /*상단 오른쪽 부분*/
-/*상단 부분*/
+
+
+/*하단 부분*/
 
 .down{
     display : flex;
@@ -91,6 +124,77 @@ margin-top:10px;
     margin-top: 30px;
 }
 
+
+/*공지사항들*/
+.component-wrapper{
+    display : flex;
+    justify-content: center;
+    flex-direction: row;
+    width:1000px;
+    flex-wrap: wrap;
+    margin: 0px;
+
+}
+
+.row1, .row2, .row3, .row4, .row5, .row6 {
+    width:  400px;
+    height: 300px;
+    padding: 0px;
+
+    background-color: #F3E2A9;
+    margin: 20px;
+    flex-grow:0.3;
+    flex-shrink:0.4;
+
+    border-radius: 9px;
+    overflow-x:hidden;
+    overflow-y:auto;
+
+}
+
+.sticky-header {
+     position: sticky;
+     height:25px;
+     top: 0;
+     left: 0;
+     width: 100%;
+     margin:0px;
+
+     background-color: #F3E2A9;
+     padding: 10px;
+     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    /*z-index: 9999;*/
+}
+
+/*한줄로 자르기*/
+.sticky-notices{
+
+
+}
+
+.sticky-notices tr {
+
+    width: 500px;
+    font-size: 0.9em;
+
+}
+
+.sticky-notices-links {
+    display: inline-block;
+    white-space: nowrap;
+    margin:5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 330px;
+}
+
+.sticky-notices-times{
+    width: 100px;
+}
+
+/*공지사항들 끝*/
+
+/*오른쪽 키워드*/
 .menubar{
     display:flex;
     flex-direction: column;
@@ -106,6 +210,11 @@ margin-top:10px;
     overflow: auto;
 }
 
+/*제목*/
+.menubar > h5 {
+    text-align: center;
+}
+
 .menubar::-webkit-scrollbar {
   width: 12px;
 }
@@ -115,9 +224,7 @@ margin-top:10px;
   border-radius: 7px;
 }
 
-.menubar > h5 {
-    text-align: center;
-}
+
 
 .menubar > li {
     list-style-type: none;
@@ -184,6 +291,7 @@ align-items: center;
 }
 
 /*키워드 수정 모달창*/
+
 .keyword_box {
     display:flex;
     justify-content:center;
@@ -191,48 +299,57 @@ align-items: center;
     align-items:center;
 }
 
+.keyword_add_text{
+    font-size: xx-large;
+    text-align: center;
+    font-family: "DU";
+    height: 60px;
+}
+
 .keyword_input_box{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width:500px;
     height:50px;
 }
 
-.keyword_input_box > label {
-    margin-right:13px;
+.keyword_input_box label {
+    width: 80px;
+    text-align: right;
+    margin-right: 20px;
+}
+
+.keyword_input_box input{
+    width: 400px;
+}
+
+
+.category_box{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 500px;
 }
 
 .category_input_box{
-    display:flex;
+    width: 100px;
+    height: 200px;
+    text-align: right;
     flex-direction:row;
 }
 
-.category_input_box > label{
-    margin-right:13px;
+.category_input_box  label{
+    width: 80px;
+    margin-right:20px;
 }
 
-.similar_input_box {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.similar_input_box > input {
-    width: 25px;
-}
-
-.submit_input_box {
-    display:flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.cat-container1{
-    margin-left: 20px;
-    width: 250px;
-    height: 100px;
+.category-container{
+    width: 400px;
+    height: 200px;
     overflow: auto;
     background:#E6E6E6;
-
     border-radius:5px;
-
 }
 
 .cat-container1::-webkit-scrollbar {
@@ -248,56 +365,55 @@ align-items: center;
     background-color: lightgray;
 }
 
-/*키워드 수정 모달창*/
-
-
-
-
 .cat-item input{
     width: 12px;
-     height: 12px;
-     margin-top:-5px;
+    height: 12px;
+    margin-top:-5px;
 }
 
 .cat-item span{
     font-size: 12px;
 }
 
+.similar_input_box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-#edit_input{
-  width:120px;
-  margin-top:-5px;
+    text-align: center;
+    height: 25px;
+    margin: 20px;
 }
 
-ul {
-    list-style: none;
-    padding: 0;
-    margin-left: 10px;
+.similar_input_box input {
+    width: 25px;
+    margin-left: 20px;
+    margin-right: 40px;
 }
 
-.component-wrapper{
-display : flex;
-flex-direction: row;
-width:900px;
-flex-wrap: wrap;
-width-max: 900px;
-flex-shrink:0.1;
-margin-left: 150px;
-
+.submit_input_box {
+    height: 20px;
 }
 
-.searchbar {
-    display : flex;
-    margin: 30px;
+.addBtn{
+   width:50px;
+   height: 20px;
+
+   font-size:0.95em;
+   font-family: 'DU';
 }
-.searchbar input{
-   display:flex;
-   flex-shrink:0.4;
-   width:600px;
-   height:38px;
-   margin-left:0px;
-   margin-up:-5px;
+
+
+
+/*키워드 수정 모달창*/
+
+.keyword_box{
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
+
+
 
 .keyinput{
     height: 30px;
@@ -353,12 +469,7 @@ margin-left: 150px;
    font-family: 'DU';
 }
 /*키워드 추가 모달 내부 추가 버튼*/
-.addBtn{
-   margin: 20px;
-   width:50px;
-   font-size:0.95em;
-   font-family: 'DU';
-}
+
 .hiddenBtn{
     display:inline-block;
 }
@@ -366,60 +477,55 @@ margin-left: 150px;
 
 .btn_keyDel{
     margin-right:3px;
-
     background: #E2E2E2;
- border: 2.3px solid DimGray;
-  border-radius: 5px;
-  color: DimGray;
-  width: 20px;
-  height:22px;
-  font-size: 0.9em;
-  font-weight: bold;
-  position: relative;
-  text-transform: uppercase;
-  display: flex;
-justify-content: center;
-align-items: center;
-
+    border: 2.3px solid DimGray;
+    border-radius: 5px;
+    color: DimGray;
+    width: 20px;
+    height:22px;
+    font-size: 0.9em;
+    font-weight: bold;
+    position: relative;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
 }
-#btn_edit{
-   width:35px;
-   height:22px;
-   background: #E2E2E2;
-  /*border: 2.3px solid #fff;*/
-  border: 2.3px solid DimGray;
-  border-radius: 5px;
-  color: DimGray;
-  font-size: 0.8em;
-  font-weight: bold;
-  position: relative;
-  text-transform: uppercase;
-  display: flex;
-justify-content: center;
-align-items: center;
+.btn_keyedit{
+    width:35px;
+    height:22px;
+    background: #E2E2E2;
+    /*border: 2.3px solid #fff;*/
+    border: 2.3px solid DimGray;
+    border-radius: 5px;
+    color: DimGray;
+    font-size: 0.8em;
+    font-weight: bold;
+    position: relative;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
 }
 .btn_keyAdd{
-   width:38px;
-   height:24px;
-   background: #E2E2E2;
-  /*border: 2.3px solid #fff;*/
-  border: 2.3px solid DimGray;
-  border-radius: 5px;
-  color: DimGray;
-  font-size: 0.8em;
-  font-weight: bold;
-  position: relative;
-  text-transform: uppercase;
-  display: flex;
-justify-content: center;
-align-items: center;
-margin-bottom: 10px;
-}
-
-
-.keyinputBtn{
-     margin-left: 16px;
-      width: 250px;
+    width:38px;
+    height:24px;
+    background: #E2E2E2;
+    /*border: 2.3px solid #fff;*/
+    border: 2.3px solid DimGray;
+    border-radius: 5px;
+    color: DimGray;
+    font-size: 0.8em;
+    font-weight: bold;
+    position: relative;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    cursor: pointer;
 }
 
 
@@ -455,12 +561,7 @@ input {
 }
 
 
-.search {
-    font-family: 'DU';
-    height: 35px;
-    width: 50px;
-    margin : 5px;
-}
+
 
 p2 {
     float: right;
@@ -478,17 +579,7 @@ h5 {
     font-size: 16px;
 }
 
-/*한줄로 자르기*/
-.noticelink{
-display: inline-block;
-   white-space: nowrap;
-  overflow: hidden;
-   text-overflow: ellipsis;
-   width:350px;
-   margin:5px;
 
-    font-size: 0.9em;
-}
 
 
 .input-wrapper-up{
@@ -529,23 +620,7 @@ display: inline-block;
     overflow: auto;
 }
 
-.row1, .row2, .row3, .row4, .row5, .row6 {
-    width: 340px;
-    height:280px;
-    padding: 0px;
 
-    background-color: #F3E2A9;
-    margin: 20px;
-    height: 300px;
-    flex-grow:0.3;
-    flex-shrink:0.4;
-
-    border-radius: 9px;
-
-    max-height:250px;
-    overflow-x:hidden;
-    overflow-y:auto;
-}
 
 /*
 .noticebox{
@@ -595,19 +670,6 @@ height:210px;
 li{
     margin:10px;
 }
-.sticky-header {
-     position: sticky;
-     height:25px;
-    top: 0;
-    left: 0;
-    width: 100%;
-    margin:0px;
-
-   background-color: #F3E2A9;
-    padding: 10px;
-   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    /*z-index: 9999;*/
-}
 
 /* Style the button to open the modal */
 
@@ -641,7 +703,7 @@ li{
 }
 
 /* Style the close button */
-.close, .close2 {
+.close {
   color: #aaa;
   float: right;
   font-size: 28px;
@@ -663,117 +725,4 @@ li{
     flex-direction: row;
     flex-wrap: wrap;
      justify-content: center;
-}
-
-
-
-
-
-/*------------- 모바일 버전-------------*/
-@media screen and (max-width:780px){
-.container{
-
-}
-.up{
-    display : inline;
-    flex-direction: column;
-    margin-top:  30px;
-    width: 100vw;
-
-    margin-left:0px;
-    align-items: center;
-}
-.up-left{
-    display : none;
-
-}
-.up-right{
-    display: flex;
-    flex-direction: row;
-     justify-content: center;
-
-     margin-top: -17px;
-     margin-down: 40px;
-     margin-left: -20px;
-}
-
-.up-middle{
-      display : inline;
-      width:100%;
-      margin:10px;
-      justify-content: center;
-}
-
-.down{
-    display : flex;
-    flex-direction: column;
-    align-items: center;
-    flex-shrink:0.1;
-}
-.up-middle form {
-  margin: 10px;
-  padding:5px;
-  width:90%;
-
-}
-
-.up-middle form input {
-  margin: 10px;
-  padding:5px;
-  width:95%;
-}
-.menubar{
-    display:flex;
-   flex-direction: column;
-   background: black;
-    border-radius: 5%;
-    width: 200px;
-    margin-left:60px;
-    height:500px;
-    padding: 8px;
-    flex-grow:0.3;
-    flex-shrink:0.4;
-    padding: 10px;
-
-}
-.menubar::-webkit-scrollbar {
-  width: 14px;
-}
-.row6::-webkit-scrollbar-thumb {
-  background-color: grey;
-  border-radius: 10px;
-}
-
-
-
-
-.component-wrapper{
-display : flex;
-flex-direction: column;
-align-items: center;
-flex-shrink:0.1;
-width-max: 400px;
-}
-
-.key_notice{
-width:60%;
-}
-
-.noticelink{
-    display: inline-block;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    width:95%;
-    margin:5px;
-    font-size: 0.9em;
-    text-decoration: none;
-    color: black;
-}
-.add_similar {
-    margin-left: 35px;
-}
-
-.edit_similar {
-    margin-left: 35px;
 }

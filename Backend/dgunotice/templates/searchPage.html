@@ -5,24 +5,21 @@
         <div class="up">
 
           <div class="up-left">
-            <img  src="{% static 'images/logo.png' %}" />
+            <img id="up-left-img"  src="{% static 'images/logo.png' %}" onclick="redirectToURL('/mainPage/')" />
           </div>
 
             <div class="up-middle">
                 <form class="searchbar" action="/search/" method="get">
                     <input type="text" name="keyword" placeholder="검색어를 입력하세요" >
-                    <button class="search" type="submit">검색</button>
+                    <button type="submit">검색</button>
                 </form>
             </div>
 
-           <div class="up-right">
-             <form class="Logout" method="POST" action="{% url 'Login' %}" >
-             <button type="submit">로그아웃</button>
-             </form>
-              <a class="ToMain" href="http://127.0.0.1:8000/mainPage/">
-              <button type="button">메인페이지로 이동</button>
-            </a>
-           </div>
+            <div class="up-right">
+                <form class="Logout" method="POST" action="{% url 'Login' %}" >
+                    <button type="submit">로그아웃</button>
+                </form>
+            </div>
         </div>
 
 
@@ -56,4 +53,6 @@
      </div>
     </div>
 </body>
+
+<script src="{% static 'js/Common.js' %}"></script>
 

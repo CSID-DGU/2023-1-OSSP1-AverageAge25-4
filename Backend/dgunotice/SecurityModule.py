@@ -5,10 +5,22 @@ import base64
 
 #공백 제외 숫자/문자만 남도록
 #정규 표현식 사용
-def str_replace(input_str, form='[^\w]'):
-    #정규 표현식 입력
-    pattern = re.compile(form)
-    return pattern.sub('', input_str)
+class filter:
+
+    def str_replace(input_str, form='[^\w]'):
+        #정규 표현식 입력
+        pattern = re.compile(form)
+        return pattern.sub('', input_str)
+
+    def id_filter_check(input_str):
+        form = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+        if re.match(form, input_str):
+            return True
+        else:
+            return False
+
+    # def search_filter_replace(input_str):
+
 
 #암호화 (ASCII)
 #대칭키 방식 Crytography.Fernet 모듈 사용 (AES 방식)

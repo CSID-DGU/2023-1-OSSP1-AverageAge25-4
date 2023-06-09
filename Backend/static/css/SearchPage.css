@@ -9,63 +9,100 @@ body {
     background: #F4F3EA;
 
 }
+/*상단 부분*/
 .up{
-    display : flex;
-    flex-direction: row;
-    height: 100px;
+    display: flex;
     justify-content: center;
-    margin-right:100px;
-    margin-left: 200px;
-
+    height: 120px;
+    align-items: center;
 }
 
+/*상단부분 - 로고*/
 .up-left{
-    display : flex;
-    height: 85px;
-    margin-left:-130px;
-    margin-top:10px;
-    margin-right: 10px;
-
+    display: flex;
+    width : 500px;
+    height: 120px;
+    justify-content: center;
 }
+
+.up-left img{
+    cursor: pointer;
+}
+/*상단부분 - 로고 끝*/
+
+/*상단부분 - 검색바*/
 .up-middle{
     display : flex;
-    justify-content: right;
-    margin-right:30px;
-    margin-top:5px;
-}
-
-.up-right{
-    display: flex;
-    margin-right:-30px;
-    flex-direction: column;
-    margin-top: 30px;
+    align-items: center;
+    justify-content: center;
+    width: 600px;
+    height: 120px;
 }
 .searchbar {
     display : flex;
-    margin: 30px;
+    align-items: center;
+    margin: 0px;
+
 }
 .searchbar input{
-   display:flex;
-   flex-shrink:0.4;
-   width:600px;
-   height:38px;
-   margin-left:0px;
-   margin-up:-5px;
+    width: 500px;
+    height: 60px;
+    margin-right: 10px;
 }
 
-input {
+.searchbar button {
+    width: 70px;
+    height: 60px;
+    background: #8dc473;
+    cursor: pointer;
+
     font-family: 'DU';
-    height: 35px;
-    width: 450px;
-    margin : 5px;
+    font-size: x-large;
+    color : white;
+
+    border-style: solid;
+    border-color: #8fc588;
+}
+/*상단부분 - 검색바 끝*/
+
+/*상단 오른쪽 부분*/
+.up-right{
+    display: flex;
+
+    height: 120px;
+    width: 200px;
+
+    justify-content: center;
+    align-content: flex-end;
+
 }
 
-.search {
-    font-family: 'DU';
-    height: 35px;
-    width: 50px;
-    margin : 5px;
+.button_right{
+    height: 60px;
+    margin: 0px;
 }
+
+.Logout {
+    display: flex;
+    align-items: center;
+    margin: 0px;
+}
+.Logout button {
+    background-color: #8dc473;
+    cursor: pointer;
+    margin: 0px;
+
+    color: white;
+    font-family: 'DU';
+    font-size: x-large;
+
+    border-style: solid;
+    border-color: #8fc588;
+
+    width: 150px;
+    height: 60px;
+}
+/*상단 오른쪽 부분*/
 
 
 .down-container{
@@ -118,23 +155,4 @@ a{
 
 
 
-.ToMain,.Logout {
-    display : flex;
-    justify-content: right;
-    text-decoration: none;
-    color: black;
-    margin:5px;
-}
-
-.ToMain button,.Logout button {
-  background: #4caf50;
-  color: white;
-  padding: 10px 10px;
-  border: none;
-  cursor: pointer;
-  width: 130px;
-  height: 32px;
-  border-radius:5px;
-  font-size: 0.8rem;
-}
 

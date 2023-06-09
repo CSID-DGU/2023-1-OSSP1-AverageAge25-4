@@ -382,7 +382,14 @@ class MainPageView(View):
         # 모든 Category를 가져옴
         allcategory = Category.objects.all()
 
+        # notices = [];
         #
+        # for cid in cid_list:
+        #     notice = []
+        #     get_notice = Notice.objects.filter(Cid=cid)
+        #     print(get_notice.link)
+
+
         context = {
             'keywords': keywords,
             'categories': categories,
