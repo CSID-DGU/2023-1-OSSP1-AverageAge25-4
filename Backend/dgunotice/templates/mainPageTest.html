@@ -13,7 +13,7 @@
 
             <!--로고-->
             <div class="up-left">
-                <img src="{% static 'images/logo.png' %}" onclick="redirectToURL('/mainPage/')" />
+                <img class="up-left-img" src="{% static 'images/logo.png' %}" onclick="redirectToURL('/mainPage/')" />
             </div>
 
             <!--검색-->
@@ -142,11 +142,11 @@
                             </form>
 
                             <!-- 키워드 수정-->
-                            <button id="Btn_Modal_keyword_edit_open" class="btn_keyedit">Edit</button>
+                            <button id="Btn_Modal_keyword_edit_open{{ forloop.counter }}" class="btn_keyedit">Edit</button>
 
                             <div id="Modal_keyword_edit{{ forloop.counter }}" class="modal">
                                 <div class="modal-content">
-                                    <span id = "Btn_Modal_keyword_edit_close" class="btn_keyDel">&times;</span>
+                                    <span id = "Btn_Modal_keyword_edit_close{{ forloop.counter }}" class="btn_keyDel">&times;</span>
                                     <div class="keyword_add_text">키워드 수정</div>
 
                                     <form action="/mainPage/'{{ grouped_keyword.grouper|urlencode }}'/" method="post">
