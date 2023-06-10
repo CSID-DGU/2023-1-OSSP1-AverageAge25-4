@@ -14,33 +14,129 @@ body {
     flex-direction:column;
     justify-content: center;
     align-items: center;
-     width: 100vw;
+    width: 100vw;
     height: 100vh;
     margin-top: -40px;
 }
 
 .up{
      display:flex;
-     flex-direction:row;
-     align-item:center;
-     width:360px;
-     height:100px;
-     margin-down: 0px;
 
+     align-item:center;
+     justify-content: center;
+
+     width:600px;
+     height:200px;
+
+}
+
+up img{
+    width: 600px !important;
+    height: 200px;
 }
 
 .down{
-width:400px;
-height:300px;
-margin-top:0px;
+
+    width:600px;
+    height:500px;
+
+    margin-top:0px;
 }
 
-img{
-width:360px;
-height:100px;
-margin-down:0px;
-margin-left:10px;
+
+.login_box{
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+
+
 }
+
+.login_box_email{
+    display: flex;
+    justify-content: center;
+    width: 600px;
+    align-items: center;
+}
+
+
+.login_box_email label{
+    width: 150px;
+    text-align: right;
+    font-size: x-large;
+}
+
+.login_box_email input{
+    width: 400px;
+    height: 40px;
+    font-size: x-large;
+}
+
+.login_box_password{
+    display: flex;
+    justify-content: center;
+    width: 600px;
+    align-items: center;
+}
+
+.login_box_password label{
+    width: 150px;
+    text-align: right;
+    font-size: x-large;
+}
+
+.login_box_password input{
+    width: 400px;
+    height: 40px;
+    font-size: x-large;
+}
+
+
+.button_box{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 600px;
+}
+
+.login_btn input{
+    background-color: #8dc473;
+    cursor: pointer;
+    margin: 0px;
+
+    color: white;
+    font-family: 'DU';
+
+    border-style: solid;
+    border-color: #8fc588;
+    font-size: xx-large;
+
+    width: 200px;
+    height: 50px;
+}
+
+.signup_btn button{
+    background-color: #8dc473;
+    cursor: pointer;
+    margin: 0px;
+
+    color: white;
+    font-family: 'DU';
+    font-size: xx-large;
+
+    border-style: solid;
+    border-color: #8fc588;
+
+    width: 200px;
+    height: 50px;
+}
+
+
+
+
+
 
 p {
     font-family: 'DU';
@@ -49,6 +145,8 @@ p {
     color : orange;
     text-align: center;
 }
+
+
 
 div {
     font-family: 'DU';

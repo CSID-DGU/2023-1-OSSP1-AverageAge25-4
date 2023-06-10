@@ -80,18 +80,18 @@
 
             <!--공지사항들-->
             <div class="component-wrapper">
-                {% for category in categories %}
+                {% for notice in notices %}
                 <div class="row{{ forloop.counter }}"  >
 
                     <div class="sticky-header">
-                      <h5 >{{ category.Cname }}</h5>
+                      <h5 >{{ notice.0.Cid_id }}</h5>
                     </div>
 
                     <div>
                         <table class="sticky-notices" >
-                            {% for notice in category.notice_set.all %}
+                            {% for notice in notice %}
                             <tr>
-                                <td class="sticky-notices-links"><a href="{{ notice.link }}" title="{{notice.title}}">{{ notice.title }}</a></td>
+                                <td class="sticky-notices-links"><a href="{{ notice.link }}" title="{{ notice.title }}">{{ notice.title }}</a></td>
                                 <td class="sticky-notices-times">{{ notice.time }}</td>
                             </tr>
                             {% endfor %}

@@ -16,7 +16,7 @@ body {
 
 h2 {
     font-family: 'DU';
-    font-size: 30px;
+    font-size: xxx-large;
     text-align: center;
     margin-bottom: 20px;
     order: -1; /* Move the 회원가입 heading to the top */
@@ -31,8 +31,13 @@ p {
     margin-top: 20px; /* Add margin at the top of the 로그인 페이지로 이동 text */
 }
 
-form {
-    width: 300px;
+.signup_box {
+    display: flex;
+    flex-direction: column;
+    align-item:center;
+    justify-content: center;
+
+    width: 600px;
     background-color: #FFFFFF;
     padding: 20px;
     border-radius: 5px;
@@ -43,28 +48,61 @@ div {
     font-family: 'DU';
     margin-bottom: 15px;
     text-align: center;
+
+    display: flex;
+    height: 65px;
+
+    justify-content: center;
+    align-items: center;
+
 }
 
-input, button {
-    font-family: 'DU';
-    width: 100%;
-    margin-bottom: 10px;
-    padding: 10px;
-    border-radius: 3px;
-    border: 1px solid #CCCCCC;
-}
-
-button {
-    background-color: #FF8C00; /* Set the background color to a lighter shade of orange */
-    color: #FFFFFF; /* Set the text color to white */
-    cursor: pointer;
-}
-
-a {
-    font-family: 'DU';
-    text-decoration: none;
-    color: black;
-    display: block;
+label{
+    width: 150px;
     text-align: center;
-    order: 2; /* Move the 로그인 페이지로 이동 link to the bottom */
+    font-size: large;
+    margin-right: 30px;
 }
+
+input{
+    width: 300px;
+    height: 40px;
+
+    font-size: x-large;
+}
+
+
+.signup_btn {
+    background-color: #8dc473;
+    cursor: pointer;
+    margin: 0px;
+
+    border-style: solid;
+    border-color: #8fc588;
+
+    width: 500px;
+    height: 50px;
+
+    color: white;
+    font-family: 'DU';
+    font-size: x-large;
+}
+
+
+.loginpage_btn button{
+    background-color: #8dc473;
+    cursor: pointer;
+    margin: 0px;
+
+    border-style: solid;
+    border-color: #8fc588;
+
+    width: 200px;
+    height: 50px;
+
+    color: white;
+    font-family: 'DU';
+    font-size: x-large;
+}
+
+

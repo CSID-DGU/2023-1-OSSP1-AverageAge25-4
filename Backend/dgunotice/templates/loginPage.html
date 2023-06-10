@@ -6,39 +6,46 @@
 
 <link rel="stylesheet" href="{% static 'css/LoginPage.css' %}?after">
 <html>
+
 <body>
-<div class="container">
-<div class="up">
-<img  src="{% static 'images/logo.png' %}" />
-</div>
-
-<div class="down">
-    <form method="POST" action="{% url 'Login' %}" >
-    {% csrf_token %}
-        <div>
-            <label for="uid">Email: </label>
-            <input type="text" id="uid" name="uid" required><br>
+    <div class="container">
+        <div class="up">
+            <img src="{% static 'images/logo.png' %}" />
         </div>
 
-        <div>
-            <label for="password">Password: </label>
-            <input type="password" id="password" name="password" required><br>
+        <div class="down">
+            <form class="login_box" method="POST" action="{% url 'Login' %}" >
+            {% csrf_token %}
+
+                <div class="login_box_email">
+                    <label for="uid">Email: </label>
+                    <input type="text" id="uid" name="uid" required><br>
+                </div>
+
+                <div class="login_box_password">
+                    <label for="password">Password: </label>
+                    <input type="password" id="password" name="password" required><br>
+                </div>
+
+                <div class="button_box">
+                    <div class="login_btn">
+                        <input type="submit" value="로그인">
+                    </div>
+
+                    <div class="signup_btn">
+                         <button onclick="redirectToURL('/signup/')">
+                                회원가입
+                         </button>
+                    </div>
+                </div>
+
+
+            </form>
         </div>
 
-        <div>
-            <input type="submit" value="Login">
-        </div>
-        <div >
-             <button style="width:200px;height:25px; font-family: 'DU';">
-              <a  href="http://127.0.0.1:8000/signup/" style="text-decoration: none; color: black;">
-                  회원가입 페이지로 이동</a></button>
-        </div>
-    </form>
-
-
-
-</div>
-</div>
+    </div>
 </body>
 </html>
 </link>
+
+<script src="{% static 'js/Common.js' %}"></script>

@@ -59,6 +59,7 @@ body {
 .searchbar input{
     width: 500px;
     height: 60px;
+    font-size: 25px;
 }
 
 .searchbar button {

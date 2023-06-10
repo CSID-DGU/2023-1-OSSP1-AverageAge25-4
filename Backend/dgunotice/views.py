@@ -382,17 +382,25 @@ class MainPageView(View):
         # 모든 Category를 가져옴
         allcategory = Category.objects.all()
 
-        # notices = [];
-        #
-        # for cid in cid_list:
-        #     notice = []
-        #     get_notice = Notice.objects.filter(Cid=cid)
-        #     print(get_notice.link)
+
+
+        notices = []
+
+        for cid in cid_list:
+
+            notice = Notice.objects.filter(Cid_id=cid).values('Cid_id', 'title', 'link', 'time')
+
+            notice = notice.order_by('-time')
+
+            notice.first()['Cid_id'] = Category.objects.get(Cid=notice.first()['Cid_id']).Cname
+            print(notice.first())
+            notices.append(notice)
 
 
         context = {
             'keywords': keywords,
             'categories': categories,
+            'notices' : notices,
             'allcategory' : allcategory
         }
 
