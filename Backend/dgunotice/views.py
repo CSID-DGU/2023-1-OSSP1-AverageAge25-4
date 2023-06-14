@@ -384,23 +384,26 @@ class MainPageView(View):
 
 
 
-        notices = []
+        All_notices = []
 
         for cid in cid_list:
 
+            notices = []
+
             notice = Notice.objects.filter(Cid_id=cid).values('Cid_id', 'title', 'link', 'time')
+            notice = notice.order_by('-time')[:50]
+            cname = Category.objects.get(Cid=notice.first()['Cid_id']).Cname
 
-            notice = notice.order_by('-time')
-
-            notice.first()['Cid_id'] = Category.objects.get(Cid=notice.first()['Cid_id']).Cname
-            print(notice.first())
+            notices.append(cname)
             notices.append(notice)
+
+            All_notices.append(notices)
 
 
         context = {
             'keywords': keywords,
             'categories': categories,
-            'notices' : notices,
+            'All_notices' : All_notices,
             'allcategory' : allcategory
         }
 
