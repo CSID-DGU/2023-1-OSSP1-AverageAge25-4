@@ -153,9 +153,11 @@
                                         {% csrf_token %}
                                         <div class="keyword_box">
 
+                                            <input type="hidden" name="now_keyword" class="edit_word" value="{{ grouped_keyword.grouper }}">
+
                                             <div class="keyword_input_box">
                                                 <label>키워드:</label>
-                                                <input type="text" value="{{ grouped_keyword.grouper }}" >
+                                                <input type="text" name="edit_keyword" value="{{ grouped_keyword.grouper }}" >
                                             </div>
 
                                             <div class="category_box">
@@ -250,14 +252,10 @@
 <script src="{% static 'js/Common.js' %}"></script>
 <script>
 
-
     // 모든 select 태그에 이벤트 핸들러 추가
     Array.from(document.querySelectorAll('.option')).forEach(select => {
         select.addEventListener('change', handleOptionSelection);
     });
-
-
-
 
     function submitForm() {
         var keyword = document.getElementById("keyword_input").value; // keyword_add input의 값 가져오기
@@ -317,10 +315,5 @@
                 checkbox.checked = true;
             }
         }
-
-
-
-
-
 
 </script>
