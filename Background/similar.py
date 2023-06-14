@@ -93,7 +93,7 @@ def tokenized(data):
         return None
 
 # 불용어가 키워드일 경우 토큰화 진행시 Empty list가 생길수있어서
-# 따로 불용어를 제거한 tokenizedKey 정의
+# 따로 불용어를 제거안한 tokenizedKey 정의
 def tokenizedKey(data):
 
     preprocessed = data.split(" ")
@@ -257,4 +257,3 @@ def getSimKeyPath(keyword, num, path):
         # 예외 처리
         print('An error occurred:', str(e))
         return None
-
