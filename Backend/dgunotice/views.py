@@ -5,10 +5,10 @@ from django.views import View
 from django.urls import reverse
 from .models import Pagetype, Category, User, Keyword, Notice, Verify
 from .similar2 import getSimKey
-from .smtp2 import verify_email_token, generate_token, sendEmail, generate_verification_link
+from .smtp2 import sendEmail
+from .verification import verify_email_token, generate_token, generate_verification_link
 from .SecurityModule import Key
 path = '../Background/model/ko_modified.bin'
-
 
 def testPage(request):
     return render(request, 'test.html')
