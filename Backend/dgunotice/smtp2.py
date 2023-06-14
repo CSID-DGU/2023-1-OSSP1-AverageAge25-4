@@ -1,20 +1,18 @@
 import secrets
 import string
 from pathlib import Path
-from random import random
-
-from .SecurityModule import Key
-
 import MySQLdb
 import environ
 import os
 
-from django.template.defaultfilters import length
 from django.urls import reverse
+try:
+    from .similar2 import getSimKey
+    from .similar2 import tokenizedKey
+except Exception as e:
+    from similar2 import getSimKey
+    from similar2 import tokenizedKey
 
-from .models import Verify
-from .similar2 import getSimKey
-from .similar2 import tokenizedKey
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -167,29 +165,3 @@ def sendEmail(recipient, title, link):
     server.login(email_id, email_pw)
     server.sendmail(message['From'], recipient, message.as_string())
     server.quit()
-
-
-def generate_token(length=15):
-    token = secrets.token_urlsafe(length)
-    return token
-
-
-def verify_email_token(email, token, key):
-
-    verify_temp_ids = list(Verify.objects.values_list('temp_id', flat=True))
-    exists_check = False
-
-    for verify_temp_id in verify_temp_ids:
-        if email == key.decrypt(verify_temp_id):
-            verify = Verify.objects.get(temp_id=verify_temp_id)
-            if verify.token == token:
-                verify.delete()
-                return True
-    return False
-
-
-def generate_verification_link(email, token):
-    base_url = 'http://127.0.0.1:8000'
-    url = reverse('verify_email')
-    link = f"{base_url}{url}?email={email}&token={token}"
-    return link
