@@ -188,7 +188,6 @@ def verify_email_token(email, token, key):
     return False
 
 
-
 def generate_verification_link(email, token):
     base_url = 'http://127.0.0.1:8000'
     url = reverse('verify_email')

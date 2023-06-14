@@ -1,6 +1,5 @@
 import re
 import secrets
-
 from gensim.models import Word2Vec
 from konlpy.tag import Kkma
 
@@ -18,11 +17,6 @@ def tokenizedKey(data):
     preprocessed = data.split(" ")
 
     return preprocessed
-
-# 옵트인 토큰
-def generate_token(length=15):
-    token = secrets.token_urlsafe(length)
-    return token
 
 
 def getSimKeyBasePath(keyword, num, path):

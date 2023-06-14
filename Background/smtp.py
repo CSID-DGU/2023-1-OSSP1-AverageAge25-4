@@ -121,7 +121,6 @@ def sendAll():
         # 예외 처리
         print('An error occurred:', str(e))
 
-
 def sendEmail(send_list, title, link, type):
     try:
         # 수신자

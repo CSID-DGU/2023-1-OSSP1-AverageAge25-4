@@ -1,14 +1,9 @@
 import unittest
-from similar import getSimKey, tokenizedKey, cleanText, getDB
-import re
-from smtp import sendAll
-
-
-def test():
-    print(2/0)
-
+from dgunotice.similar2 import getSimKey, tokenizedKey, cleanText
+from dgunotice.smtp2 import generate_verification_link, generate_token
 
 class SimilarTestCase(unittest.TestCase):
+
     def test_similar(self):
         test_word = "공모전"
         test_number = 5
@@ -36,8 +31,15 @@ class SimilarTestCase(unittest.TestCase):
 
         pass
 
-    def test_getDB(self):
-        self.maxDiff = None
-        result = getDB()
-        self.assertGreater(len(result), 0)
 
+
+class SmtpTestCase(unittest.TestCase):
+    def test_generate_token(self):
+        result = generate_token()
+        self.assertEqual(len(result), 20)
+    def test_generate_verification_link(self):
+        email = "test@test.com"
+        token = generate_token()
+        expected_link = ""
+        result = generate_verification_link(email, token)
+        self.assertEqual(expected_link, result)
