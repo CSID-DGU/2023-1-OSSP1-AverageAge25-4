@@ -39,16 +39,18 @@ class Key:
         #키 생성 경로(저장 위치 정해야함)
         path1 = 'mykey.key'
         with open(path1, 'wb') as mykey:
-            mykey.write(new_key)
+             mykey.write(new_key)
 
     #저장된 키 로드
     def load_key(self):
         path1 = 'mykey.key'
+        test_path = '../mykey.key'
         try:
             with open(path1, 'rb') as mykey:
                 self.key = mykey.read()
         except FileNotFoundError:
-            print('key 파일이 존재하지 않습니다')
+            with open(test_path, 'rb') as mykey:
+                self.key = mykey.read()
 
     def encrypt(self, input):
         f = Fernet(self.key)
