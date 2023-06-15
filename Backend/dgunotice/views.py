@@ -457,6 +457,7 @@ class KeywordProcessView(View):
         edit_catagory = request.POST.getlist('edit_category')
         similar_on = request.POST.get('similar_on')
 
+        # NULL 값 False 처리
         if not similar_on:
             similar_on = 'False'
 
@@ -495,6 +496,7 @@ class KeywordAddView(View):
         categories = request.GET.getlist('category_list')
         similar_on = request.GET.get('similar_on')
 
+        # NULL 값 False 처리
         if not similar_on:
             similar_on = 'False'
 

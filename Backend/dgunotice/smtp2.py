@@ -126,42 +126,49 @@ def sendAll():
 
         cursor.close()
         connection.close()
+        return True
 
     except Exception as e:
         # 예외 처리
         print('An error occurred:', str(e))
+        return False
 
 
 def sendEmail(recipient, title, link):
     # 수신자
+    try:
+        message = MIMEMultipart()
 
-    message = MIMEMultipart()
+        message['Subject'] = title
+        message['From'] = env('NAVER_ADDRESS')
+        message['To'] = recipient
 
-    message['Subject'] = title
-    message['From'] = env('NAVER_ADDRESS')
-    message['To'] = recipient
+        text1 = title
+        text2 = link
 
-    text1 = title
-    text2 = link
+        content = """
+            <html>
+            <body>
+                <h2>{}</h2>
+                <p> {} </p>
+            </body>
+            </html>
+        """.format(text1, text2)
 
-    content = """
-        <html>
-        <body>
-            <h2>{}</h2>
-            <p> {} </p>
-        </body>
-        </html>
-    """.format(text1, text2)
+        mimetext = MIMEText(content, 'html')
+        message.attach(mimetext)
 
-    mimetext = MIMEText(content, 'html')
-    message.attach(mimetext)
+        email_id = env('NAVER_ID')
+        email_pw = env('NAVER_PASSWORD')
 
-    email_id = env('NAVER_ID')
-    email_pw = env('NAVER_PASSWORD')
+        server = smtplib.SMTP('smtp.naver.com', 587)
+        server.ehlo()
+        server.starttls()
+        server.login(email_id, email_pw)
+        server.sendmail(message['From'], recipient, message.as_string())
+        server.quit()
 
-    server = smtplib.SMTP('smtp.naver.com', 587)
-    server.ehlo()
-    server.starttls()
-    server.login(email_id, email_pw)
-    server.sendmail(message['From'], recipient, message.as_string())
-    server.quit()
+        return True
+
+    except Exception:
+        return False

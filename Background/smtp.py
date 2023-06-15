@@ -38,7 +38,7 @@ def sendAll():
         )
 
         cursor = connection.cursor()
-        cursor.execute("SELECT * FROM Notice WHERE isSended = TRUE") # 원래 FALSE 지금은 체크용도
+        cursor.execute("SELECT * FROM Notice WHERE isSended = FALSE") # 원래 FALSE 지금은 체크용도
         notices = cursor.fetchall()
 
         # 키워드 전송된 공지 개수
@@ -117,9 +117,11 @@ def sendAll():
         cursor.close()
         connection.close()
 
+        return True
+
     except Exception as e:
         # 예외 처리
-        print('An error occurred:', str(e))
+        return False
 
 def sendEmail(send_list, title, link, type):
     try:
@@ -164,6 +166,8 @@ def sendEmail(send_list, title, link, type):
         server.sendmail(message['From'], recipients, message.as_string())
         server.quit()
 
+        return True
+
     except Exception as e:
         # 예외 처리
-        print('An error occurred:', str(e))
+        return False

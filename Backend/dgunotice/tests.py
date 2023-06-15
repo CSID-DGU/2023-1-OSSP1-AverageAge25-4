@@ -4,6 +4,7 @@ import MySQLdb
 from SecurityModule import Key
 from similar2 import getSimKey, tokenizedKey, cleanText
 from verification import generate_token, verify_email_token, generate_verification_link
+from smtp2 import sendEmail, sendAll
 import os
 import environ
 from django.contrib.auth.hashers import make_password
@@ -55,6 +56,22 @@ class SimilarTestCase(unittest.TestCase):
 
         pass
 
+class SmtpTestCase(unittest.TestCase):
+    def test_sendAll(self):
+        result = sendAll()
+        self.assertTrue(result)
+
+        pass
+
+    def test_sendEmail(self):
+        send_email = env('NAVER_ADDRESS')
+        title = "test_title"
+        link = "test_link"
+        result = sendEmail(send_email, title, link)
+        self.assertTrue(result)
+
+        pass
+
 class VerificationTestCase(unittest.TestCase):
     def test_generate_token(self):
         result = generate_token()
@@ -96,5 +113,6 @@ class VerificationTestCase(unittest.TestCase):
         uid = "test@test.com"
         tok = 'test@test.com'
         result = generate_verification_link(uid, tok)
-        self.assertEqual(result, "http://127.0.0.1:8000/verify/?email=test@test.com&token=test@test.com")
+        expected_result = "http://127.0.0.1:8000/verify/?email=test@test.com&token=test@test.com"
+        self.assertEqual(result, expected_result)
 
