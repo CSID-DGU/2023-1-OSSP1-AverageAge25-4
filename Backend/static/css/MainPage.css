@@ -186,11 +186,11 @@ body {
     margin:5px;
     overflow: hidden;
     text-overflow: ellipsis;
-    width: 330px;
+    width: 320px;
 }
 
 .sticky-notices-times{
-    width: 110px;
+    width: 120px;
 }
 
 /*공지사항들 끝*/
@@ -199,13 +199,13 @@ body {
 .menubar{
     display:flex;
     flex-direction: column;
-    width: 280px;
-    height: 350px;
+    width: 350px;
+    height: 1000px;
 
     margin-right:70px;
     margin-top:25px;
     background: LightGrey;
-    border-radius: 5%;
+    border-radius: 2%;
     flex-grow:0.1;
     flex-shrink:0.2;
     overflow: auto;
@@ -241,24 +241,41 @@ body {
 }
 
 .keylist{
-   list-style-type: none;
-   margin-left: 0px;
-   margin-top: 12px;
+
    /*display:inline-block;*/
-   font-size: 14px;
-   display: flex;
-   justify-content: space-between;
+    font-size: 14px;
+    display: flex;
+    height: 30px;
+    justify-content: space-between;
+    align-items: first;
 }
 
 .keytextline{
-    width:200px;
+    width:300px;
     display:flex;
     flex-direction:row;
-    overflow:hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
     padding-right:10px;
     margin-right:8px;
+}
+
+.keyword_text{
+    width: 50px;
+    text-align: left;
+    overflow:hidden;
+
+}
+
+.keytextline_colon{
+    text-align: right;
+    margin-right: 5px;
+}
+
+.keyword_category{
+    width: 200px;
+    overflow:hidden;
+    text-overflow: ellipsis;
 }
 
 .btn_group {

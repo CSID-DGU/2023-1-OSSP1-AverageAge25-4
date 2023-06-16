@@ -123,54 +123,6 @@
         document.getElementById("key_sim").submit();
     }
 
-    // 키워드 수정시 해당 키워드 카테고리 출력
-    var key_checking = document.getElementsByClassName("edit_word");
-    var CidList = [
-            {% regroup keywords by key as grouped_keywords %}
-                {% for grouped_keyword in grouped_keywords %}
-                    [ "{{ grouped_keyword.grouper }}",
-                    {% for keyword in grouped_keyword.list %}
-                        "{{ keyword.Cid.Cid }}",
-                    {% endfor %}
-                    ],
-                {% endfor %}
-        ];
-
-        for (let i = 0; i < CidList.length; i++) {
-            var row = CidList[i];
-            var key = key_checking[i];
-
-            if (row[0] == key.value) {
-                for (let j = 1; j <= {{ allcategory|length }}; j++) {
-                    var checkbox = document.getElementById("checkbox" + key.value + j);
-                    if (row.includes(checkbox.value)) {
-                        checkbox.checked = true;
-                    }
-                }
-            }
-        }
-
-    // 키워드 수정시 해당 키워드 similar_on 출력
-    var simList = [
-            {% regroup keywords by key as grouped_keywords %}
-                {% for grouped_keyword in grouped_keywords %}
-                    [ "{{ grouped_keyword.grouper }}",
-                    {% for keyword in grouped_keyword.list %}
-                        "{{ keyword.similar_on }}",
-                    {% endfor %}
-                    ],
-                {% endfor %}
-        ];
-
-        for (let i = 0; i < simList.length; i++) {
-            var sims = simList[i];
-            var key = key_checking[i];
-            var checkbox = document.getElementById("box_sim" + key.value);
-
-            if (sims[0] == key.value && sims[1] == "True") {
-                checkbox.checked = true;
-            }
-        }
 
 
 
