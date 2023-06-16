@@ -91,7 +91,7 @@
                         <table class="sticky-notices" >
                             {% for notice in notices.1 %}
                             <tr>
-                                <td class="sticky-notices-links"><a href="{{ notice.link }}" title="{{ notice.title }}" style="color: black">{{ notice.title }}</a></td>
+                                <td class="sticky-notices-links"><a href="{{ notice.link }}" title="{{ notice.title }}" style="color: black ;text-decoration: none">{{ notice.title }}</a></td>
                                 <td class="sticky-notices-times">{{ notice.time }}</td>
                             </tr>
                             {% endfor %}

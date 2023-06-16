@@ -113,12 +113,11 @@ body {
 
 .down{
 width: 800px;
-margin-left: 210px;
 }
 
 .notice-container {
 
-    width: 700px;
+    width: 800px;
     height:500px;
     padding: 8px;
 
@@ -127,6 +126,22 @@ margin-left: 210px;
 
     border-radius: 9px;
     overflow: auto;
+}
+
+.notice-container li{
+    display: flex;
+    flex-direction: row;
+}
+
+.notice-container li a{
+    width: 700px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.notice-container li div{
+    width: 100px;
+    text-align: left;
 }
 
 .notice-container::-webkit-scrollbar{

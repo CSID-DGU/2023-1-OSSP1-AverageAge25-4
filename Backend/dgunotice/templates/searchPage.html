@@ -41,7 +41,10 @@
         <div class="notice-container">
             {% for notice in notices %}
             <li>
-                <a href="{{ notice.link }}">[{{ notice.Cid.Cname }}] {{ notice.title }}</a> - {{ notice.time }}<br>
+                <a href="{{ notice.link }}">[{{ notice.Cid.Cname }}] {{ notice.title }}</a>
+                <div> {{ notice.time }} </div>
+
+
             </li>
                 {% endfor %}
         </div>
