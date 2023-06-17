@@ -2,7 +2,7 @@ from pathlib import Path
 import MySQLdb
 import environ
 import os
-
+from Backend.dgunotice.SecurityModule import Key
 from similar import getSimKey
 from similar import tokenizedKey
 import smtplib
@@ -30,6 +30,8 @@ environ.Env.read_env(
 
 def sendAll():
     try:
+        key = Key()
+
         connection = MySQLdb.connect(
             host=env('DATABASE_HOST'),
             user=env('DATABASE_USER'),
@@ -38,7 +40,7 @@ def sendAll():
         )
 
         cursor = connection.cursor()
-        cursor.execute("SELECT * FROM Notice WHERE isSended = FALSE") # 원래 FALSE 지금은 체크용도
+        cursor.execute("SELECT * FROM Notice WHERE isSended = TRUE") # 원래 FALSE 지금은 체크용도
         notices = cursor.fetchall()
 
         # 키워드 전송된 공지 개수
@@ -52,17 +54,18 @@ def sendAll():
             send_similar = []
             title = notice[0]
             link = notice[1]
-            cid = notice[4]
+            cid = notice[5]
             # 각 공지 레코드의 Cid 값이랑 같은 Keyword 레코드만 가져옴
             query = "SELECT * FROM Keyword WHERE Cid_id = %s"
             cursor.execute(query, (cid,))
             keywords = cursor.fetchall()
             if keywords:
                 for keyword in keywords :
-                    email_address = keyword[3] # 유저 이메일
+                    email_address = keyword[4] # 유저 이메일
+                    email_address = key.decrypt(email_address)
                     keyword_text = keyword[1] # 등록된 키워드
                     keywords_similar = getSimKey(keyword_text, 5)
-                    similar_on = keyword[4] # 키워드 유사단어로 공지 받아볼지 여부
+                    similar_on = keyword[2] # 키워드 유사단어로 공지 받아볼지 여부
                     keywords_tokenized = tokenizedKey(keyword_text) # 키워드 토큰화
 
                     is_overlapped = False   #키워드가 매칭 되었는데 유사단어도 매칭된다면 중복 발송 방지
@@ -110,9 +113,9 @@ def sendAll():
                 print("[링크] : ", link)
                 print("[전송된 공지 카운트] : ", count)
 
-            notice_cycle += 1
-            print("공지 탐색 횟수 : ", notice_cycle)
-            print("")
+            # notice_cycle += 1
+            # print("공지 탐색 횟수 : ", notice_cycle)
+            # print("")
 
         cursor.close()
         connection.close()
@@ -171,3 +174,5 @@ def sendEmail(send_list, title, link, type):
     except Exception as e:
         # 예외 처리
         return False
+
+sendAll()

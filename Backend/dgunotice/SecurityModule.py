@@ -45,12 +45,17 @@ class Key:
     def load_key(self):
         path1 = 'mykey.key'
         test_path = '../mykey.key'
+        background_path = '../Backend/mykey.key'
         try:
             with open(path1, 'rb') as mykey:
                 self.key = mykey.read()
         except FileNotFoundError:
-            with open(test_path, 'rb') as mykey:
-                self.key = mykey.read()
+            try:
+                with open(test_path, 'rb') as mykey:
+                    self.key = mykey.read()
+            except FileNotFoundError:
+                with open(background_path, 'rb') as mykey:
+                    self.key = mykey.read()
 
     def encrypt(self, input):
         f = Fernet(self.key)

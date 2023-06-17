@@ -3,7 +3,7 @@ from pathlib import Path
 import os
 import environ
 
-from similar import getSimKey, tokenizedKey, cleanText, getDB, buildModelInitial
+from similar import getSimKey, tokenizedKey, cleanText, getDB, buildModelTest
 from smtp import sendAll, sendEmail
 from crawl import crawl
 
@@ -61,8 +61,8 @@ class SimilarTestCase(unittest.TestCase):
     def test_build_model_initial(self):
         size = 300
         window = 300
-        test_path = 'model/test_model.bin'
-        result = buildModelInitial(size, window, test_path)
+        test_path = 'test_model.bin'
+        result = buildModelTest(size, window, test_path)
         self.assertTrue(result)
 
 

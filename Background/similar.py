@@ -153,6 +153,24 @@ def buildModelInitial(size, window, path):
         print('An error occurred:', str(e))
         return False
 
+def buildModelTest(size, window, path):
+    try:
+        data_set = []
+        title_list = getDB()
+        test_count = 0
+        for title in title_list:
+            if test_count == 10:
+                break
+            preprocessed = tokenized(title)
+            data_set.append(preprocessed)
+            test_count += 1
+        model = Word2Vec(data_set, size=size, window=window, min_count=1, workers=4, sg=1)
+        model.save(path)
+        return True
+    except Exception as e:
+        # 예외 처리
+        print('An error occurred:', str(e))
+        return False
 
 def trainModelSelf(load_path, saved_path):
     try:
