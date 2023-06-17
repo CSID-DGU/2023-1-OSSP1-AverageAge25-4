@@ -671,6 +671,19 @@ height:210px;
  overflow-x:hidden;
 }*/
 
+.category-container::-webkit-scrollbar {
+  width: 10px;
+}
+
+.category-container::-webkit-scrollbar-thumb{
+    background-color: gray;
+    border-radius: 10px;
+}
+
+.category-container::-webkit-scrollbar-track{
+    background-color: lightgray;
+}
+
 
 .row1::-webkit-scrollbar,
 .row2::-webkit-scrollbar,
