@@ -146,7 +146,7 @@
 
                         <div class="btn_group">
                             <!-- 키워드 삭제-->
-                            <form method="get" action="/mainPage/{{ grouped_keyword.grouper }}/">
+                            <form method="get" class="key_Box" action="/mainPage/{{ grouped_keyword.grouper }}/">
                                 {% csrf_token %}
                                 <input type="hidden" name="keyword_del" value="{{ grouped_keyword.grouper }}">
                                 <button type="submit" class="btn_keyDel" >-</button>
@@ -175,13 +175,14 @@
                                                 <div class="category_input_box">
                                                     <label>카테고리:</label>
                                                 </div>
+
                                                 <div class="category-container">
-                                                    {% for category in allcategory %}
-                                                    <label class="cat-item">
-                                                        <input id="checkbox{{ grouped_keyword.grouper }}{{ forloop.counter }}" name="edit_category" type="checkbox" value="{{ category.Cid }}">
-                                                        <span>{{ category.Cname }}</span>
-                                                    </label>
-                                                    {% endfor %}
+                                                        {% for category in allcategory %}
+                                                        <label class="cat-item">
+                                                            <input id="checkbox{{ grouped_keyword.grouper }}{{ forloop.counter }}" name="edit_category" type="checkbox" value="{{ category.Cid }}">
+                                                            <span>{{ category.Cname }}</span>
+                                                        </label>
+                                                        {% endfor %}
                                                  </div>
                                             </div>
 

@@ -247,7 +247,7 @@ body {
     display: flex;
     height: 30px;
     justify-content: space-between;
-    align-items: first;
+    align-items: center;
 }
 
 .keytextline{
@@ -261,7 +261,7 @@ body {
 }
 
 .keyword_text{
-    width: 50px;
+    width: 60px;
     text-align: left;
     overflow:hidden;
 
@@ -273,7 +273,7 @@ body {
 }
 
 .keyword_category{
-    width: 200px;
+    width: 150px;
     overflow:hidden;
     text-overflow: ellipsis;
 }
@@ -281,6 +281,7 @@ body {
 .btn_group {
     display:flex;
     flex-direction:row;
+    margin: 0px;
 }
 
 .delete-form{
@@ -347,7 +348,6 @@ align-items: center;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 500px;
 }
 
 .category_input_box{
@@ -363,11 +363,17 @@ align-items: center;
 }
 
 .category-container{
+    display: flex;
+    flex-wrap: wrap;
+    overflow: auto;
     width: 400px;
     height: 200px;
-    overflow: auto;
     background:#E6E6E6;
     border-radius:5px;
+}
+
+.categories_in{
+
 }
 
 .cat-container1::-webkit-scrollbar {
@@ -383,14 +389,25 @@ align-items: center;
     background-color: lightgray;
 }
 
+.cat-item{
+    display: flex;
+    margin: 2px;
+    height: 12px;
+    width: 90px;
+
+}
+
 .cat-item input{
+    margin: 0px;
     width: 12px;
     height: 12px;
-    margin-top:-5px;
 }
 
 .cat-item span{
     font-size: 12px;
+    width: 80px;
+    height: 12px;
+    overflow: hidden;
 }
 
 .similar_input_box {
@@ -474,6 +491,10 @@ align-items: center;
    float: right;
 }
 
+.key_Box{
+    margin: 0px;
+}
+
 /*공지사항순서변경 모달 내부 수정버튼*/
 .editBtn1{
     height:25px;
@@ -494,7 +515,7 @@ align-items: center;
 /*여기부터 순서변경 버튼, 로그아웃 버튼, 키워드 삭제버튼, 키워드 수정버튼, 키워드추가버튼*/
 
 .btn_keyDel{
-    margin-right:3px;
+    margin-right: 3px;
     background: #E2E2E2;
     border: 2.3px solid DimGray;
     border-radius: 5px;
