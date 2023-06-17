@@ -126,8 +126,8 @@
                             </div>
 
                             <div  id="show_sim">
-                                <input type="hidden" class="key_sim{{ grouped_keyword.grouper }}" value="{{ keyword.similar_on }}">
-                                {% if keyword.similar_on %}(O){% else %}(X){% endif %}
+                                <input type="hidden" class="key_sim{{ grouped_keyword.grouper }}" value="{{ grouped_keyword.list.0.similar_on }}">
+                                {% if grouped_keyword.list.0.similar_on %}(O){% else %}{X}{% endif %}
                             </div>
 
                             <div class="keyword_category">
