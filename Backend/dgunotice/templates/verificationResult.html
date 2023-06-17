@@ -1,14 +1,33 @@
 <!DOCTYPE html>
+
+{% load static %}
+
 <html>
 <head>
     <title>회원가입 인증</title>
+    <script src="{% static 'js/Common.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/verificationResult.css' %}?after">
 </head>
+
 <body>
-    <h1>회원가입 인증</h1>
-    {% if verification_success %}
-        <p>이메일 인증에 성공했습니다</p>
-    {% else %}
-        <p>토큰이 유효하지않아 이메일 인증에 실패했습니다.</p>
-    {% endif %}
+    <div class="title">
+        회원가입 인증
+    </div>
+
+    <div class="result_message">
+        {% if verification_success %}
+            <p>이메일 인증에 성공했습니다</p>
+        {% else %}
+            <p>토큰이 유효하지않아 이메일 인증에 실패했습니다.</p>
+        {% endif %}
+    </div>
+
+    <div class="button_login">
+        <button onclick="redirectToURL('/login/')">
+                로그인 페이지로
+        </button>
+    </div>
+
 </body>
+
 </html>

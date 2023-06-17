@@ -1,0 +1,47 @@
+@font-face {
+    font-family: 'DU';
+    src:
+    url('../css/DU.ttf'),
+    url('../css/DU.woff');
+}
+
+body{
+    background-color: #F4F3EA;
+}
+
+/* 제목 */
+.title{
+    margin-top: 100px;
+
+    text-align: center;
+    font-size: xxx-large;
+    font-family: 'DU';
+}
+
+/*결과 메시지*/
+.result_message{
+    text-align: center;
+    margin: 30px;
+}
+
+/* 로그인 페이지로 */
+.button_login{
+    display: flex;
+    justify-content: center;
+}
+
+.button_login button{
+    background-color: #8dc473;
+    cursor: pointer;
+    margin: 0px;
+
+    border-style: solid;
+    border-color: #8fc588;
+
+    width: 200px;
+    height: 50px;
+
+    color: white;
+    font-family: 'DU';
+    font-size: x-large;
+}
