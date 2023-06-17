@@ -33,5 +33,7 @@ urlpatterns = [
     path('search/', SearchView.as_view(), name='search'),
     path('verify/', verifyEmailView.as_view(), name='verify_email'),
     #path('mainPage/show_similar/', MainPageView.as_view(), name='similar')
+    #### 테스트용 크롤링 함수 ####
+    path('firstCrawl/', views.crawlInitial, name="crawlInitial")
 
 ]
