@@ -8,6 +8,7 @@ from .similar2 import getSimKey
 from .smtp2 import sendEmail
 from .verification import verify_email_token, generate_token, generate_verification_link
 from .SecurityModule import Key
+from .crawlTest import crawlInitialTest
 path = '../Background/model/ko_modified.bin'
 
 def testPage(request):
@@ -612,57 +613,4 @@ def saveNotice(notice_info):
     n.save()
 
 def crawlInitial(request):
-    category_list = Category.objects.select_related('Pid').all()
-
-    for category in category_list:
-        url = category.Clink
-        page_type = category.Pid.Pid
-
-        page_num = 1  #페이지 수
-        normal_notice_count = 0  #페이지내 일반 공지 갯수
-        fixed_notice_count = 0   #페이지내 고정 공지 갯수
-
-        while page_num < 2:
-            print('\n----- Current Page : {}'.format(page_num), '------\noriginal url : ' + url)
-            # 변경된 url에 페이지 번호를 붙임
-            url_change = url + f'{page_num}'
-            print('changed url : ' + url_change + '\n-------------------------------------------------')
-
-            # 페이지가 변경됨에 따라 delay 발생 시킴
-            time.sleep(random.uniform(4, 7))
-
-            soup = getHtml(url_change)
-
-            # 게시글 리스트 선택
-            notice_list = soup.select(category.Pid.Nlist)
-
-            for notice in notice_list:
-                notice_info = getNoticeInfo(category, notice)
-
-                if notice_info is not None: #일반 공지인 경우
-                    saveNotice(notice_info)
-                    # 크롤링 한 게시글 개수 증가
-                    normal_notice_count += 1
-
-                else: #고정 공지인 경우
-                    fixed_notice_count += 1
-
-            if page_type == 5: #고정공지 + 일반공지 합쳐서 15개 - 고정공지 개념을 조금 다시 확인해봐야할거같음
-                break
-            elif page_type == 6: #고정공지 + 일반공지 합쳐서 10개 - 근데 애초에 고정공지가 그냥 일반공지임
-                if normal_notice_count + fixed_notice_count < 10:
-                    print('------------------ 게시글 개수가 적어서 현재 페이지에서 크롤링 종료 (10) ------------------')
-                    break
-            elif page_type == 7:
-                if normal_notice_count < 20:
-                    print('------------------ 게시글 개수가 적어서 현재 페이지에서 크롤링 종료 (20) ------------------')
-                    break
-            else:
-                if normal_notice_count < 10:
-                    print('------------------ 게시글 개수가 적어서 현재 페이지에서 크롤링 종료 (10) ------------------')
-                    break
-
-            #다음 페이지 탐색
-            page_num += 1
-
-
+    crawlInitialTest()

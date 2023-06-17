@@ -61,7 +61,7 @@ class SimilarTestCase(unittest.TestCase):
     def test_build_model_initial(self):
         size = 300
         window = 300
-        test_path = 'test_model.bin'
+        test_path = 'model/test_model.bin'
         result = buildModelTest(size, window, test_path)
         self.assertTrue(result)
 
