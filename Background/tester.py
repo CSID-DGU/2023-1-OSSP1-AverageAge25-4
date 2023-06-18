@@ -4,7 +4,7 @@ from random import random
 from django.contrib.auth.tokens import default_token_generator
 from konlpy.tag import Kkma
 from similar import getSimKey, getSimKeyPath, getSimKeyOld, buildModelInitial
-from smtp import sendAll
+
 
 os_path = 'model/ko.bin'
 own_path = 'model/ko_own.bin'
@@ -76,4 +76,4 @@ def generate_token(length=15):
 # ================================================TEST CALL======================================================#
 
 
-print(generate_token())
+print(getSimKey("제 18회 금융공모전 개최 안내", 5))

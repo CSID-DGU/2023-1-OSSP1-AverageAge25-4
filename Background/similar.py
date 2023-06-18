@@ -96,6 +96,7 @@ def tokenized(data):
 # 따로 불용어를 제거안한 tokenizedKey 정의
 def tokenizedKey(data):
 
+    data = cleanText(data)
     preprocessed = data.split(" ")
 
     return preprocessed
@@ -276,3 +277,6 @@ def getSimKeyPath(keyword, num, path):
         # 예외 처리
         print('An error occurred:', str(e))
         return None
+
+print(getSimKey("제 18회 금융공모전 개최 안내", 5))
+print(tokenized("금용공모전 개최안내"))

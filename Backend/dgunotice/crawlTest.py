@@ -189,7 +189,7 @@ def crawlInitialTest(category_index=0, page_index=0):
     except Exception as e:
         # 예외 처리
         print('An error occurred:', str(e))
-        crawlInitial(category_index-1, page_index-1)
+        crawlInitialTest(category_index-1, page_index-1)
 
 def crawl(crawl_list, category_index=0):
     try:

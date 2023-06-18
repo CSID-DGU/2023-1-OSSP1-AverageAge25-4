@@ -6,8 +6,6 @@ class MyUser(HttpUser):
     def on_start(self):
         self.get_csrf_token()  # Obtain the CSRF token before login
 
-
-
     def get_csrf_token(self):
         response = self.client.get("/login/")  # Make a GET request to obtain the CSRF token
         csrf_token = response.cookies['csrftoken']  # Extract the CSRF token from the response cookies
