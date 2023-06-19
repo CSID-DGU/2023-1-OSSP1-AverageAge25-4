@@ -5,7 +5,6 @@ import environ
 
 from similar import getSimKey, tokenizedKey, cleanText, getDB, buildModelTest
 from smtp import sendAll, sendEmail
-from crawl import crawl
 
 env = environ.Env(
     DATABASE_NAME=(str, ''),

@@ -2,7 +2,7 @@ from pathlib import Path
 import MySQLdb
 import environ
 import os
-from Backend.dgunotice.SecurityModule import Key
+from SecurityModule import Key
 from similar import getSimKey
 from similar import tokenizedKey
 import smtplib
@@ -174,5 +174,3 @@ def sendEmail(send_list, title, link, type):
     except Exception as e:
         # 예외 처리
         return False
-
-sendAll()
