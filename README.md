@@ -1,6 +1,7 @@
 # 공지사항알리미 
 동국대학교 홈페이지 상의 다양한 공지사항을 개인 맞춤형 통합 홈페이지를 통해 한눈에 확인할 수 있는 서비스
 
+<br> 
 
 ## 팀 소개
 
@@ -13,6 +14,7 @@
 | 최인성 |2017111758|Frontend| [@Kakaomacao](https://github.com/Kakaomacao)   |
 | 하유진 |2020113387|Frontend| [@yuunha](https://github.com/yuunha)           |
 
+<br> 
 
 ## 1. 프로젝트 목표
 
@@ -20,12 +22,12 @@
 
  > [참고 프로젝트] [동국대학교 컴퓨터공학과 챗봇 기반 키워드 알림 서비스](https://github.com/CSID-DGU/2021-2-OSSP1-NotifyService-1)
 
-
+<br> 
 
 ## 2. 개선 사항
 
 1. 검색 및 모니터링 기능 추가
-   - 기존   : 크롤링한 공지사항들을 저장하고, 저장된 공지사항들을 중복 크롤링 방지 및 word2vec학습 용도로 사용
+   - 기존   : 크롤링한 공지사항들을 저장하고, 저장된 공지사항들을 중복 크롤링 방지 및 word2vec학습에 사용
    - 문제점 : DB에서 가장 큰 용량을 차지하는 것에 비해, 하는 역할이 없음
    - 개선   : 해당 공간을 더 효율적으로 사용하기 위해 아래와 같은 기능 추가 
       - 모니터링 기능: 키워드를 등록하지 않거나 모르는 경우에도 공지확인이 가능   
@@ -87,7 +89,7 @@
        - Python 내장 테스트 도구 'unnittest' 사용
 <br>
 
-
+<br> 
 
 ## 3. 평가 항목
 
@@ -96,8 +98,9 @@
    - 방법 :
       - 크롤링 주기 설정 전후의 6개월간 73개의 모든 게시판의 하루 요청 수를 비교
       - matplotlib을 이용하여 결과 시각화 진행  
-   - 결과 : 
-     ![image](https://github.com/CSID-DGU/2023-1-OSSP1-AverageAge25-4/assets/110288718/4ad315fb-3c79-433e-ba90-aa56fe222ce4)
+   - 결과 :
+     <p align="center"><img src="https://github.com/CSID-DGU/2023-1-OSSP1-AverageAge25-4/assets/110288718/4ad315fb-3c79-433e-ba90-aa56fe222ce4" width="60%" height="60%"/></p>
+     
       - 개선전후의 6개월간 평균 요청 횟수
          - 개선전 : 평균 1752회
          - 개선후 : 평균 230회
@@ -110,14 +113,15 @@
       - 서버 내외에서 크롤링 코드 실행 시 성능 비교
       - 웹 스트레스 테스트로 동시 접속자수 대비 서버 부담 확인
       - 오픈소스 로드 테스트 소프트웨어 Locust 활용
-   - 결과 : 
-     ![image](https://github.com/CSID-DGU/2023-1-OSSP1-AverageAge25-4/assets/110288718/b1a4d3c1-90eb-4eec-95c4-bcbd004ecaf3)
+   - 결과 :
+     <p align="center"><img src="https://github.com/CSID-DGU/2023-1-OSSP1-AverageAge25-4/assets/110288718/b1a4d3c1-90eb-4eec-95c4-bcbd004ecaf3" width="60%" height="60%"/></p>
+     
       - 초당 요청수(RPS)가 떨어지고 응답시간(ms)가 늘어나기 시작하는 평균 유저수
          - 서버 내 존재 : 419명
          - 서버와 분리  : 649명
       - 약 54% 성능 향상을 확인하였고, 이로 인해 크롤링 코드를 서버와 분리한 방식이 웹 서비스 안정성 향상에 효과적이라는 결론 도출 
 
-
+<br> 
 
 ## 4. 사용한 OSS
 1. Django: 웹 애플리케이션 제작을 위해 사용
@@ -136,20 +140,22 @@
 
 6. Locust: 웹 부하 테스트를 위해 사용되며, 서비스의 안정성 평가와 향상된 성능 측정을 위해 사용
 
-
+<br> 
 
 ## 5. 시연 영상
 
-1. 회원가입-로그인 시연영상
+1. 회원가입-로그인 시연영상 <br> 
 https://github.com/CSID-DGU/2023-1-OSSP1-AverageAge25-4/assets/110288718/979e995f-e672-4595-8bb3-68189083ff70
 
-2. 검색 시연 영상
+<br> 
+
+2. 검색 시연 영상 <br> 
 https://github.com/CSID-DGU/2023-1-OSSP1-AverageAge25-4/assets/110288718/e4de4894-0480-4b28-8c55-bf4dabbbd0cc
 
+<br> 
+
+3. 키워드 추가 및 알림 전송 시연 영상 <br>
+https://github.com/CSID-DGU/2023-1-OSSP1-AverageAge25-4/assets/110288718/02af02db-ce82-4d9e-bd1f-60f2d04898b0
 
 
-## 6. 기대 효과
 
-- 효율적인 공지사항 확인
-- 시간 절약 및 효율성 향상
-- 사용자 친화 인터페이스
