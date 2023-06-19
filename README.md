@@ -16,14 +16,14 @@
 
 ## 팀 소개
 
-| 이름   | 학번 | 주요 파트 | ID           |
-| ------ | ---- | --------- |--------------|
-| 장우진 |2018113340|Backend| @JangWooJin1 |
-| 박지민 |2017110451|Backend| @imbatmin    |
-| 신호현 |2018113339|Backend| @seayen      |
-| 정고은 |2020113393|Frontend| @chgoen      |
-| 최인성 |2017111758|Frontend| @Kakaomacao  |
-| 하유진 |2020113387|Frontend| @yuunha      |
+| 이름   | 학번 | 주요 파트 | ID                                               |
+| ------ | ---- | --------- |--------------------------------------------------|
+| 장우진 |2018113340|Backend| [@JangWooJin1](https://github.com/JangWooJin1)   |
+| 박지민 |2017110451|Backend| [@imbatmin](https://github.com/imbatmin)         |
+| 신호현 |2018113339|Backend| [@seayen](https://github.com/seayen)             |
+| 정고은 |2020113393|Frontend| [@chgoen](https://github.com/chgoen)             |
+| 최인성 |2017111758|Frontend| [@Kakaomacao](https://github.com/Kakaomacao)     |
+| 하유진 |2020113387|Frontend| [@yuunha](https://github.com/yuunha)             |
 
 
 
