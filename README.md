@@ -16,14 +16,14 @@
 
 ## 팀 소개
 
-| 이름   | 학번 | 주요 파트 | ID   |
-| ------ | ---- | --------- | ---- |
-| 장우진 |2018113340|Backend|@jangwoojin1|
-| 박지민 |2017110451|Backend|@dpsxj0618|
-| 신호현 |2018113339|Backend|@seayenseo|
-| 정고은 |2020113393|Frontend|@goeun990|
-| 최인성 |2017111758|Frontend|@tomas1997|
-| 하유진 |2020113387|Frontend|@h000414|
+| 이름   | 학번 | 주요 파트 | ID           |
+| ------ | ---- | --------- |--------------|
+| 장우진 |2018113340|Backend| @JangWooJin1 |
+| 박지민 |2017110451|Backend| @imbatmin    |
+| 신호현 |2018113339|Backend| @seayen      |
+| 정고은 |2020113393|Frontend| @chgoen      |
+| 최인성 |2017111758|Frontend| @Kakaomacao  |
+| 하유진 |2020113387|Frontend| @yuunha      |
 
 
 
