@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #board {
+        z-index: -1;
+        display: flex;
+        width: 1000px;
+        height: 600px;
+        border-radius: 8px;
+        background: #fff;
+        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+      }
+      #Content {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        z-index: 1;
+        position: absolute;
+        top: 120px;
+        left: 80px;
+      }
+      #rowContent1 {
+        display: flex;
+      }
+      #rowContent2 {
+        display: flex;
+      }
+      #rowContent3 {
+        display: flex;
+      }
+      .button {
+        position: relative;
+        left: 180px;
+      }
+      button {
+        color: var(--primary-primary-600, #1366d9);
+        background-color: #fff;
+        border: 0.1px solid black;
+        width: 90px;
+        height: 50px;
+        /* Body 2/Medium */
+        font-family: Inter;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 20px; /* 142.857% */
+        border-radius: 4px;
+        border: 1px solid var(--primary-primary-50, #e8f1fd);
+      }
+      .location {
+        color: var(--grey-grey-600, #5d6679);
+        font-family: Lato;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+      }
+      .desc {
+        color: var(--grey-grey-400, #858d9d);
+        font-family: Lato;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+      }
+      .Infomation {
+        margin-left: 20px;
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>점포선택</h1>
+    <div id="board"></div>
+    <div id="Content">
+      <!-- 전체 컨텐츠 -->
+      <!-- 컨텐츠1 -->
+      <div id="rowContent1">
+        <div><img src="./image/1.png" alt="" /></div>
+        <div class="Infomation">
+          <span class="location">일산주엽점</span><br /><span class="desc"
+            >주소: 경기도 고양시 일산서구 주엽동 109-1<br />
+            연락처: 031-924-7111</span
+          >
+        </div>
+        <div class="button"><button>편집</button></div>
+      </div>
+      <!-- 컨텐츠2 -->
+      <div id="rowContent2">
+        <div><img src="./image/2.png" alt="" /></div>
+        <div class="Infomation">
+          <span class="location">마두역점</span><br /><span class="desc"
+            >주소: 경기도 고양시 일산동구 마두동 805-1 <br />연락처:
+            031-907-9925</span
+          >
+        </div>
+        <div class="button"><button>편집</button></div>
+      </div>
+      <!-- 컨텐츠3 -->
+      <div id="rowContent3">
+        <div><img src="./image/3.png" alt="" /></div>
+        <div class="Infomation">
+          <span class="location">화정 사랑점</span><br /><span class="desc"
+            >주소: 경기도 고양시 덕양구 화정동 965 <br />연락처:
+            080-555-2525</span
+          >
+        </div>
+        <div class="button">
+          <button style="position: relative; right: -30px">편집</button>
+        </div>
+      </div>
+      <!-- 전체 컨텐츠 끝-->
+    </div>
+  </body>
+</html>
